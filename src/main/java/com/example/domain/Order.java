@@ -112,7 +112,9 @@ public class Order {
 				+ ", paymentMethod=" + paymentMethod + ", user=" + user + ", orderItemList=" + orderItemList + "]";
 	}
 	public int getTax(int totalPrice) {
-		return totalPrice*0.1;
+		double taxPrice=totalPrice*0.1;
+		int returnPrice=(int)taxPrice;
+		return returnPrice;
 	}
 	public int getCalcTotalPrice(int totalPrice) {
 		return totalPrice+getTax(totalPrice);
