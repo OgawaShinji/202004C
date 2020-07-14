@@ -8,19 +8,21 @@ public class Item {
     private String name;
     private String description;
     private Integer priceM;
-    private Integer priceL:
+    private Integer priceL;
     private String imagePass;
     private Boolean deleted;
     private List<Topping> toppingList;
 
+
     public Item() {
     }
 
-    public Item(Integer id, String name, String description, Integer priceM, String imagePass, Boolean deleted, List<Topping> toppingList) {
+    public Item(Integer id, String name, String description, Integer priceM, Integer priceL, String imagePass, Boolean deleted, List<Topping> toppingList) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.priceM = priceM;
+        this.priceL = priceL;
         this.imagePass = imagePass;
         this.deleted = deleted;
         this.toppingList = toppingList;
@@ -92,6 +94,22 @@ public class Item {
 
 
     /**
+     * @return Integer
+     */
+    public Integer getPriceL() {
+        return this.priceL;
+    }
+
+
+    /**
+     * @param priceL
+     */
+    public void setPriceL(Integer priceL) {
+        this.priceL = priceL;
+    }
+
+
+    /**
      * @return String
      */
     public String getImagePass() {
@@ -150,17 +168,18 @@ public class Item {
     /**
      * @return String
      */
-    P@Override
+    @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
             ", priceM='" + getPriceM() + "'" +
+            ", priceL='" + getPriceL() + "'" +
             ", imagePass='" + getImagePass() + "'" +
             ", deleted='" + isDeleted() + "'" +
             ", toppingList='" + getToppingList() + "'" +
             "}";
     }
-
 }
+
