@@ -39,6 +39,10 @@ public class ItemsRepository {
 		String sql = "SELECT id,name,description,price_m,price_l,image_path,deleted FROM items ORDER BY price_m";
 
 		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
+		
+		if (itemList.size() == 0) {
+			return null;
+		}
 
 		return itemList;
 	}
