@@ -78,14 +78,18 @@
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<table class="table table-striped item-list-table">
 					<tbody>
-						<tr th:each="item:${itemList}">
+						<tr th:each="item,status:${itemList}">
 
 							<th>
 								<a href="item_detail.html">
 									<img th:src="@{'/img_coffee/' + ${item.imagePass}}"
 										class="img-responsive img-rounded item-img-center" width="200" height="600">
 								</a><br>
-								<a href="item_detail.html"><span th:text="${item.name}">じゃがバターベーコン</span></a><br>
+								<!--あとでurlを指定してください  -->
+								<a href="item_detail.html">
+								
+									<span th:text="${item.name}">じゃがバターベーコン</span>
+								</a><br>
 								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span th:text="${#numbers.formatInteger(item.priceM,1,'COMMA')}">1,380</span>円(税抜)<br>
 								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span th:text="${#numbers.formatInteger(item.priceL,1,'COMMA')}">2,380</span>円(税抜)<br>
 							</th>
