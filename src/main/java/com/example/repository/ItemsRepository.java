@@ -1,13 +1,16 @@
 package com.example.repository;
 
 import java.util.List;
+import java.util.Objects;
+
+import com.example.domain.Item;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-
-import com.example.domain.Item;
 
 @Repository
 public class ItemsRepository {
@@ -45,5 +48,15 @@ public class ItemsRepository {
 		}
 
 		return itemList;
+	}
+
+	public  Item findById(String id) {
+		String sql="SELECT * FROM items WHERE id=:id";
+		SqlParameterSource param=new MapSqlParameterSource().addValue("id", id);
+		Item item=template.queryForObject(sql, param,ITEM_ROW_MAPPER);
+		if(Objects.isNull(item)){
+			return null;
+		}
+		return item;
 	}
 }
