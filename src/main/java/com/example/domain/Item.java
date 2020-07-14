@@ -1,5 +1,166 @@
 package com.example.domain;
 
+import java.util.List;
+
 public class Item {
+
+    private Integer id;
+    private String name;
+    private String description;
+    private Integer priceM;
+    private Integer priceL:
+    private String imagePass;
+    private Boolean deleted;
+    private List<Topping> toppingList;
+
+    public Item() {
+    }
+
+    public Item(Integer id, String name, String description, Integer priceM, String imagePass, Boolean deleted, List<Topping> toppingList) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.priceM = priceM;
+        this.imagePass = imagePass;
+        this.deleted = deleted;
+        this.toppingList = toppingList;
+    }
+
+
+    /**
+     * @return Integer
+     */
+    public Integer getId() {
+        return this.id;
+    }
+
+
+    /**
+     * @param id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+
+    /**
+     * @return String
+     */
+    public String getName() {
+        return this.name;
+    }
+
+
+    /**
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    /**
+     * @return String
+     */
+    public String getDescription() {
+        return this.description;
+    }
+
+
+    /**
+     * @param description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    /**
+     * @return Integer
+     */
+    public Integer getPriceM() {
+        return this.priceM;
+    }
+
+
+    /**
+     * @param priceM
+     */
+    public void setPriceM(Integer priceM) {
+        this.priceM = priceM;
+    }
+
+
+    /**
+     * @return String
+     */
+    public String getImagePass() {
+        return this.imagePass;
+    }
+
+
+    /**
+     * @param imagePass
+     */
+    public void setImagePass(String imagePass) {
+        this.imagePass = imagePass;
+    }
+
+
+    /**
+     * @return Boolean
+     */
+    public Boolean isDeleted() {
+        return this.deleted;
+    }
+
+
+    /**
+     * @return Boolean
+     */
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+
+    /**
+     * @param deleted
+     */
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+
+    /**
+     * @return List<Topping>
+     */
+    public List<Topping> getToppingList() {
+        return this.toppingList;
+    }
+
+
+    /**
+     * @param toppingList
+     */
+    public void setToppingList(List<Topping> toppingList) {
+        this.toppingList = toppingList;
+    }
+
+
+    /**
+     * @return String
+     */
+    P@Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", name='" + getName() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", priceM='" + getPriceM() + "'" +
+            ", imagePass='" + getImagePass() + "'" +
+            ", deleted='" + isDeleted() + "'" +
+            ", toppingList='" + getToppingList() + "'" +
+            "}";
+    }
 
 }
