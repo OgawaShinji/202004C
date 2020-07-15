@@ -27,6 +27,7 @@ public class ToppingsRepository {
 
     
     /** 
+     * toppingの前情報を名前の順で取得する
      * @return List<Topping>
      */
     public List<Topping> findAll() {

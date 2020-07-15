@@ -33,6 +33,7 @@ public class ItemDetailController {
 
     
     /** 
+     * アイテムの詳細画面を表示する処理
      * @param model
      * @param itemId
      * @return String

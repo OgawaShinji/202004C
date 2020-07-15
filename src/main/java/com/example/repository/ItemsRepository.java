@@ -51,6 +51,8 @@ public class ItemsRepository {
 	}
 	
 	/** 
+	 * itemのidを取得して商品の詳細情報を取得する
+	 * 
 	 * @param id
 	 * @return Item
 	 */
