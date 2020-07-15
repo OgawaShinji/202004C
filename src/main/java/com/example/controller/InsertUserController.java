@@ -41,7 +41,7 @@ public class InsertUserController {
 	  return "user/register_user";
 	  }
 	  /**
-	   * 
+	   * 登録情報を入力します
 	   * @param insertUserForm
 	   * @return item/item_listにフォワード
 	   */
