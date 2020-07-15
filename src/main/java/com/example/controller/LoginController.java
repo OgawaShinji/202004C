@@ -57,7 +57,7 @@ public class LoginController {
 	}else{
 		session.setAttribute("user",user);
 		//IndexControllerに処理移行をお願いします。
-		return "item/item_list";
+		return "forword:item/item_list";
 	}
   }
   
