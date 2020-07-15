@@ -50,7 +50,12 @@ public class ItemsRepository {
 		return itemList;
 	}
 
-	public  Item findById(String id) {
+	
+	/** 
+	 * @param id
+	 * @return Item
+	 */
+	public  Item load(Integer id) {
 		String sql="SELECT * FROM items WHERE id=:id";
 		SqlParameterSource param=new MapSqlParameterSource().addValue("id", id);
 		Item item=template.queryForObject(sql, param,ITEM_ROW_MAPPER);
