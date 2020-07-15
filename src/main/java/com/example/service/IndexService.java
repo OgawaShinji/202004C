@@ -15,13 +15,25 @@ public class IndexService {
 
 	@Autowired
 	private ItemsRepository itemRepository;
-	
+
 	/**
-	 * 全件検索を行う。
+	 * 全件検索を行う.
+	 * 
 	 * @return 全アイテム一覧
 	 */
-	public List<Item> findAll(){
+	public List<Item> findAll() {
 		List<Item> itemList = itemRepository.findAll();
+		return itemList;
+	}
+
+	/**
+	 * 名前からアイテムを曖昧検索する.
+	 * 
+	 * @param name 名前
+	 * @return 検索されたアイテム一覧
+	 */
+	public List<Item> findByLikeName(String name) {
+		List<Item> itemList = itemRepository.findByLikeName(name);
 		return itemList;
 	}
 }
