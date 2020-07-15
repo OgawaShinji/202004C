@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.Objects;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,7 @@ import com.example.form.InsertUserForm;
 import com.example.service.InsertUserService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/toInsert")
 public class InsertUserController {
 
 	@Autowired
@@ -36,7 +38,7 @@ public class InsertUserController {
 	  * 
 	  * @return 管理者登録画面
 	  */
-	  @RequestMapping("/toInsert")
+	  @RequestMapping("")
 	  public String toInsert() {
 	  return "user/register_user";
 	  }
@@ -61,7 +63,7 @@ public class InsertUserController {
 		  user.setTelephone(insertUserForm.getTelephone());
 			
 		  //メールアドレスの重複確認
-		  if (insertUserService.findByMailAddress(insertUserForm.getEmail())!= null) {
+		  if (Objects.isNull(insertUserService.findByMailAddress(insertUserForm.getEmail()))) {
 			model.addAttribute("emailError", "そのメールアドレスはすでに使われています");
 			return toInsert();
 		}
@@ -72,6 +74,6 @@ public class InsertUserController {
 			model.addAttribute("passwordError","パスワードと確認用パスワードが不一致です");
 			return toInsert();
 		}
-		  return "item/item_list";
+		  return "forward:user/login";
 	  }
 }
