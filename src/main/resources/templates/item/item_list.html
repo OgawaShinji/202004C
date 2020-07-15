@@ -78,51 +78,30 @@
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<table class="table table-striped item-list-table">
 					<tbody>
-						<tr th:each="item,status:${itemList}">
-
-							<th>
-								<a href="item_detail.html">
-									<img th:src="@{'/img_coffee/' + ${item.imagePass}}"
-										class="img-responsive img-rounded item-img-center" width="200" height="600">
-								</a><br>
-								<!--あとでurlを指定してください  -->
-								<a href="item_detail.html" th:href="@{/item-detail}">
-								<input type="hidden" name="itemId" th:value="${item.id}">
-									<span th:text="${item.name}">じゃがバターベーコン</span>
-								</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span th:text="${#numbers.formatInteger(item.priceM,1,'COMMA')}">1,380</span>円(税抜)<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span th:text="${#numbers.formatInteger(item.priceL,1,'COMMA')}">2,380</span>円(税抜)<br>
-							</th>
-							
-							<th>
-								<a href="item_detail.html">
-									<img th:src="@{'/img_coffee/' + ${item.imagePass}}"
-										class="img-responsive img-rounded item-img-center" width="200" height="600">
-								</a><br>
-								<!--あとでurlを指定してください  -->
-								<a href="item_detail.html" th:href="@{/item-detail}">
-								<input type="hidden" name="itemId" th:value="${item.id}">
-									<span th:text="${item.name}">じゃがバターベーコン</span>
-								</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span th:text="${#numbers.formatInteger(item.priceM,1,'COMMA')}">1,380</span>円(税抜)<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span th:text="${#numbers.formatInteger(item.priceL,1,'COMMA')}">2,380</span>円(税抜)<br>
-							</th>
-							
-							<th>
-								<a href="item_detail.html">
-									<img th:src="@{'/img_coffee/' + ${item.imagePass}}"
-										class="img-responsive img-rounded item-img-center" width="200" height="600">
-								</a><br>
-								<!--あとでurlを指定してください  -->
-								<a href="item_detail.html" th:href="@{/item-detail}">
-								<input type="hidden" name="itemId" th:value="${item.id}">
-									<span th:text="${item.name}">じゃがバターベーコン</span>
-								</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span th:text="${#numbers.formatInteger(item.priceM,1,'COMMA')}">1,380</span>円(税抜)<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span th:text="${#numbers.formatInteger(item.priceL,1,'COMMA')}">2,380</span>円(税抜)<br>
-							</th>
-							
-						</tr>
+					
+						<th:block th:each="item,status:${itemList}">
+							<th:block th:if="${status.index%3==0}">	
+							<tr>
+						</th:block>
+						
+								<th>
+								
+									<a href="item_detail.html">
+										<img th:src="@{'/img_coffee/' + ${item.imagePass}}"
+											class="img-responsive img-rounded item-img-center" width="200" height="600">
+									</a><br>
+									<!--あとでurlを指定してください  -->
+									<a href="item_detail.html" th:href="@{/item-detail}">
+									<input type="hidden" name="itemId" th:value="${item.id}">
+										<span th:text="${item.name}">じゃがバターベーコン</span>
+									</a><br>
+									<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span th:text="${#numbers.formatInteger(item.priceM,1,'COMMA')}">1,380</span>円(税抜)<br>
+									<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span th:text="${#numbers.formatInteger(item.priceL,1,'COMMA')}">2,380</span>円(税抜)<br>
+								</th>
+								
+							<th:block th:if="${status.index%3==2}">
+							</th:block>
+						
 					</tbody>
 				</table>
 
