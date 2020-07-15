@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -30,10 +31,31 @@ public class UsersRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
+	/**
+	 * 
+	 * @param email
+	 * @param password
+	 * @return userList
+	 * メールアドレスとパスワードからログイン
+	 */
 	public User findByMailAddressAndPassward(String email, String password) {
 		String sql = "select * from users where email=:email and password=:password";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email).addValue("password",password);
 		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
+		if (userList.size() == 0) {
+			return null;
+		}
+		return userList.get(0);
+	}
+	public void insert(User user) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
+		String insertSql = "INSERT INTO users(name,email,password,zipcode,address,telephone) VALUES(:name,:email,:password,:zipcode,:address,:telephone)";
+		template.update(insertSql, param);
+	}
+	public User findByMailAddress(String email) {
+		String sql = "select * from users where email = :email";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
+		List<User> userList = template.query(sql, param,USER_ROW_MAPPER);
 		if (userList.size() == 0) {
 			return null;
 		}
