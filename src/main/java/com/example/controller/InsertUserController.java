@@ -63,7 +63,7 @@ public class InsertUserController {
 		  user.setTelephone(insertUserForm.getTelephone());
 			
 		  //メールアドレスの重複確認
-		  if (Objects.isNull(insertUserService.findByMailAddress(insertUserForm.getEmail()))) {
+		  if (!(Objects.isNull(insertUserService.findByMailAddress(insertUserForm.getEmail())))) {
 			model.addAttribute("emailError", "そのメールアドレスはすでに使われています");
 			return toInsert();
 		}
@@ -74,6 +74,6 @@ public class InsertUserController {
 			model.addAttribute("passwordError","パスワードと確認用パスワードが不一致です");
 			return toInsert();
 		}
-		  return "forward:user/login";
+		  return "forward:/toLogin";
 	  }
 }
