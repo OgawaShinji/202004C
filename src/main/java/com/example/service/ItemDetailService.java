@@ -23,6 +23,7 @@ public class ItemDetailService {
 
     
     /** 
+     * itemのidを受け取ってitemの詳細情報を取得する
      * @param itemId
      * @return Item
      */
@@ -33,6 +34,7 @@ public class ItemDetailService {
 
     
     /** 
+     * itemの全情報を取得する
      * @return List<Topping>
      */
     public List<Topping> showAll() {
