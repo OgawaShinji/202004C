@@ -41,6 +41,12 @@ public class LoginController {
   public String toLogin() {
 	  return "user/login";
   }
+  /**
+   * ログインします
+   * @param loginForm
+   * @param model
+   * @return ログイン後小一覧画面
+   */
   @RequestMapping("/login")
   public String login(LoginForm loginForm, Model model) {
 	 User user = loginService.findByMailAddressAndPassward(loginForm.getMailAddress(), loginForm.getPassword());
