@@ -51,7 +51,7 @@
 				<div class="col-xs-offset-2 col-xs-8">
 
 					<h3 class="text-center">商品詳細</h3>
-					<span th:object="${item}">
+					<div th:object="${item}">
 						<div class="row">
 							<div class="col-xs-5">
 								<img src="../static/img_pizza/1.jpg" th:src="@{'/img_coffee/' + *{imagePass}}"
@@ -60,7 +60,7 @@
 
 							<div class="col-xs-5">
 								<div class="bs-component">
-									<h4　th:text="*{name}">じゃがバターベーコン</h4> <br>
+									<h4 th:text="*{name}">じゃがバターベーコン</h4> <br>
 									<br>
 									<p th:text="*{description}">
 										マイルドな味付けのカレーに大きくカットしたポテトをのせた、バターとチーズの風味が食欲をそそるお子様でも楽しめる商品です。</p>
@@ -68,7 +68,7 @@
 							</div>
 							<input type="hidden" name="id" th:value="*{id}">
 						</div><br>
-					</span>
+					</div>
 					<div class="row">
 						<div class="col-xs-offset-2 col-xs-8">
 							<div class="form-group">
@@ -78,19 +78,20 @@
 									</div>
 									<div class="col-sm-12">
 										<!-- sizeMapを回してsizeを取得します -->
-										<span th:each="size:${sizeMap}">
+										<div th:each="size:${sizeMap}">
 											<label class="radio-inline">
-												<input type="radio" th:value="${size.key}" th:field="*{size}">
+												<input type="radio" name="size" th:value="${size.value}"
+													th:field="*{size}">
 												<span th:if="${size.key}==0">
 													<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
-													th:text="${size.value}"></span>
+														th:text="${size.value}"></span>
 												</span>
 												<span th:if="${size.key}==1">
 													<span class="price">&nbsp;L&nbsp;</span>&nbsp;&nbsp;<span
-													th:text="${size.value}"></span>
+														th:text="${size.value}"></span>
 												</span>
 											</label>
-										</span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -112,7 +113,8 @@
 										<span th:each="topping:${toppingMap}">
 											<label class="checkbox-inline">
 												<input type="checkbox" name="topping" th:value="${topping.key}"
-													th:text="${topping.value.name}" th:field="*{toppingList}">
+													th:text="${topping.value.name}"
+													th:field="*{toppingList}">
 											</label>
 										</span>
 									</div>
@@ -167,6 +169,7 @@
 					</div>
 				</div>
 			</div>
+
 		</form>
 
 	</div>
