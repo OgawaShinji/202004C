@@ -26,6 +26,10 @@ public class IndexController {
 	@RequestMapping("")
 	public String index(Model model) {
 		List<Item> itemList = indexService.findAll();
+		// オートコンプリート用にJavaScriptの配列の中身を文字列で作ってスコープへ格納
+		StringBuilder itemListForAutocomplete = indexService.getItemListForAutocomplete(itemList);
+		model.addAttribute("itemListForAutocomplete",itemListForAutocomplete);
+		
 		model.addAttribute("itemList", itemList);
 		return "item/item_list";
 	}
@@ -40,6 +44,7 @@ public class IndexController {
 			model.addAttribute("nullMessage", nullMessage);
 		}
 		model.addAttribute("itemList", itemList);
+
 		return "item/item_list";
 	}
 }
