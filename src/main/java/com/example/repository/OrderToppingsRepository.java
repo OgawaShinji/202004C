@@ -20,4 +20,10 @@ public class OrderToppingsRepository {
                 .addValue("orderItemId", orderTopping.getOrderItemId());
         template.update(insertSql, param);
     }
+
+    public void deleteOrderToppings(Integer orderItemId) {
+        String deleteSql = "DELETE FROM order_toppings WHERE order_item_id = :orderItemId";
+        SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId);
+        template.update(deleteSql, param);
+    }
 }
