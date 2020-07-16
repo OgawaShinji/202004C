@@ -23,15 +23,16 @@ public class LoginController {
 
 	@Autowired
 	private HttpSession session;
-	
 
 	@ModelAttribute
 	public LoginForm setUpLoginForm() {
 		return new LoginForm();
 	}
+
 /////////////////////////////////////////////////////
 // ユースケース：ログインをする
 /////////////////////////////////////////////////////
+
 /**
 * ログイン画面を出力します.
 * 
@@ -60,5 +61,5 @@ public class LoginController {
 		return "forword:/item/item_list";
 	}
   }
-  
+
 }
