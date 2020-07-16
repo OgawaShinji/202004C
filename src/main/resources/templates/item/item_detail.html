@@ -61,7 +61,7 @@
 
 							<div class="col-xs-5">
 								<div class="bs-component">
-									<h4　th:text="*{name}">じゃがバターベーコン</h4> <br>
+									<h4 th:text="*{name}">じゃがバターベーコン</h4> <br>
 									<br>
 									<p th:text="*{description}">
 										マイルドな味付けのカレーに大きくカットしたポテトをのせた、バターとチーズの風味が食欲をそそるお子様でも楽しめる商品です。</p>
@@ -78,14 +78,14 @@
 										</div>
 										<div class="col-sm-12">
 											<label class="radio-inline">
-												<input type="radio" name="size" th:value="*{priceM}" checked>
+												<input type="radio" name="size" th:value="M" checked>
 												<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
-												th:text="*{priceM}"></span>円(税抜)<br>
+													th:text="*{priceM}"></span>円(税抜)<br>
 											</label>
 											<label class="radio-inline">
-												<input type="radio" name="size" th:value="*{priceL}">
+												<input type="radio" name="size" th:value="L">
 												<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
-												th:text="*{priceL}"></span>円(税抜)<br>
+													th:text="*{priceL}"></span>円(税抜)<br>
 											</label>
 										</div>
 									</div>
@@ -164,6 +164,7 @@
 					</div>
 				</div>
 			</div>
+
 		</form>
 
 	</div>

@@ -8,7 +8,7 @@ public class ItemDetailForm {
     private String id;
     // itemのsize,controllerで価格に変更してください
     private String size;
-
+    private String price;
     private List<String> toppingList;
     // itemの数量
     private String quantity;
@@ -43,5 +43,13 @@ public class ItemDetailForm {
 
     public void setQuantity(String quantity) {
         this.quantity = quantity;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 }

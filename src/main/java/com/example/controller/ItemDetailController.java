@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/item-detail")
 public class ItemDetailController {
 
-    
-    /** 
+    /**
      * @return ItemDetailForm
      */
     @ModelAttribute
@@ -31,9 +30,9 @@ public class ItemDetailController {
     @Autowired
     private ItemDetailService itemDetailService;
 
-    
-    /** 
+    /**
      * アイテムの詳細画面を表示する処理
+     * 
      * @param model
      * @param itemId
      * @return String
@@ -41,22 +40,22 @@ public class ItemDetailController {
     @RequestMapping("/showDetail")
     public String index(Model model, String itemId) {
         Item item = itemDetailService.load(itemId);
-        List<Topping> toppingList =itemDetailService.showAll();
+        List<Topping> toppingList = itemDetailService.showAll();
 
         Map<Integer, Topping> toppingMap = new HashMap<Integer, Topping>();
+        Map<Integer, String> sizeMap = new HashMap<Integer, String>();
+        sizeMap.put(0, "M");
+        sizeMap.put(1, "L");
 
-
-        for(int i=0;i<toppingList.size();i++){
+        // toppingListには(toppingTableのid，toppingオブジェクト)を詰める
+        for (int i = 0; i < toppingList.size(); i++) {
             Topping topping = toppingList.get(i);
-            toppingMap.put(i,topping);
+            toppingMap.put(topping.getId(), topping);
         }
-
 
         model.addAttribute("item", item);
         model.addAttribute("toppingMap", toppingMap);
-
         return "item/item_detail";
     }
 
-  
 }
