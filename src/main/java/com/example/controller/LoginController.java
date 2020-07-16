@@ -23,42 +23,44 @@ public class LoginController {
 
 	@Autowired
 	private HttpSession session;
-	
 
 	@ModelAttribute
 	public LoginForm setUpLoginForm() {
 		return new LoginForm();
 	}
+
 /////////////////////////////////////////////////////
 // ユースケース：ログインをする
 /////////////////////////////////////////////////////
-/**
-* ログイン画面を出力します.
-* 
-* @return ログイン画面
-*/
-  @RequestMapping("/toLogin")
-  public String toLogin() {
-	  return "user/login";
-  }
-  /**
-   * ログインします
-   * @param loginForm
-   * @param model
-   * @return ログイン後小一覧画面
-   */
-  @RequestMapping("/login")
-  public String login(LoginForm loginForm, Model model) {
-	 User user = loginService.findByMailAddressAndPassward(loginForm.getMailAddress(), loginForm.getPassword());
-	 System.out.println(user);
-	 if (Objects.isNull(user)) {
-		model.addAttribute("failed", "メールアドレスまたはパスワードが違います");
-		return toLogin();
-	}else{
-		session.setAttribute("user",user);
-		//IndexControllerに処理移行をお願いします。
-		return "item/item_list";
+	/**
+	 * ログイン画面を出力します.
+	 * 
+	 * @return ログイン画面
+	 */
+	@RequestMapping("/toLogin")
+	public String toLogin() {
+		return "user/login";
 	}
-  }
-  
+
+	/**
+	 * ログインします
+	 * 
+	 * @param loginForm
+	 * @param model
+	 * @return ログイン後小一覧画面
+	 */
+	@RequestMapping("/login")
+	public String login(LoginForm loginForm, Model model) {
+		User user = loginService.findByMailAddressAndPassward(loginForm.getMailAddress(), loginForm.getPassword());
+		System.out.println(user);
+		if (Objects.isNull(user)) {
+			model.addAttribute("failed", "メールアドレスまたはパスワードが違います");
+			return toLogin();
+		} else {
+			session.setAttribute("user", user);
+			// IndexControllerに処理移行をお願いします。
+			return "item/item_list";
+		}
+	}
+
 }
