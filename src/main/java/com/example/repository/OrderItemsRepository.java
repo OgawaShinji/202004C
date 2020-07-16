@@ -20,7 +20,7 @@ public class OrderItemsRepository {
 
     @Autowired
     private NamedParameterJdbcTemplate template;
-
+    
     private static final RowMapper<OrderItem> ORDER_ITEM_ROW_MAPPER = (rs, i) -> {
 
         OrderItem orderItem = new OrderItem();
@@ -93,7 +93,6 @@ public class OrderItemsRepository {
         return id;
     }
 
-
     /**
      * @param orderItemId
      */
@@ -102,5 +101,5 @@ public class OrderItemsRepository {
         SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId);
         template.update(deleteSql, param);
     }
-
+    
 }
