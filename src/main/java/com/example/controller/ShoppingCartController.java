@@ -103,4 +103,9 @@ public class ShoppingCartController {
         }
         return "redirect:/shoppingcart/toCartList";
     }
+
+    @RequestMapping("/deleteCartItem")
+    public String deleteCartItem() {
+        return "";
+    }
 }
