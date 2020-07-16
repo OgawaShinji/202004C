@@ -27,7 +27,8 @@
 					</button>
 					<a class="navbar-brand" href="item_list_pizza.html">
 						<!-- 企業ロゴ -->
-						<img alt="main log" src="../static/img_pizza/header_logo.png" th:src="@{/img_coffee/header_logo.png}" height="35">
+						<img alt="main log" src="../static/img_pizza/header_logo.png"
+							th:src="@{/img_coffee/header_logo.png}" height="35">
 					</a>
 				</div>
 
@@ -51,7 +52,7 @@
 				<div class="col-xs-offset-2 col-xs-8">
 
 					<h3 class="text-center">商品詳細</h3>
-					<span th:object="${item}">
+					<div th:object="${item}">
 						<div class="row">
 							<div class="col-xs-5">
 								<img src="../static/img_pizza/1.jpg" th:src="@{'/img_coffee/' + *{imagePass}}"
@@ -68,34 +69,30 @@
 							</div>
 							<input type="hidden" name="id" th:value="*{id}">
 						</div><br>
-					</span>
-					<div class="row">
-						<div class="col-xs-offset-2 col-xs-8">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-12">
-										<label for="inputResponsibleCompany">サイズ</label>
-									</div>
-									<div class="col-sm-12">
-										<!-- sizeMapを回してsizeを取得します -->
-										<span th:each="size:${sizeMap}">
+						<div class="row">
+							<div class="col-xs-offset-2 col-xs-8">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-12">
+											<label for="inputResponsibleCompany">サイズ</label>
+										</div>
+										<div class="col-sm-12">
 											<label class="radio-inline">
-												<input type="radio" th:value="${size.key}" th:field="*{size}">
-												<span th:if="${size.key}==0">
-													<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
-													th:text="${size.value}"></span>
-												</span>
-												<span th:if="${size.key}==1">
-													<span class="price">&nbsp;L&nbsp;</span>&nbsp;&nbsp;<span
-													th:text="${size.value}"></span>
-												</span>
+												<input type="radio" name="size" th:value="*{priceM}" checked>
+												<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
+												th:text="*{priceM}"></span>円(税抜)<br>
 											</label>
-										</span>
+											<label class="radio-inline">
+												<input type="radio" name="size" th:value="*{priceL}">
+												<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
+												th:text="*{priceL}"></span>円(税抜)<br>
+											</label>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div><br>
+						</div><br>
+					</div>
 					<div class="row">
 						<div class="col-xs-offset-2 col-xs-8">
 							<div class="form-group">
