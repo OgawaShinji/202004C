@@ -17,23 +17,25 @@ public class IndexService {
 	private ItemsRepository itemRepository;
 
 	/**
-	 * 全件検索を行う.
+	 * 選択された並び順で全件検索を行う.
 	 * 
+	 * @param listType 並び順
 	 * @return 全アイテム一覧
 	 */
-	public List<Item> findAll() {
-		List<Item> itemList = itemRepository.findAll();
+	public List<Item> findAll(String listType) {
+		List<Item> itemList = itemRepository.findAll(listType);
 		return itemList;
 	}
 
 	/**
-	 * 名前からアイテムを曖昧検索する.
+	 * 選択された並び順で名前からアイテムを曖昧検索する.
 	 * 
-	 * @param name 名前
+	 * @param name     名前
+	 * @param listType 並び順
 	 * @return 検索されたアイテム一覧
 	 */
-	public List<Item> findByLikeName(String name) {
-		List<Item> itemList = itemRepository.findByLikeName(name);
+	public List<Item> findByLikeName(String name, String listType) {
+		List<Item> itemList = itemRepository.findByLikeName(name, listType);
 		return itemList;
 	}
 }
