@@ -27,6 +27,7 @@ public class ItemsRepository {
 		item.setPriceM(rs.getInt("price_m"));
 		item.setPriceL(rs.getInt("price_l"));
 		item.setImagePass(rs.getString("image_path"));
+		item.setCategoryId(rs.getInt("categoryid"));
 		item.setDeleted(rs.getBoolean("deleted"));
 		return item;
 	};
@@ -40,7 +41,7 @@ public class ItemsRepository {
 	public List<Item> findAll(String listType) {
 		// 表示確認を優先する為、toppingsのJOINはまだしていません。
 		// Mサイズの価格が安い順で表示されるようにしています。
-		String sql = "SELECT id,name,description,price_m,price_l,image_path,deleted FROM items"
+		String sql = "SELECT * FROM items"
 				+ " WHERE deleted != true ORDER BY " + listType;
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("listType", listType);
@@ -78,7 +79,7 @@ public class ItemsRepository {
 	 * @return 検索されたアイテム一覧
 	 */
 	public List<Item> findByLikeName(String name, String listType) {
-		String sql = "SELECT id,name,description,price_m,price_l,image_path,deleted FROM items"
+		String sql = "SELECT * FROM items"
 				+ " WHERE name LIKE :name AND deleted != true ORDER BY " + listType;
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
