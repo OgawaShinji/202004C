@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.example.domain.OrderItem;
 import com.example.domain.OrderTopping;
-import com.example.domain.Topping;
 import com.example.repository.OrderItemsRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,11 @@ public class ShoppingHistoryService {
     @Autowired
     private OrderItemsRepository orderItemsRepository;
 
+
+    /**
+     * @param userId
+     * @return List<OrderItem>
+     */
     public List<OrderItem> findItemHistory(Integer userId){
 
     List<OrderItem> ordItemList = orderItemsRepository.findOrderItemsAndToppingsByUserId(userId);
