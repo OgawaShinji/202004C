@@ -21,6 +21,10 @@ public class ShoppingHistoryController {
     @Autowired
     private HttpSession session;
 
+
+    /**
+     * @return String
+     */
     @RequestMapping("/history")
     public String showHistory(){
 
@@ -31,8 +35,6 @@ public class ShoppingHistoryController {
         Integer userId = 1;
 
        List<OrderItem> orderItemList = shoppingHistoryService.findItemHistory(userId);
-
-       System.out.println(orderItemList);
 
        session.setAttribute("orderItemList", orderItemList);
 
