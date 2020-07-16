@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>ちゃんと飛んできた</h1>
+    <h2>ハローキティ</h2>
+    <div th:each="orderItem : ${session.orderItemList}">
+        <span th:text="${orderItem.itemId}"></span><br>
+        <span th:text="${orderItem.quantity}"></span><br>
+        <span th:text="${orderItem.size}"></span><br>
+        <div th:text="${orderItem.item.name}"></div>
+        <img th:src="@{'/img_coffee/' + ${orderItem.item.imagePass}}">
+        <div th:text="${orderItem.item.priceM}"></div>
+        <div th:text="${orderItem.item.priceL}"></div>
+        <div th:each="parentTopping : ${orderItem.orderToppingList}">
+            <div th:text="${parentTopping.topping.name}"></div>
+            <div th:text="${parentTopping.topping.priceM}"></div>
+            <div th:text="${parentTopping.topping.priceL}"></div>
+        </div>
+        <hr>
+    </div>
+</body>
+</html>

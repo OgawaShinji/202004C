@@ -37,8 +37,8 @@
 					<p class="navbar-text navbar-right">
 						<a href="cart_list.html" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
 						<a href="order_history.html" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
-						<a href="login.html" class="navbar-link">ログイン</a>&nbsp;&nbsp;
-						<a href="item_list_pizza.html" class="navbar-link">ログアウト</a>
+						<a href="login.html" class="navbar-link">ログイン</a>&nbsp;&nbsp; <a href="item_list_pizza.html"
+							class="navbar-link">ログアウト</a>
 					</p>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -52,23 +52,23 @@
 				<div class="col-xs-offset-2 col-xs-8">
 
 					<h3 class="text-center">商品詳細</h3>
-					<div th:object="${item}">
 						<div class="row">
 							<div class="col-xs-5">
-								<img src="../static/img_pizza/1.jpg" th:src="@{'/img_coffee/' + *{imagePass}}"
+								<img src="../static/img_pizza/1.jpg" th:src="@{'/img_coffee/' + ${item.imagePass}}"
 									class="img-responsive img-rounded item-img-center">
 							</div>
 
 							<div class="col-xs-5">
 								<div class="bs-component">
-									<h4 th:text="*{name}">じゃがバターベーコン</h4> <br>
-									<br>
-									<p th:text="*{description}">
+									<h4 th:text="${item.name}">じゃがバターベーコン</h4>
+									<br> <br>
+									<p th:text="${item.description}">
 										マイルドな味付けのカレーに大きくカットしたポテトをのせた、バターとチーズの風味が食欲をそそるお子様でも楽しめる商品です。</p>
 								</div>
 							</div>
-							<input type="hidden" name="id" th:value="*{id}">
-						</div><br>
+							<input type="hidden" name="id" th:value="${item.id}">
+						</div>
+						<br>
 						<div class="row">
 							<div class="col-xs-offset-2 col-xs-8">
 								<div class="form-group">
@@ -77,53 +77,50 @@
 											<label for="inputResponsibleCompany">サイズ</label>
 										</div>
 										<div class="col-sm-12">
-											<label class="radio-inline">
-												<input type="radio" name="size" th:value="M" checked>
-												<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
-													th:text="*{priceM}"></span>円(税抜)<br>
-											</label>
-											<label class="radio-inline">
-												<input type="radio" name="size" th:value="L">
-												<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
-													th:text="*{priceL}"></span>円(税抜)<br>
+											<label class="radio-inline"> <input type="radio" name="size" th:value="M"
+													checked> <span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
+													th:text="${item.priceM}"></span>円(税抜)<br>
+											</label> <label class="radio-inline"> <input type="radio" name="size"
+													th:value="L"> <span
+													class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
+													th:text="${item.priceL}"></span>円(税抜)<br>
 											</label>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div><br>
-					</div>
-					<div class="row">
-						<div class="col-xs-offset-2 col-xs-8">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-12">
-										<label for="inputResponsibleCompany">
-											トッピング：&nbsp;1つにつき
-											<span>&nbsp;М&nbsp;</span>&nbsp;&nbsp;200円(税抜)
-											<span>&nbsp;Ｌ</span>&nbsp;&nbsp;300円(税抜)
-										</label>
-									</div>
-									<div class="col-sm-12">
-										<!-- toppingListを回して、toppingを選択します -->
-										<span th:each="topping:${toppingMap}">
-											<label class="checkbox-inline">
-												<input type="checkbox" name="topping" th:value="${topping.key}"
-													th:text="${topping.value.name}" th:field="*{toppingList}">
-											</label>
-										</span>
+						</div>
+						<br>
+						<div th:if="${item.categoryId}==1">
+							<div class="row">
+								<div class="col-xs-offset-2 col-xs-8">
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-12">
+												<label for="inputResponsibleCompany">
+													トッピング：&nbsp;1つにつき <span>&nbsp;М&nbsp;</span>&nbsp;&nbsp;200円(税抜)
+													<span>&nbsp;Ｌ</span>&nbsp;&nbsp;300円(税抜)
+												</label>
+											</div>
+											<div class="col-sm-12">
+												<!-- toppingListを回して、toppingを選択します -->
+												<span th:each="topping:${toppingMap}"> <label class="checkbox-inline">
+														<input type="checkbox" name="topping" th:value="${topping.key}"
+															th:text="${topping.value.name}" th:field="*{toppingList}">
+													</label>
+												</span>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 					<div class="row">
 						<div class="col-xs-offset-2 col-xs-8">
 							<div class="form-group">
 								<div class="row">
 									<div class="col-xs-5 col-sm-5">
-										<label for="">数量:</label>
-										<label class="control-label" style="color: red"
+										<label for="">数量:</label> <label class="control-label" style="color: red"
 											for="inputError">数量を選択してください</label> <select name="area"
 											class="form-control" th:field="*{quantity}">
 											<option value="1">1</option>
@@ -166,6 +163,7 @@
 			</div>
 
 		</form>
+
 
 	</div>
 	<!-- end container -->

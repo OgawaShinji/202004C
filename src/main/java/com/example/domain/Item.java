@@ -10,6 +10,7 @@ public class Item {
     private Integer priceM;
     private Integer priceL;
     private String imagePass;
+    private Integer categoryId;
     private Boolean deleted;
     private List<Topping> toppingList;
 
@@ -17,13 +18,14 @@ public class Item {
     public Item() {
     }
 
-    public Item(Integer id, String name, String description, Integer priceM, Integer priceL, String imagePass, Boolean deleted, List<Topping> toppingList) {
+    public Item(Integer id, String name, String description, Integer priceM, Integer priceL, String imagePass, Integer categoryId,Boolean deleted, List<Topping> toppingList) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.priceM = priceM;
         this.priceL = priceL;
         this.imagePass = imagePass;
+        this.categoryId = categoryId;
         this.deleted = deleted;
         this.toppingList = toppingList;
     }
@@ -124,6 +126,13 @@ public class Item {
         this.imagePass = imagePass;
     }
 
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
 
     /**
      * @return Boolean
@@ -131,7 +140,7 @@ public class Item {
     public Boolean isDeleted() {
         return this.deleted;
     }
-
+    
 
     /**
      * @return Boolean
@@ -181,5 +190,6 @@ public class Item {
             ", toppingList='" + getToppingList() + "'" +
             "}";
     }
+
 }
 
