@@ -34,7 +34,7 @@ public class InsertUserForm {
 	 * 
 	 */
 	@NotBlank(message = "郵便番号を入力して下さい")
-	//@Pattern(message = "郵便番号はXXX-XXXXの形式で入力してください" ,regexp="^[0-9]{3}-[0-9]{4}$")
+	@Pattern(message = "郵便番号はXXX-XXXXの形式で入力してください" ,regexp="^[0-9]{3}-[0-9]{4}$")
 	private String zipcode;
 	/**
 	 * 住所

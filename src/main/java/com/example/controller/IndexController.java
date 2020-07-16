@@ -42,9 +42,14 @@ public class IndexController {
 		selectMap.put("名前順", "name");
 		model.addAttribute("selectMap", selectMap);
 		// 初期画面ではMサイズの価格順に全件表示する処理
-		if(!model.containsAttribute("itemList")) {
+		if (!model.containsAttribute("itemList")) {
 			String listType = "price_m";
 			List<Item> itemList = indexService.findAll(listType);
+			model.addAttribute("itemList", itemList);
+			// オートコンプリート用にJavaScriptの配列の中身を文字列で作ってスコープへ格納
+			StringBuilder itemListForAutocomplete = indexService.getItemListForAutocomplete(itemList);
+			model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
+
 			model.addAttribute("itemList", itemList);
 		}
 
@@ -68,6 +73,11 @@ public class IndexController {
 			String nullMessage = "該当する商品がありません";
 			model.addAttribute("nullMessage", nullMessage);
 		}
+
+		model.addAttribute("itemList", itemList);
+		// オートコンプリート用にJavaScriptの配列の中身を文字列で作ってスコープへ格納
+		StringBuilder itemListForAutocomplete = indexService.getItemListForAutocomplete(itemList);
+		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
 
 		model.addAttribute("itemList", itemList);
 

@@ -38,4 +38,24 @@ public class IndexService {
 		List<Item> itemList = itemRepository.findByLikeName(name, listType);
 		return itemList;
 	}
+
+	/**
+	 * オートコンプリート用にJavaScriptの配列の中身を文字列で作ります.
+	 * 
+	 * @param itemList 商品一覧
+	 * @return オートコンプリート用JavaScriptの配列の文字列        
+	 **/
+	public StringBuilder getItemListForAutocomplete(List<Item> itemList) {
+		StringBuilder itemListForAutocomplete = new StringBuilder();
+		for (int i = 0; i < itemList.size(); i++) {
+			if (i != 0) {
+				itemListForAutocomplete.append(",");
+			}
+			Item item = itemList.get(i);
+			itemListForAutocomplete.append("\"");
+			itemListForAutocomplete.append(item.getName());
+			itemListForAutocomplete.append("\"");
+		}
+		return itemListForAutocomplete;
+	}
 }

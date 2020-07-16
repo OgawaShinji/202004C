@@ -13,10 +13,10 @@ public class LoginService {
 
 	@Autowired
 	private UsersRepository usersRepository;
-	
+
 	public User findByMailAddressAndPassward(String email, String password) {
 		User user = usersRepository.findByMailAddressAndPassward(email, password);
 		return user;
 	}
-	
+
 }
