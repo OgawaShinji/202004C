@@ -114,4 +114,11 @@ public class OrdersRepository {
                 .addValue("userId", order.getUserId());
         template.update(sql, param);
     }
+
+    public void updateMinusTotalPrice(Order order) {
+        String sql = "UPDATE orders SET total_price = total_price-:totalPrice WHERE user_id=:userId AND status=0";
+        SqlParameterSource param = new MapSqlParameterSource().addValue("totalPrice", order.getTotalPrice())
+                .addValue("userId", order.getUserId());
+        template.update(sql, param);
+    }
 }
