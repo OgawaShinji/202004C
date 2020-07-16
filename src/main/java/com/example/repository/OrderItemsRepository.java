@@ -22,5 +22,11 @@ public class OrderItemsRepository {
         Integer id = template.queryForObject(insertSql, param, Integer.class);
         return id;
     }
-    
+
+    public void deleteOrderItems(Integer orderItemId) {
+        String deleteSql = "DELETE FROM order_items WHERE id = :orderItemId";
+        SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId);
+        template.update(deleteSql, param);
+    }
+
 }
