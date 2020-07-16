@@ -13,7 +13,7 @@
         <span th:text="${orderItem.quantity}"></span><br>
         <span th:text="${orderItem.size}"></span><br>
         <div th:text="${orderItem.item.name}"></div>
-        <img th:src="@{'/img_coffee/' + ${orderItem.item.imagePass}}"></img>
+        <img th:src="@{'/img_coffee/' + ${orderItem.item.imagePass}}">
         <div th:text="${orderItem.item.priceM}"></div>
         <div th:text="${orderItem.item.priceL}"></div>
         <div th:each="parentTopping : ${orderItem.orderToppingList}">
