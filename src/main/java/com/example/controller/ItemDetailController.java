@@ -43,11 +43,8 @@ public class ItemDetailController {
         Item item = itemDetailService.load(itemId);
         List<Topping> toppingList =itemDetailService.showAll();
 
-        Map<Integer, Integer> sizeMap = new HashMap<Integer, Integer>();
         Map<Integer, Topping> toppingMap = new HashMap<Integer, Topping>();
 
-        sizeMap.put(0, item.getPriceM());
-        sizeMap.put(1, item.getPriceL());
 
         for(int i=0;i<toppingList.size();i++){
             Topping topping = toppingList.get(i);
@@ -56,7 +53,6 @@ public class ItemDetailController {
 
 
         model.addAttribute("item", item);
-        model.addAttribute("sizeMap", sizeMap);
         model.addAttribute("toppingMap", toppingMap);
 
         return "item/item_detail";
