@@ -54,23 +54,20 @@ public class ItemsRepository {
 
 		return itemList;
 	}
-	
-	/** 
-	 * itemのidを取得して商品の詳細情報を取得する
-	 * 
+
+	/**
 	 * @param id
 	 * @return Item
 	 */
-	public  Item load(Integer id) {
-		String sql="SELECT * FROM items WHERE id=:id";
-		SqlParameterSource param=new MapSqlParameterSource().addValue("id", id);
-		Item item=template.queryForObject(sql, param,ITEM_ROW_MAPPER);
-		if(Objects.isNull(item)){
+	public Item load(Integer id) {
+		String sql = "SELECT * FROM items WHERE id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
+		if (Objects.isNull(item)) {
 			return null;
 		}
 		return item;
 	}
-	
 	/**
 	 * 選択された並び順で名前からアイテムを曖昧検索する.
 	 * 

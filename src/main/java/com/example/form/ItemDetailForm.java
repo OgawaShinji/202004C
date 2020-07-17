@@ -2,6 +2,8 @@ package com.example.form;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
 public class ItemDetailForm {
 
     // itemのid
@@ -11,6 +13,7 @@ public class ItemDetailForm {
     private String price;
     private List<String> toppingList;
     // itemの数量
+    @NotBlank(message = "数量を選択してください")
     private String quantity;
 
     public String getId() {

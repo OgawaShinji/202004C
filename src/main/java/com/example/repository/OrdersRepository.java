@@ -1,9 +1,14 @@
 package com.example.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.example.domain.Item;
 import com.example.domain.Order;
+import com.example.domain.OrderItem;
+import com.example.domain.OrderTopping;
+import com.example.domain.Topping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,22 +27,68 @@ public class OrdersRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final RowMapper<Order> ORDER_ROW_Mapper = (rs, i) -> {
+    private static final RowMapper<Order> ORDER_ROW_MAPPER = (rs, i) -> {
+
         Order order = new Order();
-        order.setId(rs.getInt("id"));
-        order.setUserId(rs.getInt("user_id"));
-        order.setStatus(rs.getInt("status"));
-        order.setTotalPrice(rs.getInt("total_price"));
-        order.setOrderDate(rs.getDate("order_date"));
-        order.setDestinationName(rs.getString("destination_name"));
-        order.setDestinationEmail(rs.getString("destination_email"));
-        order.setDestinationZipcode(rs.getString("destination_zipcode"));
-        order.setDestinationAddress(rs.getString("destination_address"));
-        order.setDestinationTel(rs.getString("destination_tel"));
-        order.setDeliveryTime(rs.getTimestamp("delivery_time"));
-        order.setPaymentMethod(rs.getInt("payment_method"));
+
+        order.setId(rs.getInt("ordId"));
+        order.setUserId(rs.getInt("ordUserId"));
+        order.setStatus(rs.getInt("ordStatus"));
+        order.setTotalPrice(rs.getInt("ordTotalPrice"));
+        order.setOrderDate(rs.getDate("ordOrderDate"));
+        order.setDestinationName(rs.getString("ordDestName"));
+        order.setDestinationEmail(rs.getString("ordDestEmail"));
+        order.setDestinationZipcode(rs.getString("ordDestZip"));
+        order.setDestinationAddress(rs.getString("ordDestAddress"));
+        order.setDestinationTel(rs.getString("ordDestTel"));
+        order.setDeliveryTime(rs.getTimestamp("ordDeliveryTime"));
+        order.setPaymentMethod(rs.getInt("ordPayMeth"));
+
+        OrderItem orderItem = new OrderItem();
+
+        orderItem.setId(rs.getInt("oriId"));
+        orderItem.setItemId(rs.getInt("oriItemId"));
+        orderItem.setOrderId(rs.getInt("oriOrderId"));
+        orderItem.setQuantity(rs.getInt("oriQuantity"));
+        char[] chars = rs.getString("oriSize").toCharArray();
+        orderItem.setSize(chars[0]);
+
+        Item item = new Item();
+
+        item.setId(rs.getInt("itmId"));
+        item.setName(rs.getString("itmName"));
+        item.setImagePass(rs.getString("itmImagePath"));
+        item.setPriceM(rs.getInt("itmPriceM"));
+        item.setPriceL(rs.getInt("itmPriceL"));
+
+        orderItem.setItem(item);
+
+        Topping topping = new Topping();
+
+        topping.setName(rs.getString("topName"));
+        topping.setPriceM(rs.getInt("topPriceM"));
+        topping.setPriceL(rs.getInt("topPriceL"));
+
+        OrderTopping orderTopping = new OrderTopping();
+
+        orderTopping.setOrderItemId(rs.getInt("otpOrdItmId"));
+
+        List<OrderTopping> orderToppingList = new ArrayList<>();
+        orderTopping.setTopping(topping);
+        orderToppingList.add(orderTopping);
+
+        orderItem.setOrderToppingList(orderToppingList);
+
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+        orderItemList.add(orderItem);
+
+        order.setOrderItemList(orderItemList);
+
         return order;
+
     };
+
     private static final RowMapper<Integer> ORDERS_ID_ROW_MAPPER = (rs, i) -> {
         Integer orderId = rs.getInt("id");
         return orderId;
@@ -121,4 +172,20 @@ public class OrdersRepository {
                 .addValue("userId", order.getUserId());
         template.update(sql, param);
     }
+    /**
+     * @param userId
+     * @return List<OrderItem>
+     */
+    public List<Order> findItemsByUserIdAndStatusOverThan2(Integer userId){
+
+        String sql = "SELECT ord.id AS ordId, ord.user_id AS ordUserId, ord.status AS ordStatus, ord.total_price AS ordTotalPrice, ord.order_date AS ordOrderDate, ord.destination_name AS ordDestName, ord.destination_email AS ordDestEmail, ord.destination_zipcode AS ordDestZip, ord.destination_address AS ordDestAddress, ord.destination_tel AS ordDestTel, ord.delivery_time AS ordDeliveryTime, ord.payment_method AS ordPayMeth, ori.id AS oriId, ori.order_id AS oriOrderId, ori.item_id AS oriItemId, ori.quantity AS oriQuantity, ori.size AS oriSize, itm.id AS itmId, itm.name AS itmName, itm.image_path AS itmImagePath, itm.price_m AS itmPriceM, itm.price_l AS itmPriceL, top.name AS topName, top.price_m AS topPriceM, top.price_l AS topPriceL, otp.order_item_id AS otpOrdItmId FROM order_items AS ori JOIN orders AS ord ON ori.order_id = ord.id JOIN users AS use on ord.user_id = use.id JOIN items as itm ON ori.item_id = itm.id JOIN order_toppings AS otp ON ori.id = otp.order_item_id JOIN toppings AS top ON otp.topping_id = top.id WHERE use.id = :userId AND status <= 2";
+
+        SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
+
+        List<Order> orderList = template.query(sql, param, ORDER_ROW_MAPPER);
+
+        return orderList;
+
+    }
+
 }
