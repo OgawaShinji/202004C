@@ -22,10 +22,10 @@ public class InsertUserController {
 
 	@Autowired
 	private InsertUserService insertUserService;
-	
+
 	@Autowired
 	private HttpSession session;
-	
+
 	@ModelAttribute
 	public InsertUserForm setUpInsertUserForm() {
 		return new InsertUserForm();
@@ -35,7 +35,7 @@ public class InsertUserController {
 	  /////////////////////////////////////////////////////
 	  /**
 	  * 管理者登録画面を出力します.
-	  * 
+	  *
 	  * @return 管理者登録画面
 	  */
 	  @RequestMapping("")
@@ -61,7 +61,7 @@ public class InsertUserController {
 		  user.setZipcode(br.toString());
 		  user.setAddress(insertUserForm.getAddress());
 		  user.setTelephone(insertUserForm.getTelephone());
-			
+
 		  //メールアドレスの重複確認
 		  if (!(Objects.isNull(insertUserService.findByMailAddress(insertUserForm.getEmail())))) {
 			model.addAttribute("emailError", "そのメールアドレスはすでに使われています");
