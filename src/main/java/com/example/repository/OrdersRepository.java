@@ -49,9 +49,9 @@ public class OrdersRepository {
      * @param order
      * @return 取得したid
      */
-    public Integer findByUserIdOnlyStatusIsZero(Order order) {
-        String sql = "SELECT id FROM orders WHERE user_id=:userId AND status=0";
-        SqlParameterSource param = new MapSqlParameterSource().addValue("userId", order.getUserId());
+    public Integer findIdByUserId(Order order) {
+        String sql = "SELECT id FROM orders WHERE user_id=:userId AND status=:status";
+        SqlParameterSource param = new MapSqlParameterSource().addValue("userId", order.getUserId()).addValue("status", order.getStatus());
         List<Integer> ordersId = template.query(sql, param, ORDERS_ID_ROW_MAPPER);
         if (ordersId.size() == 0) {
             return null;
@@ -102,12 +102,26 @@ public class OrdersRepository {
      * @param beforeUserId
      */
     public void updateUserId(Order order, Integer beforeUserId) {
-        String updateSql = "UPDATE orders SET user_id=:userId WHERE user_id=:beforeUserId AND status=0";
+        String updateSql = "UPDATE orders SET user_id=:userId WHERE user_id=:beforeUserId AND status=:status";
         SqlParameterSource param = new MapSqlParameterSource().addValue("userId", order.getUserId())
-                .addValue("beforeUserId", beforeUserId);
+                .addValue("beforeUserId", beforeUserId).addValue("status", order.getStatus());
         template.update(updateSql, param);
     }
 
+    /**
+     * Ordersテーブルから該当するidの買い物情報を削除する
+     */
+    public void deleteOrderById(Order order) {
+        String deleteSql = "DELETE FROM orders WHERE id = :orderId";
+        SqlParameterSource param = new MapSqlParameterSource().addValue("orderId", order.getId());
+        template.update(deleteSql, param);
+    }
+
+    /**
+     * カートに商品を追加した際にtotal_priceを足すメソッド
+     * 
+     * @param order
+     */
     public void updatePlusTotalPrice(Order order) {
         String sql = "UPDATE orders SET total_price = total_price+:totalPrice WHERE user_id=:userId AND status=0";
         SqlParameterSource param = new MapSqlParameterSource().addValue("totalPrice", order.getTotalPrice())
@@ -115,6 +129,11 @@ public class OrdersRepository {
         template.update(sql, param);
     }
 
+    /**
+     * カートから商品を削除されたときにtotal_priceを引くメソッド
+     * 
+     * @param order
+     */
     public void updateMinusTotalPrice(Order order) {
         String sql = "UPDATE orders SET total_price = total_price-:totalPrice WHERE user_id=:userId AND status=0";
         SqlParameterSource param = new MapSqlParameterSource().addValue("totalPrice", order.getTotalPrice())
