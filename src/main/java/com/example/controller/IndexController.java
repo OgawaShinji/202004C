@@ -76,10 +76,9 @@ public class IndexController {
 
 		model.addAttribute("itemList", itemList);
 		// オートコンプリート用にJavaScriptの配列の中身を文字列で作ってスコープへ格納
-		StringBuilder itemListForAutocomplete = indexService.getItemListForAutocomplete(itemList);
+		List<Item> items=indexService.findAll(form.getListType());
+		StringBuilder itemListForAutocomplete = indexService.getItemListForAutocomplete(items);
 		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
-
-		model.addAttribute("itemList", itemList);
 
 		return index(model);
 	}
