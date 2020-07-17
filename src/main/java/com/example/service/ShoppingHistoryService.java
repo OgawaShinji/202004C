@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.domain.Order;
 import com.example.domain.OrderItem;
 import com.example.domain.OrderTopping;
 import com.example.repository.OrderItemsRepository;
+import com.example.repository.OrdersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,18 +18,26 @@ import org.springframework.stereotype.Service;
 public class ShoppingHistoryService {
 
     @Autowired
-    private OrderItemsRepository orderItemsRepository;
+    private OrdersRepository orderRepository;
 
+    /**
+     * statusでの場合分けがまだ未完成
+     */
 
     /**
      * @param userId
      * @return List<OrderItem>
      */
-    public List<OrderItem> findItemHistory(Integer userId){
+    public List<Order> findItemHistory(Integer userId){
 
-    List<OrderItem> ordItemList = orderItemsRepository.findOrderItemsAndToppingsByUserId(userId);
+    List<Order> orderList = orderRepository.findItemsByUserIdAndStatusOverThan2(userId);
     List<OrderTopping> ordToppingList = new ArrayList<>();
+    Map<Integer,Order> orderMap = new HashMap<>();
     Map<Integer,OrderItem> orderItemMap = new HashMap<>();
+
+    for(Order order : orderList){
+
+        List<OrderItem> ordItemList = order.getOrderItemList();
 
     for(OrderItem orderItem : ordItemList){
 
@@ -37,19 +47,27 @@ public class ShoppingHistoryService {
 
             ordToppingList.add(orderTopping);
 
-        }
+         }
 
-    }
+     }
 
-    for(OrderItem orderItem : ordItemList){
+}
 
-        List<OrderTopping> orderToppingList = new ArrayList<>();
+List<OrderItem> orderItemListForSameOrderId =new ArrayList<OrderItem>();
 
-        for(OrderTopping orderTopping : ordToppingList){
+    for(Order order : orderList){
 
-           if(orderItem.getId()==orderTopping.getOrderItemId()){
+        List<OrderItem> ordItemList = order.getOrderItemList();
 
-            orderToppingList.add(orderTopping);
+        for(OrderItem orderItem : ordItemList){
+
+            List<OrderTopping> orderToppingList = new ArrayList<>();
+
+            for(OrderTopping orderTopping : ordToppingList){
+
+                if(orderItem.getId()==orderTopping.getOrderItemId()){
+
+                orderToppingList.add(orderTopping);
 
            }
 
@@ -57,14 +75,33 @@ public class ShoppingHistoryService {
 
         orderItem.setOrderToppingList(orderToppingList);
 
-        orderItemMap.put(orderItem.getId(), orderItem);
+        orderItemMap.put(orderItem.getOrderId(), orderItem);
+
+    }
+}
+        List<OrderItem> orderItemList = new ArrayList<OrderItem>(orderItemMap.values());
+
+
+    for(Order order : orderList){
+        for(OrderItem orderItem : orderItemList){
+            if (order.getId()==orderItem.getOrderId()) {
+                orderItemListForSameOrderId.add(orderItem);
+            }
+        }
 
     }
 
-    List<OrderItem> orderItemList = new ArrayList<OrderItem>(orderItemMap.values());
+    Order order = new Order();
 
-    return orderItemList;
+        order.setOrderItemList(orderItemList);
+
+        orderMap.put(order.getId(),order);
+
+
+
+        List<Order> orderListForReturn = new ArrayList<Order>(orderMap.values());
+
+        return orderListForReturn;
 
     }
-
 }
