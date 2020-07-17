@@ -34,7 +34,7 @@
 							class="icon-bar"></span>
 					</button>
 
-					<a class="navbar-brand" href="item_list_pizza.html"> <!-- 企業ロゴ -->
+					<a class="navbar-brand" href="item_list_pizza.html" th:href="@{/item-list}"> <!-- 企業ロゴ -->
 						<img alt="main log" th:src="@{/img_coffee/header_logo.png}"
 						src="../static/img_coffee/header_logo.png" height="35">
 					</a>
@@ -45,15 +45,10 @@
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
 
-						<!-- ショッピングカートのURLを記述してください -->
-						<a href="cart_list.html" th:action="@{*}" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
-						<!-- 注文履歴のURLを記述してください -->
-						<a href="order_history.html" th:action="@{*}" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
-						<!--　ログインのURLを記述してください -->
-						<a href="login.html" th:action="@{*}" class="navbar-link">ログイン</a>&nbsp;&nbsp;
-						<!-- ログアウトのURLを記述してください -->
-						<a href="item_list_pizza.html" th:action="@{*}"
-							class="navbar-link">ログアウト</a>
+						<a href="cart_list.html" th:href="@{/shoppingcart/toCartList}" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
+						<a href="order_history.html" th:href="@{/shoppingcart/confirm}" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
+						<a href="login.html" th:href="@{/toLogin}" class="navbar-link">ログイン</a>&nbsp;&nbsp; 
+						<a href="item_list_pizza.html" th:href="@{/toLogin}"class="navbar-link">ログアウト</a>
 
 					</p>
 				</div>
