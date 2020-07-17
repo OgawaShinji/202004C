@@ -14,11 +14,16 @@ import com.example.domain.User;
 import com.example.form.ItemDetailForm;
 import com.example.service.ItemDetailService;
 import com.example.service.ShoppingCartService;
+import com.example.service.ShoppingHistoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+<<<<<<< HEAD
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+=======
+import org.springframework.ui.Model;
+>>>>>>> feature/viwShoppingList
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,6 +37,8 @@ public class ShoppingCartController {
     @Autowired
     private ItemDetailService itemDetailService;
     @Autowired
+    private ShoppingHistoryService shoppingHistoryService;
+    @Autowired
     private HttpSession session;
 
     @ModelAttribute
@@ -39,12 +46,34 @@ public class ShoppingCartController {
         return new ItemDetailForm();
     }
 
+    /**
+     * カート内一覧画面を表示するメソッド
+     * 
+     * @param model
+     * @return cart_list.html
+     */
     @RequestMapping("/toCartList")
-    public String toCartList() {
-        return "shoppingcart/cart_list";
+    public String toCartList(Model model) {
+        User userInSession = (User) session.getAttribute("user");
+        try {
+            List<OrderItem> orderItems = shoppingHistoryService.findItemHistory(userInSession.getId());
+            model.addAttribute("orderItemList", orderItems);
+            return "shoppingcart/cart_list";
+        } catch (NullPointerException e) {
+            model.addAttribute("orderItemList", null);
+            return "shoppingcart/cart_list";
+        }
+
     }
 
-    // shoppingCartに追加する機能
+    /**
+     * shoppingCartにItemを追加するメソッド
+     * カートに初めて追加されたときのみOrdersテーブルにuser_id,status,total_priceをインサートする
+     * order_itemsテーブルにOrderItemをインサートする order_toppingsテーブルにOrderToppingをインサートする
+     * 
+     * @param form
+     * @return
+     */
     @RequestMapping("/addCartItem")
     public String addCartItem(@Validated ItemDetailForm form,BindingResult result) {
 
@@ -59,32 +88,44 @@ public class ShoppingCartController {
         orderItem.setSize(chars[0]);
         // oreder_toppingにinsertするorderItemのtoppingListのデータ形成
         List<OrderTopping> orderToppingList = new ArrayList<>();
-        for (String toppingId : form.getToppingList()) {
-            OrderTopping orderTopping = new OrderTopping();
-            orderTopping.setToppingId(Integer.parseInt(toppingId));
-            orderToppingList.add(orderTopping);
+        if (Objects.nonNull(form.getToppingList())) {
+            for (String toppingId : form.getToppingList()) {
+                OrderTopping orderTopping = new OrderTopping();
+                orderTopping.setToppingId(Integer.parseInt(toppingId));
+                orderToppingList.add(orderTopping);
+            }
         }
         orderItem.setOrderToppingList(orderToppingList);
-
         // Ordersにinsert用データ形成
         Order orderForInsertOrders = new Order();
         if (form.getSize().equals("M")) {
             // TODO: quantityが2以上の際はトッピングはすべてにつける仕様になる
-            orderForInsertOrders.setTotalPrice(
-                    (itemDetailService.load(form.getId()).getPriceM() + form.getToppingList().size() * 200)
-                            * Integer.parseInt(form.getQuantity()));
+            if (Objects.nonNull(form.getToppingList())) {
+                orderForInsertOrders.setTotalPrice(
+                        (itemDetailService.load(form.getId()).getPriceM() + form.getToppingList().size() * 200)
+                                * Integer.parseInt(form.getQuantity()));
+            } else {
+                orderForInsertOrders.setTotalPrice(
+                        itemDetailService.load(form.getId()).getPriceM() * Integer.parseInt(form.getQuantity()));
+            }
+
         }
         if (form.getSize().equals("L")) {
-            orderForInsertOrders.setTotalPrice(
-                    (itemDetailService.load(form.getId()).getPriceL() + form.getToppingList().size() * 300)
-                            * Integer.parseInt(form.getQuantity()));
+            if (Objects.nonNull(form.getToppingList())) {
+                orderForInsertOrders.setTotalPrice(
+                        (itemDetailService.load(form.getId()).getPriceL() + form.getToppingList().size() * 300)
+                                * Integer.parseInt(form.getQuantity()));
+            } else {
+                orderForInsertOrders.setTotalPrice(
+                        itemDetailService.load(form.getId()).getPriceL() * Integer.parseInt(form.getQuantity()));
+            }
         }
         orderForInsertOrders.setStatus(0);
 
         if (Objects.nonNull(session.getAttribute("user"))) {
             User userInSession = (User) session.getAttribute("user");
             orderForInsertOrders.setUserId(userInSession.getId());
-            Integer ordersId = shoppingCartService.findByUserIdOnlyStatusIsZero(orderForInsertOrders);
+            Integer ordersId = shoppingCartService.findIdByUserId(orderForInsertOrders);
             if (Objects.isNull(ordersId)) {// ログイン済みユーザーが初めてカートに追加したとき
                 shoppingCartService.addShoppingCartItemForFirstOrder(orderForInsertOrders, orderItem);
             } else {// ログイン問わず未入金商品がカートにある状態でカートに追加したとき
@@ -98,7 +139,7 @@ public class ShoppingCartController {
                 Random random = new Random();
                 int tentativeUserId = random.nextInt(10000000);
                 orderForInsertOrders.setUserId(tentativeUserId);
-                if (Objects.isNull(shoppingCartService.findByUserIdOnlyStatusIsZero(orderForInsertOrders))) {
+                if (Objects.isNull(shoppingCartService.findIdByUserId(orderForInsertOrders))) {
                     shoppingCartService.addShoppingCartItemForFirstOrder(orderForInsertOrders, orderItem);
                     User user = new User();
                     user.setId(tentativeUserId);
@@ -110,8 +151,21 @@ public class ShoppingCartController {
         return "redirect:/shoppingcart/toCartList";
     }
 
+    /**
+     * shoppingCartからItemを削除するメソッド Ordersテーブルのtotal_priceを減らす
+     * order_itemsから該当するidのデータをデリートする order_toppingsから該当するorder_item_idのデータをデリートする
+     * 
+     * @param orderItemId
+     * @param subTotal
+     * @return
+     */
     @RequestMapping("/deleteCartItem")
-    public String deleteCartItem() {
-        return "";
+    public String deleteCartItem(Integer orderItemId, Integer subTotal) {
+        User user = (User) session.getAttribute("user");
+        Order order = new Order();
+        order.setTotalPrice(subTotal);
+        order.setUserId(user.getId());
+        shoppingCartService.deleteCartItem(orderItemId, order);
+        return "redirect:/shoppingcart/toCartList";
     }
 }

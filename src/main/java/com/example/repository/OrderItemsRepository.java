@@ -78,14 +78,17 @@ public class OrderItemsRepository {
 
     };
 
-
     /**
      * @param userId
      * @return List<OrderItem>
      */
-    public List<OrderItem> findItemsByUserIdAndStatusIs2(Integer userId){
+    public List<OrderItem> findOrderItemsAndToppingsByUserId(Integer userId) {
 
-        String sql = "SELECT ord.id AS ordId, ord.user_id AS ordUserId, ord.total_price AS ordTotalPrice, ord.order_date AS ordOrderDate, ord.destination_name AS ordDestName, ord.destination_email AS ordDestEmail, ord.destinaiton_zipcode AS ordDestZip, ord.destination_address AS ordDestAddress, ord.destination_tel AS ordDestTel, ord.delivery_time AS ordDeliveryTime, ord.payment_method AS ordPayMeth, ori.id AS oriId, ori.order_id AS oriOrderId, ori.item_id AS oriItemId, ori.quantity AS oriQuantity, ori.size AS oriSize, itm.id AS itmId, itm.name AS itmName, itm.image_path AS itmImagePath, itm.price_m AS itmPriceM, itm.price_l AS itmPriceL, top.name AS topName, top.price_m AS topPriceM, top.price_l AS topPriceL, otp.order_item_id AS otpOrdItmId FROM order_items AS ori JOIN orders AS ord ON ori.order_id = ord.id JOIN users AS use on ord.user_id = use.id JOIN items as itm ON ori.item_id = itm.id JOIN order_toppings AS otp ON ori.id = otp.order_item_id JOIN toppings AS top ON otp.topping_id = top.id WHERE use.id = :userId AND status = 2";
+        String sql = "SELECT ori.id AS oriId, ori.order_id AS oriOrderId, ori.item_id AS oriItemId, ori.quantity AS oriQuantity, ori.size AS oriSize,"
+                + " itm.id AS itmId, itm.name AS itmName, itm.image_path AS itmImagePath, itm.price_m AS itmPriceM, itm.price_l AS itmPriceL,"
+                + " top.name AS topName, top.price_m AS topPriceM, top.price_l AS topPriceL, otp.order_item_id AS otpOrdItmId"
+                + " FROM orders AS ord LEFT OUTER JOIN order_items AS ori ON ori.order_id = ord.id LEFT OUTER JOIN items as itm ON ori.item_id = itm.id"
+                + " LEFT OUTER JOIN order_toppings AS otp ON ori.id = otp.order_item_id LEFT OUTER JOIN toppings AS top ON otp.topping_id = top.id WHERE ord.user_id = :userId AND ord.status = 0";
 
         SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 
@@ -95,10 +98,11 @@ public class OrderItemsRepository {
 
     }
 
-
     /**
-     * @param orderItems
-     * @return Integer
+     * order_itemsテーブルにインサートするメソッド
+     * 
+     * @param orderItems(itemId,orderId,quantity,size)
+     * @return 自動採番されたid
      */
     public Integer insertOrderItems(OrderItem orderItems) {
         String insertSql = "INSERT INTO order_items(item_id, order_id, quantity, size) VALUES(:itemId, :orderId, :quantity, :size) RETURNING id";
@@ -109,9 +113,27 @@ public class OrderItemsRepository {
         return id;
     }
 
-    public void deleteOrderItems(Integer orderItemId) {
+    /**
+     * order_itemsテーブルからidを指定してデリートするメソッド
+     * 
+     * @param orderItemId
+     */
+    public void deleteOrderItemsById(Integer orderItemId) {
         String deleteSql = "DELETE FROM order_items WHERE id = :orderItemId";
         SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId);
         template.update(deleteSql, param);
+    }
+
+    /**
+     * order_itemsテーブルのorder_idを変更するメソッド
+     * 
+     * @param beforeOrdersId
+     * @param afterOrdersId
+     */
+    public void updateOrderItemsOrderIdByOrderId(Integer beforeOrdersId, Integer afterOrdersId) {
+        String updateSql = "UPDATE order_items SET order_id = :after WHERE order_id = :before";
+        SqlParameterSource param = new MapSqlParameterSource().addValue("after", afterOrdersId).addValue("before",
+                beforeOrdersId);
+        template.update(updateSql, param);
     }
 }
