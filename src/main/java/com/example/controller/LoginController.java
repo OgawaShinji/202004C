@@ -69,12 +69,12 @@ public class LoginController {
 				Order orderForLoginUser = new Order();
 				orderForLoginUser.setStatus(0);
 				orderForLoginUser.setUserId(user.getId());
-				Integer ordersIdForLoginUser = shoppingCartService.findIdByUserId(orderForLoginUser);
+				Integer ordersIdForLoginUser = shoppingCartService.findIdByUserIdAndStatus(orderForLoginUser);
 
 				Order orderForNotLoginUser = new Order();
 				orderForNotLoginUser.setStatus(0);
 				orderForNotLoginUser.setUserId(userAlreadyInSession.getId());
-				Integer ordersIdForNotLoginUser = shoppingCartService.findIdByUserId(orderForLoginUser);
+				Integer ordersIdForNotLoginUser = shoppingCartService.findIdByUserIdAndStatus(orderForLoginUser);
 
 				if (Objects.isNull(ordersIdForLoginUser)) {
 					shoppingCartService.updateOrdersUserId(userAlreadyInSession.getId(), orderForLoginUser);
