@@ -18,12 +18,9 @@ import com.example.service.ShoppingHistoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-<<<<<<< HEAD
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-=======
 import org.springframework.ui.Model;
->>>>>>> feature/viwShoppingList
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -55,11 +52,16 @@ public class ShoppingCartController {
     @RequestMapping("/toCartList")
     public String toCartList(Model model) {
         User userInSession = (User) session.getAttribute("user");
+        Order order = new Order();
+        order.setUserId(userInSession.getId());
+        order.setStatus(0);
         try {
-            List<OrderItem> orderItems = shoppingHistoryService.findItemHistory(userInSession.getId());
-            model.addAttribute("orderItemList", orderItems);
+            List<Order> orderList = shoppingHistoryService.findCartHistory(order);
+
+            model.addAttribute("order", orderList.get(0));
             return "shoppingcart/cart_list";
         } catch (NullPointerException e) {
+            e.printStackTrace();
             model.addAttribute("orderItemList", null);
             return "shoppingcart/cart_list";
         }
@@ -75,9 +77,9 @@ public class ShoppingCartController {
      * @return
      */
     @RequestMapping("/addCartItem")
-    public String addCartItem(@Validated ItemDetailForm form,BindingResult result) {
+    public String addCartItem(@Validated ItemDetailForm form, BindingResult result) {
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "forward:/item-detail/showDetail";
         }
         // order_itemsにinsert用のデータ形成
@@ -125,7 +127,7 @@ public class ShoppingCartController {
         if (Objects.nonNull(session.getAttribute("user"))) {
             User userInSession = (User) session.getAttribute("user");
             orderForInsertOrders.setUserId(userInSession.getId());
-            Integer ordersId = shoppingCartService.findIdByUserId(orderForInsertOrders);
+            Integer ordersId = shoppingCartService.findIdByUserIdAndStatus(orderForInsertOrders);
             if (Objects.isNull(ordersId)) {// ログイン済みユーザーが初めてカートに追加したとき
                 shoppingCartService.addShoppingCartItemForFirstOrder(orderForInsertOrders, orderItem);
             } else {// ログイン問わず未入金商品がカートにある状態でカートに追加したとき
@@ -139,7 +141,7 @@ public class ShoppingCartController {
                 Random random = new Random();
                 int tentativeUserId = random.nextInt(10000000);
                 orderForInsertOrders.setUserId(tentativeUserId);
-                if (Objects.isNull(shoppingCartService.findIdByUserId(orderForInsertOrders))) {
+                if (Objects.isNull(shoppingCartService.findIdByUserIdAndStatus(orderForInsertOrders))) {
                     shoppingCartService.addShoppingCartItemForFirstOrder(orderForInsertOrders, orderItem);
                     User user = new User();
                     user.setId(tentativeUserId);
