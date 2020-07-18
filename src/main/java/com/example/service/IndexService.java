@@ -1,13 +1,17 @@
 package com.example.service;
 
+import java.util.Collections;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Item;
 import com.example.repository.ItemsRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -57,5 +61,23 @@ public class IndexService {
 			itemListForAutocomplete.append("\"");
 		}
 		return itemListForAutocomplete;
+	}
+
+
+	// ページングよう
+	public Page<Item> showListPaging(int page, int size, List<Item> itemList) {
+		page--;
+		int startItemCount = page * size;
+		List<Item> list;
+
+		if (itemList.size() < startItemCount) {
+			list = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItemCount + size, itemList.size());
+			list = itemList.subList(startItemCount, toIndex);
+		}
+
+		Page<Item> itemPage = new PageImpl<Item>(list, PageRequest.of(page, size), itemList.size());
+		return itemPage;
 	}
 }
