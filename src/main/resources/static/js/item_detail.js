@@ -10,9 +10,9 @@ $(function () {
         var tax_price = item_price_total * 0.1;
         var total_price = item_price_total + tax_price;
 
-        $("#item-price-total").val(item_price_total + "円");
-        $("#tax-price").val(tax_price + "円");
-        $("#total-price").val(total_price + "円");
+        $("#item-price-total").text(item_price_total);
+        $("#tax-price").text(tax_price);
+        $("#total-price").text(total_price);
     })
 
 
@@ -45,9 +45,9 @@ $(function () {
         var tax_price = item_price_total * 0.1;
         var total_price = item_price_total + tax_price;
 
-        $("#item-price-total").val(item_price_total + "円");
-        $("#tax-price").val(tax_price + "円");
-        $("#total-price").val(total_price + "円");
+        $("#item-price-total").text(item_price_total);
+        $("#tax-price").text(tax_price );
+        $("#total-price").text(total_price);
 
     });
 })
