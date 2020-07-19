@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.example.domain.Order;
@@ -46,16 +48,40 @@ public class ShoppingCartService {
 
     /**
      * 既にOrdersテーブルに買い物情報がインサートされている状態でカートに商品を追加するメソッド
-     * order_items,order_toppingsにインサートするメソッド
+     * order_items,order_toppingsにインサート時は1を返す
+     * order_itemsのquantityを増やすときは0を返す
      * 
      * @param orderItem(orderIdがsetされているOrderItemを引数に指定)
      */
-    public void addShoppingCartItem(OrderItem orderItem) {
-        Integer orderItemId = orderItemsRepository.insertOrderItems(orderItem);
+    public Integer addShoppingCartItem(OrderItem orderItem) {
+        List<Integer> orderItemsId = orderItemsRepository.findIdByItemIdAndOrderIdAndSize(orderItem);
+        List<Integer> toppingIdsFromView = new ArrayList<Integer>();
         for (OrderTopping orderTopping : orderItem.getOrderToppingList()) {
-            orderTopping.setOrderItemId(orderItemId);
-            orderToppingsRepository.insertOrderToppings(orderTopping);
+            toppingIdsFromView.add(orderTopping.getToppingId());
         }
+        if (Objects.nonNull(orderItemsId)) {
+            for (Integer orderItemId : orderItemsId) {
+                List<Integer> toppingIdsFromOrderToppingsTable = orderToppingsRepository
+                        .findTopppingIdByOrderItemId(orderItemId);
+                if (toppingIdsFromOrderToppingsTable.equals(toppingIdsFromView)) {
+                    orderItem.setId(orderItemId);
+                    orderItemsRepository.updateQuantityById(orderItem);
+                    return 0;
+                }
+            }
+            Integer orderItemIdForInsert = orderItemsRepository.insertOrderItems(orderItem);
+            for (OrderTopping orderTopping : orderItem.getOrderToppingList()) {
+                orderTopping.setOrderItemId(orderItemIdForInsert);
+                orderToppingsRepository.insertOrderToppings(orderTopping);
+            }
+        } else {
+            Integer orderItemIdForInsert = orderItemsRepository.insertOrderItems(orderItem);
+            for (OrderTopping orderTopping : orderItem.getOrderToppingList()) {
+                orderTopping.setOrderItemId(orderItemIdForInsert);
+                orderToppingsRepository.insertOrderToppings(orderTopping);
+            }
+        }
+        return 1;
     }
 
     /**
@@ -64,8 +90,8 @@ public class ShoppingCartService {
      * @param order
      * @return ordersの該当するid
      */
-    public Integer findIdByUserId(Order order) {
-        return ordersRepository.findIdByUserId(order);
+    public Integer findIdByUserIdAndStatus(Order order) {
+        return ordersRepository.findIdByUserIdAndStatus(order);
     }
 
     /**
