@@ -77,25 +77,24 @@ public class OrderItemsRepository {
         return orderItem;
 
     };
+    private static final RowMapper<Integer> ORDER_ITEM_ID_ROW_Mapper = (rs, i) -> {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setId(rs.getInt("id"));
+        return orderItem.getId();
+    };
 
     /**
-     * @param userId
-     * @return List<OrderItem>
+     * item_id,order_id,sizeを指定してidを検索する
+     * 
+     * @param orderItem
+     * @return
      */
-    public List<OrderItem> findOrderItemsAndToppingsByUserId(Integer userId) {
-
-        String sql = "SELECT ori.id AS oriId, ori.order_id AS oriOrderId, ori.item_id AS oriItemId, ori.quantity AS oriQuantity, ori.size AS oriSize,"
-                + " itm.id AS itmId, itm.name AS itmName, itm.image_path AS itmImagePath, itm.price_m AS itmPriceM, itm.price_l AS itmPriceL,"
-                + " top.name AS topName, top.price_m AS topPriceM, top.price_l AS topPriceL, otp.order_item_id AS otpOrdItmId"
-                + " FROM orders AS ord LEFT OUTER JOIN order_items AS ori ON ori.order_id = ord.id LEFT OUTER JOIN items as itm ON ori.item_id = itm.id"
-                + " LEFT OUTER JOIN order_toppings AS otp ON ori.id = otp.order_item_id LEFT OUTER JOIN toppings AS top ON otp.topping_id = top.id WHERE ord.user_id = :userId AND ord.status = 0";
-
-        SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
-
-        List<OrderItem> orderItemsList = template.query(sql, param, ORDER_ITEM_ROW_MAPPER);
-
-        return orderItemsList;
-
+    public List<Integer> findIdByItemIdAndOrderIdAndSize(OrderItem orderItem) {
+        String sql = "SELECT id FROM order_items WHERE item_id=:itemId AND order_id=:orderId AND size=:size ORDER BY id";
+        SqlParameterSource param = new MapSqlParameterSource().addValue("itemId", orderItem.getItemId())
+                .addValue("orderId", orderItem.getOrderId()).addValue("size", orderItem.getSize());
+        List<Integer> orderItemIdList = template.query(sql, param, ORDER_ITEM_ID_ROW_Mapper);
+        return orderItemIdList;
     }
 
     /**
@@ -135,5 +134,18 @@ public class OrderItemsRepository {
         SqlParameterSource param = new MapSqlParameterSource().addValue("after", afterOrdersId).addValue("before",
                 beforeOrdersId);
         template.update(updateSql, param);
+    }
+
+    /**
+     * order_itemsのidを指定して同じ商品がカートに追加されたときquantityを増やす
+     * 
+     * @param orderItemHasIdAndQuantity(idとquantityがsetされているOrderItem)
+     */
+    public void updateQuantityById(OrderItem orderItemHasIdAndQuantity) {
+        String sql = "UPDATE order_items SET quantity = quantity + :orderQuantity WHERE id = :id";
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("orderQuantity", orderItemHasIdAndQuantity.getQuantity())
+                .addValue("id", orderItemHasIdAndQuantity.getId());
+        template.update(sql, param);
     }
 }
