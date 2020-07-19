@@ -69,7 +69,7 @@ public class InsertUserController {
 		}
 		  //確認用パスワード
 		  if (insertUserForm.getPassword().equals(insertUserForm.getCheckpassword())) {
-			  insertUserService.insert(user);
+			  //insertUserService.insert(user);
 		}else {
 			model.addAttribute("passwordError","パスワードと確認用パスワードが不一致です");
 			return toInsert();

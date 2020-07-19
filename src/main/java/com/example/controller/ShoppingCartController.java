@@ -53,7 +53,7 @@ public class ShoppingCartController {
     public String toCartList(Model model) {
         User userInSession = (User) session.getAttribute("user");
         try {
-            List<OrderItem> orderItems = shoppingHistoryService.findItemHistory(userInSession.getId());
+            List<Order> orderItems = shoppingHistoryService.findItemHistory(userInSession.getId());
             model.addAttribute("orderItemList", orderItems);
             return "shoppingcart/cart_list";
         } catch (NullPointerException e) {
