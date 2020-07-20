@@ -63,17 +63,17 @@ public class InsertUserController {
 		  user.setTelephone(insertUserForm.getTelephone());
 
 		  //メールアドレスの重複確認
-		  if (!(Objects.isNull(insertUserService.findByMailAddress(insertUserForm.getEmail())))) {
-			model.addAttribute("emailError", "そのメールアドレスはすでに使われています");
-			return toInsert();
-		}
-		  //確認用パスワード
-		  if (insertUserForm.getPassword().equals(insertUserForm.getCheckpassword())) {
-			  insertUserService.insert(user);
-		}else {
-			model.addAttribute("passwordError","パスワードと確認用パスワードが不一致です");
-			return toInsert();
-		}
+		//   if (!(Objects.isNull(insertUserService.findByMailAddress(insertUserForm.getEmail())))) {
+		// 	model.addAttribute("emailError", "そのメールアドレスはすでに使われています");
+		// 	return toInsert();
+		// }
+		//   //確認用パスワード
+		//   if (insertUserForm.getPassword().equals(insertUserForm.getCheckpassword())) {
+		// 	  insertUserService.insert(user);
+		// }else {
+		// 	model.addAttribute("passwordError","パスワードと確認用パスワードが不一致です");
+		// 	return toInsert();
+		// }
 		  return "forward:/toLogin";
 	  }
 }
