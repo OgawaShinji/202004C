@@ -37,7 +37,7 @@
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
 						<a href="cart_list.html" th:href="@{/shoppingcart/toCartList}" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
-						<a href="order_history.html" th:href="@{/history}" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
+						<a href="order_history.html" th:href="@{/shopping/history}" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
 						<a href="login.html" th:href="@{/toLogin}" class="navbar-link">ログイン</a>&nbsp;&nbsp; 
 						<a href="item_list_pizza.html" th:href="@{/toLogin}"class="navbar-link">ログアウト</a>
 					</p>
@@ -50,9 +50,8 @@
 
 		<!-- table -->
 		<div class="row">
-			<div
-				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-				<h3 class="text-center">注文内容確認</h3>
+			<div class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+				<h3 class="text-center">ショッピングカート</h3>
 				<table class="table table-striped item-list-table">
 					<tbody>
 						<tr>
@@ -76,82 +75,45 @@
 									小計
 								</div>
 							</th>
+							<th>
+							</th>
 						</tr>
-						<tr>
-							<td>
-								<div class="center">
-									<img src="../static/img_pizza/1.jpg"
-										class="img-responsive img-rounded item-img-center" width="100" height="300"><br>
-									じゃがバターベーコン
-								</div>
+						<th:block th:if="${order}">
+							<th:block th:each="orderItem:${order.orderItemList}">
+								<tr>
+									<td>
+										<div class="center">
+											<img th:src="@{'/img_coffee/' + ${orderItem.item.imagePass}}"
+												class="img-responsive img-rounded item-img-center" width="100"
+												height="300">
+											<br>
+											<div th:text="${orderItem.item.name}">じゃがバターベーコン
+											</div>
+										</div>
+									</td>
+									<td>
+										&nbsp;<span class="price" th:text="${orderItem.size}">Ｌ</span>
+										&nbsp;&nbsp;<span th:switch="${orderItem.size}">
+											<span th:case="M" th:text="${#numbers.formatInteger(orderItem.item.priceM,1,'COMMA')}"></span>
+									<span th:case="L" th:text="${#numbers.formatInteger(orderItem.item.priceL,1,'COMMA')}"></span>
+								</span>円
+								&nbsp;&nbsp;<span th:text="${orderItem.quantity}">1</span>個
 							</td>
 							<td>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-								&nbsp;&nbsp;1個
-							</td>
-							<td>
-								<ul>
-									<li>ピーマン300円</li>
-									<li>オニオン300円</li>
-									<li>あらびきソーセージ300円</li>
+								<ul th:each="orderTopping : ${orderItem.orderToppingList}">
+									<li th:if="${orderItem.size}=='M'" th:text="${orderTopping.topping.name}+'200円'">
+										ピーマン300円</li>
+									<li th:if="${orderItem.size}=='L'" th:text="${orderTopping.topping.name}+'300円'">
+										ピーマン300円</li>
 								</ul>
 							</td>
 							<td>
-								<div class="text-center">
+								<div class="text-center" th:text="${#numbers.formatInteger(orderItem.getSubTotal(),1,'COMMA')}+'円'">
 									3,280円
 								</div>
 							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="center">
-									<img src="../static/img_pizza/1.jpg"
-										class="img-responsive img-rounded item-img-center" width="100" height="300"><br>
-									じゃがバターベーコン
-								</div>
-							</td>
-							<td>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-								&nbsp;&nbsp;1個
-							</td>
-							<td>
-								<ul>
-									<li>ピーマン300円</li>
-									<li>オニオン300円</li>
-									<li>あらびきソーセージ300円</li>
-								</ul>
-							</td>
-							<td>
-								<div class="text-center">
-									3,280円
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="center">
-									<img src="../static/img_pizza/1.jpg"
-										class="img-responsive img-rounded item-img-center" width="100" height="300"><br>
-									じゃがバターベーコン
-								</div>
-							</td>
-							<td>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-								&nbsp;&nbsp;1個
-							</td>
-							<td>
-								<ul>
-									<li>ピーマン300円</li>
-									<li>オニオン300円</li>
-									<li>あらびきソーセージ300円</li>
-								</ul>
-							</td>
-							<td>
-								<div class="text-center">
-									3,280円
-								</div>
-							</td>
-						</tr>
+							</tr>
+					</th:block></th:block>
 					</tbody>
 				</table>
 			</div>
@@ -160,11 +122,17 @@
 		<div class="row">
 			<div class="col-xs-offset-2 col-xs-8">
 				<div class="form-group text-center">
-					<span id="total-price">消費税：8,000円</span><br>
-					<span id="total-price">ご注文金額合計：38,000円 (税込)</span>
+					<th:block th:if="${order}">
+					<span id="total-price" th:text="'消費税：'+${#numbers.formatInteger(order.getTax(),1,'COMMA')}+'円'">消費税：8,000円</span><br>
+					<span id="total-price" th:text="'ご注文金額合計：'+${#numbers.formatInteger(order.getCalcTotalPrice(),1,'COMMA')+'円 (税込)'}">ご注文金額合計：38,000円 (税込)</span>
+					</th:block>
+					<th:block th:unless="${order}">
+						<span id="total-price">カート内は空です</span><br>
+					</th:block>
 				</div>
 			</div>
 		</div>
+	</div>
 
         <!-- table -->
         <script src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
@@ -271,42 +239,42 @@
                                             </label>
                                             <label class="radio-inline">
                                                 <input type="radio"
-                                                    name="responsibleCompany" th:field="*{time}" value="11">
+                                                    name="responsibleCompany" th:field="*{time}" value="11:00:00">
                                                 11時
                                             </label>
                                             <label class="radio-inline">
                                                 <input type="radio"
-                                                    name="responsibleCompany" th:field="*{time}" value="12">
+                                                    name="responsibleCompany" th:field="*{time}" value="12:00:00">
                                                 12時
                                             </label><br>
                                             <label class="radio-inline">
                                                 <input type="radio"
-                                                    name="responsibleCompany" th:field="*{time}" value="13">
+                                                    name="responsibleCompany" th:field="*{time}" value="13:00:00">
                                                 13時
                                             </label>
                                             <label class="radio-inline">
                                                 <input type="radio"
-                                                    name="responsibleCompany" th:field="*{time}" value="14">
+                                                    name="responsibleCompany" th:field="*{time}" value="14:00:00">
                                                 14時
                                             </label>
                                             <label class="radio-inline">
                                                 <input type="radio"
-                                                    name="responsibleCompany" th:field="*{time}" value="15">
+                                                    name="responsibleCompany" th:field="*{time}" value="15:00:00">
                                                 15時
                                             </label><br>
                                             <label class="radio-inline">
                                                 <input type="radio"
-                                                    name="responsibleCompany" th:field="*{time}" value="16">
+                                                    name="responsibleCompany" th:field="*{time}" value="16:00:00">
                                                 16時
                                             </label>
                                             <label class="radio-inline">
                                                 <input type="radio"
-                                                    name="responsibleCompany" th:field="*{time}" value="17">
+                                                    name="responsibleCompany" th:field="*{time}" value="17:00:00">
                                                 17時
                                             </label>
                                             <label class="radio-inline">
                                                 <input type="radio"
-                                                    name="responsibleCompany" th:field="*{time}" value="18">
+                                                    name="responsibleCompany" th:field="*{time}" value="18:00:00">
                                                 18時
                                             </label><br>
                                         </div>
