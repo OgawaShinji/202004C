@@ -34,7 +34,6 @@ public class IndexController {
 	public String index(Model model, Integer page, String name, String listType) {
 		// 並び順を変更するセレクトボタンにthymeleafを適用するためのMapを作成
 		Map<String, String> selectMap = new HashMap<>();
-		selectMap.put("----------", "name");
 		selectMap.put("価格安い順（Mサイズ）", "price_m");
 		selectMap.put("価格安い順（Lサイズ）", "price_l");
 		selectMap.put("価格高い順（Mサイズ）", "price_m DESC");
@@ -47,7 +46,7 @@ public class IndexController {
 		List<Item> itemList = null;
 		// 初めてitem-listへ遷移してきた時
 		if (Objects.isNull(name)) {
-			listType = "name";
+			listType = "price_m";
 			itemList = indexService.findAll(listType);
 			model.addAttribute("itemList", itemList);
 			// 2回目以降にitem-listへ遷移してきた時
