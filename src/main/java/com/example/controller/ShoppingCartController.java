@@ -1,6 +1,12 @@
 package com.example.controller;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -12,12 +18,18 @@ import com.example.domain.Order;
 import com.example.domain.OrderItem;
 import com.example.domain.OrderTopping;
 import com.example.domain.User;
+import com.example.form.InsertUserForm;
 import com.example.form.ItemDetailForm;
+import com.example.form.PaymentForm;
+import com.example.service.InsertUserService;
 import com.example.service.ItemDetailService;
 import com.example.service.ShoppingCartService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -30,11 +42,18 @@ public class ShoppingCartController {
     @Autowired
     private ItemDetailService itemDetailService;
     @Autowired
+    private InsertUserService insertUserService;
+    @Autowired
     private HttpSession session;
 
     @ModelAttribute
     private ItemDetailForm setUpItemdetailForm() {
         return new ItemDetailForm();
+    }
+
+    @ModelAttribute
+    private PaymentForm setUpPaymentForm() {
+        return new PaymentForm();
     }
 
     @RequestMapping("/toCartList")
@@ -103,4 +122,65 @@ public class ShoppingCartController {
         }
         return "redirect:/shoppingcart/toCartList";
     }
+
+    @RequestMapping("/confirm")
+    public String confirmToBuy(){
+
+
+        return "/shoppingcart/confirm_to_buy";
+    }
+
+    @RequestMapping("/updateOrders")
+    public String completeBuying(@Validated PaymentForm paymentForm, BindingResult result, Model model){
+
+        // if (result.hasErrors()) {
+		// 	return confirmToBuy();
+		// }
+        Order order = new Order();
+        User toGetUserId = (User) session.getAttribute("user");
+        Integer userId = toGetUserId.getId();
+        
+        order.setDestinationName(paymentForm.getName());
+		order.setDestinationEmail(paymentForm.getEmail());
+	    StringBuilder br = new StringBuilder(paymentForm.getZipcode());
+		br.deleteCharAt(3);
+		order.setDestinationZipcode(br.toString());
+		order.setDestinationAddress(paymentForm.getAddress());
+        order.setDestinationTel(paymentForm.getTelephone());
+
+        try{
+        Date orderDate = new Date();
+        SimpleDateFormat smpDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String afterFormatOrderDateStr = smpDateFormat.format(orderDate);
+        Date afterFormatOrderDate = smpDateFormat.parse(afterFormatOrderDateStr);
+        order.setOrderDate(afterFormatOrderDate);
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
+
+        String deliveryWantStr = paymentForm.getYmd() + " " +paymentForm.getTime();
+        DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime ldt = LocalDateTime.parse(deliveryWantStr, dtFormatter);
+        Timestamp deliveryWantTS = Timestamp.valueOf(ldt);
+        order.setDeliveryTime(deliveryWantTS);
+
+        if(paymentForm.getCreditCard() == null){
+            order.setPaymentMethod(1);
+            shoppingCartService.updateStatus0To1(order, userId);
+        }else if(paymentForm.getCashOfDeli() == null){
+            order.setPaymentMethod(2);
+            shoppingCartService.updateStatus0To2(order, userId);
+        }
+
+        return "/shoppingcart/complete";
+
+    }
+
+    @RequestMapping("/backToTop")
+    public String backToTop(){
+
+        return "redirect:/item-list";
+
+    }
+
 }
