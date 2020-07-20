@@ -29,8 +29,28 @@ public class ToppingsRepositoryTest {
 
 	public static final Operation DELETE_ALL = Operations.deleteAllFrom("toppings");
 
-	public static final Operation INSERT = Operations.insertInto("toppings").columns("id", "name", "price_m", "price_l")
-			.values("1", "コーヒークリーム", "200", "300").values("2", "低脂肪牛乳", "200", "300").values("3", "無脂肪牛乳", "200", "300")
+	public static final Operation INSERT = Operations.insertInto("toppings")
+			.columns("id", "name", "price_m", "price_l")
+			.values("1", "コーヒークリーム", "200", "300")
+			.values("2", "低脂肪牛乳", "200", "300")
+			.values("3", "無脂肪牛乳", "200", "300")
+			.values("4", "豆乳", "200", "300")
+			.values("5", "オールミルク", "200", "300")
+			.values("6", "キャラメルソース", "200", "300")
+			.values("7", "チョコソース", "200", "300")
+			.values("8", "チョコチップ", "200", "300")
+			.values("9", "蜂蜜", "200", "300")
+			.values("10", "ホイップクリーム増量", "200", "300")
+			.values("11", "シナモン", "200", "300")
+			.values("12", "メープル", "200", "300")
+			.values("13", "きなこ", "200", "300")
+			.values("14", "ココナッツ", "200", "300")
+			.values("15", "アイス", "200", "300")
+			.values("16", "マシュマロ", "200", "300")
+			.values("17", "タピオカ", "200", "300")
+			.values("18", "ナッツ", "200", "300")
+			.values("19", "ココアパウダー", "200", "300")
+			.values("20", "バニラシロップ", "200", "300")
 			.build();
 
 	@BeforeClass
@@ -57,11 +77,11 @@ public class ToppingsRepositoryTest {
 	}
 
 	@Autowired
-	private ToppingsRepository toppingRepository;
+	private ToppingsRepository toppingsRepository;
 
 	@Test
-	public void test() {
-		List<Topping> toppingList = toppingRepository.findAll();
+	public void findAllの正常系テスト() {
+		List<Topping> toppingList = toppingsRepository.findAll();
 		Integer id = 1;
 		Integer priceM = 200;
 		Integer priceL = 300;
