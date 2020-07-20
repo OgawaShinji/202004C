@@ -47,7 +47,7 @@ public class IndexService {
 	 * オートコンプリート用にJavaScriptの配列の中身を文字列で作ります.
 	 * 
 	 * @param itemList 商品一覧
-	 * @return オートコンプリート用JavaScriptの配列の文字列        
+	 * @return オートコンプリート用JavaScriptの配列の文字列
 	 **/
 	public StringBuilder getItemListForAutocomplete(List<Item> itemList) {
 		StringBuilder itemListForAutocomplete = new StringBuilder();
@@ -63,8 +63,14 @@ public class IndexService {
 		return itemListForAutocomplete;
 	}
 
-
-	// ページングよう
+	/**
+	 * 商品リストをページオブジェクトに関連付けるためのリスト
+	 * 
+	 * @param page     ページ数
+	 * @param size     1ページのサイズ数
+	 * @param itemList 商品リスト
+	 * @return Page<Item>オブジェクトリスト
+	 */
 	public Page<Item> showListPaging(int page, int size, List<Item> itemList) {
 		page--;
 		int startItemCount = page * size;
