@@ -129,10 +129,10 @@ public class OrderItemsRepository {
      * @param beforeOrdersId
      * @param afterOrdersId
      */
-    public void updateOrderItemsOrderIdByOrderId(Integer beforeOrdersId, Integer afterOrdersId) {
-        String updateSql = "UPDATE order_items SET order_id = :after WHERE order_id = :before";
-        SqlParameterSource param = new MapSqlParameterSource().addValue("after", afterOrdersId).addValue("before",
-                beforeOrdersId);
+    public void updateOrderItemsOrderIdByOrderId(Integer oldOrdersId, Integer newOrdersId) {
+        String updateSql = "UPDATE order_items SET order_id = :new WHERE order_id = :old";
+        SqlParameterSource param = new MapSqlParameterSource().addValue("new", newOrdersId).addValue("old",
+                oldOrdersId);
         template.update(updateSql, param);
     }
 

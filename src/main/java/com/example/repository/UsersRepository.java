@@ -65,7 +65,7 @@ public class UsersRepository {
 	 * @return
 	 */
 	public User findByMailAddress(String email) {
-		String sql = "select * from users where email = :email";
+		String sql = "select id, name, email, password, zipcode, address, telephone from users where email = :email";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
 		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
 		if (userList.size() == 0) {

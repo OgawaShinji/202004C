@@ -53,9 +53,10 @@ public class ShoppingCartController {
     public String toCartList(Model model) {
         User userInSession = (User) session.getAttribute("user");
         Order order = new Order();
-        order.setUserId(userInSession.getId());
-        order.setStatus(0);
+
         try {
+            order.setUserId(userInSession.getId());
+            order.setStatus(0);
             List<Order> orderList = shoppingHistoryService.findCartHistory(order);
 
             model.addAttribute("order", orderList.get(0));

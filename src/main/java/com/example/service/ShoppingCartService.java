@@ -48,8 +48,7 @@ public class ShoppingCartService {
 
     /**
      * 既にOrdersテーブルに買い物情報がインサートされている状態でカートに商品を追加するメソッド
-     * order_items,order_toppingsにインサート時は1を返す
-     * order_itemsのquantityを増やすときは0を返す
+     * order_items,order_toppingsにインサート時は1を返す order_itemsのquantityを増やすときは0を返す
      * 
      * @param orderItem(orderIdがsetされているOrderItemを引数に指定)
      */
@@ -116,6 +115,12 @@ public class ShoppingCartService {
         ordersRepository.updateMinusTotalPrice(order);
     }
 
+    /**
+     * ログイン時にカートに追加されたものがあり、そのユーザーが未ログインでカートに追加してログインしたときに呼ばれるメソッド
+     * 
+     * @param beforeOrder(未ログイン時のOreder情報)
+     * @param afterOrder(ログイン時のOrder情報)
+     */
     public void changeUserDuringShopping(Order beforeOrder, Order afterOrder) {
         Integer beforeOrdersId = beforeOrder.getId();
         Integer afterOrdersId = afterOrder.getId();
@@ -124,6 +129,12 @@ public class ShoppingCartService {
         ordersRepository.deleteOrderById(beforeOrder);
     }
 
+    /**
+     * Orderテーブルのuser_idを変更するメソッド
+     * 
+     * @param beforeUserId (変更するOrderのid)
+     * @param order        (変更したい新しいOrder情報)
+     */
     public void updateOrdersUserId(Integer beforeUserId, Order order) {
         ordersRepository.updateUserId(order, beforeUserId);
     }

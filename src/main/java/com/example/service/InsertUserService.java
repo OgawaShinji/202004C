@@ -2,6 +2,7 @@ package com.example.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 // import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,23 +29,18 @@ public class InsertUserService {
 	 * 
 	 * @return bcryptアルゴリズムで暗号化する実装オブジェクト
 	 */
-	// @Autowired
-	// PasswordEncoder passwordEncoder;
-
-	// @Bean
-	// PasswordEncoder passwordEncoder() {
-	// 	return new BCryptPasswordEncoder();
-	// }
+	 @Autowired
+	 private PasswordEncoder passwordEncoder;
 
 	/**
 	 *ユーザー情報を登録します. 
 	 * パスワードはここでハッシュ化されます
 	 * @param administrator 管理者情報
 	 */
-	// public void insert(User user) {
-	// 	user.setPassword(passwordEncoder.encode(user.getPassword()));
-	// 	usersRepository.insert(user);
-	// }
+	 public void insert(User user) {
+	 	user.setPassword(passwordEncoder.encode(user.getPassword()));
+	 	usersRepository.insert(user);
+	}
 
 	public User findByMailAddress(String email) {
 		return usersRepository.findByMailAddress(email);
