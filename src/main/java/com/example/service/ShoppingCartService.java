@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.example.domain.Order;
 import com.example.domain.OrderItem;
 import com.example.domain.OrderTopping;
+import com.example.domain.User;
 import com.example.repository.OrderItemsRepository;
 import com.example.repository.OrderToppingsRepository;
 import com.example.repository.OrdersRepository;
@@ -52,4 +53,17 @@ public class ShoppingCartService {
     public void updateOrdersForPlusTotalPrice(Order order){
         ordersRepository.updatePlusTotalPrice(order);
     }
+
+    public void updateStatus0To1(Order order, Integer userId){
+
+        ordersRepository.UpdateWhoPurchaseTheItemstoStatus1(order, userId);
+
+    }
+
+    public void updateStatus0To2(Order order, Integer userId){
+
+        ordersRepository.UpdateWhoPurchaseTheItemstoStatus2(order, userId);
+
+    }
+
 }
