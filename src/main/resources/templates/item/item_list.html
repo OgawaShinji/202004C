@@ -69,12 +69,13 @@
 					<div class="panel-body">
 						<form method="post" th:action="@{/item-list}" action="#" class="form-horizontal">
 							<label class="control-label" style="color: red" th:text="${nullMessage}"></label>
+							<label class="control-label" style="color: red" th:text="${selectMessage}"></label>
 							<div class="form-group">
 								<label for="code" class="control-label col-sm-2">商品名</label>
 								<div class="col-sm-9">
 									<div class="ui-widget">
 
-										<input type="text" name="name" id="searchItem" 　
+										<input type="text" name="name" id="searchItem" 
 											class="form-control input-sm" />
 
 									</div>
@@ -84,9 +85,9 @@
 								<label for="code" class="control-label col-sm-2">並び順</label>
 								<div class="col-xs-5 col-sm-5">
 									<select name="listType" class="form-control">
-
+										<option value="">ーーーー</option>
 										<option th:each="select:${selectMap}" th:text="${select.key}"
-											th:value="${select.value}" th:selected="${select.value} == *{listType}">
+											th:value="${select.value}">
 											pulldown</option>
 									</select>
 								</div>
