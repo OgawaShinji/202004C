@@ -50,21 +50,19 @@ public class IndexController {
 			listType = "price_m";
 			itemList = indexService.findAll(listType);
 			model.addAttribute("itemList", itemList);
-
 			// 2回目以降にitem-listへ遷移してきた時
 		} else {
+			// 並び順を選択してないときは価格安い順（Mサイズ）で表示する
 			if (listType.equals("")) {
-				itemList = indexService.findAll("price_m");
-				String selectMessage = "正しい並び順を選択してください";
-				model.addAttribute("selectMessage", selectMessage);
+				itemList = indexService.findByLikeName(name, "price_m");
 			} else {
 				itemList = indexService.findByLikeName(name, listType);
-				// 取得された商品が null の場合は全件取得してエラーメッセージ
-				if (itemList.size() == 0) {
-					itemList = indexService.findAll(listType);
-					String nullMessage = "該当する商品がありません";
-					model.addAttribute("nullMessage", nullMessage);
-				}
+			}
+			// 取得された商品が null の場合は全件取得してエラーメッセージ
+			if (itemList.size() == 0) {
+				itemList = indexService.findAll(listType);
+				String nullMessage = "該当する商品がありません";
+				model.addAttribute("nullMessage", nullMessage);
 			}
 		}
 
