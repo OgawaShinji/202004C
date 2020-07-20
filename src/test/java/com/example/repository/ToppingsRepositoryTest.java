@@ -82,18 +82,18 @@ public class ToppingsRepositoryTest {
 	@Test
 	public void findAllの正常系テスト() {
 		List<Topping> toppingList = toppingsRepository.findAll();
-		Integer id = 1;
+		Integer id = 13;
 		Integer priceM = 200;
 		Integer priceL = 300;
 		assertEquals("IDが１の時、エラーが発生", id, toppingList.get(0).getId());
-		assertEquals("IDが１の時、エラーが発生", "コーヒークリーム", toppingList.get(0).getName());
+		assertEquals("IDが１の時、エラーが発生", "きなこ", toppingList.get(0).getName());
 		assertEquals("IDが１の時、エラーが発生", priceM, toppingList.get(0).getPriceM());
 		assertEquals("IDが１の時、エラーが発生", priceL, toppingList.get(0).getPriceL());
-		id = 2;
+		id = 15;
 		priceM = 200;
 		priceL = 300;
 		assertEquals("IDが２の時、エラーが発生", id, toppingList.get(1).getId());
-		assertEquals("IDが２の時、エラーが発生", "低脂肪牛乳", toppingList.get(1).getName());
+		assertEquals("IDが２の時、エラーが発生", "アイス", toppingList.get(1).getName());
 		assertEquals("IDが２の時、エラーが発生", priceM, toppingList.get(1).getPriceM());
 		assertEquals("IDが２の時、エラーが発生", priceL, toppingList.get(1).getPriceL());
 	}
