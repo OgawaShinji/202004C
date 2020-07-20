@@ -36,6 +36,8 @@ public class IndexController {
 		Map<String, String> selectMap = new HashMap<>();
 		selectMap.put("価格安い順（Mサイズ）", "price_m");
 		selectMap.put("価格安い順（Lサイズ）", "price_l");
+		selectMap.put("価格高い順（Mサイズ）", "price_m DESC");
+		selectMap.put("価格高い順（Lサイズ）", "price_l DESC");
 		selectMap.put("名前順", "name");
 		model.addAttribute("selectMap", selectMap);
 		// ページング機能追加
@@ -51,12 +53,18 @@ public class IndexController {
 
 			// 2回目以降にitem-listへ遷移してきた時
 		} else {
-			itemList = indexService.findByLikeName(name, listType);
-			// 取得された商品が null の場合は全件取得してエラーメッセージ
-			if (itemList.size() == 0) {
-				itemList = indexService.findAll(listType);
-				String nullMessage = "該当する商品がありません";
-				model.addAttribute("nullMessage", nullMessage);
+			if (listType.equals("")) {
+				itemList = indexService.findAll("price_m");
+				String selectMessage = "正しい並び順を選択してください";
+				model.addAttribute("selectMessage", selectMessage);
+			} else {
+				itemList = indexService.findByLikeName(name, listType);
+				// 取得された商品が null の場合は全件取得してエラーメッセージ
+				if (itemList.size() == 0) {
+					itemList = indexService.findAll(listType);
+					String nullMessage = "該当する商品がありません";
+					model.addAttribute("nullMessage", nullMessage);
+				}
 			}
 		}
 
