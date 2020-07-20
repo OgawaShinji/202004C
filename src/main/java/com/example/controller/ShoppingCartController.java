@@ -190,10 +190,23 @@ public class ShoppingCartController {
         return "redirect:/shoppingcart/toCartList";
     }
     @RequestMapping("/confirm")
-    public String confirmToBuy(){
+    public String confirmToBuy(Model model){
 
+        User userInSession = (User) session.getAttribute("user");
+        Order order = new Order();
 
-        return "/shoppingcart/confirm_to_buy";
+        try {
+            order.setUserId(userInSession.getId());
+            order.setStatus(0);
+            List<Order> orderList = shoppingHistoryService.findCartHistory(order);
+
+            model.addAttribute("order", orderList.get(0));
+            return "shoppingcart/confirm_to_buy";
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            model.addAttribute("orderItemList", null);
+            return "shoppingcart/confirm_to_buy";
+        }
     }
 
     @RequestMapping("/updateOrders")
