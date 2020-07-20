@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.http.HttpSession;
@@ -13,11 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Order;
+import com.example.domain.OrderItem;
 import com.example.domain.User;
 import com.example.form.LoginForm;
 import com.example.security.LoginUserDetails;
 import com.example.service.LoginService;
 import com.example.service.ShoppingCartService;
+import com.example.service.ShoppingHistoryService;
 
 @Controller
 @RequestMapping("")
@@ -31,6 +34,9 @@ public class LoginController {
 
 	@Autowired
 	private HttpSession session;
+
+	@Autowired
+	private ShoppingHistoryService shoppingHistoryService;
 
 	@ModelAttribute
 	public LoginForm setUpLoginForm() {
@@ -85,9 +91,24 @@ public class LoginController {
 			// 未ログイン時の買い物情報以前にログインしてカートに追加していないとき
 			if (Objects.isNull(ordersIdForLoginUser)) {// Orderテーブルの仮ユーザーIDをLoginユーザーのIDに変更
 				shoppingCartService.updateOrdersUserId(userAlreadyInSession.getId(), orderForLoginUser);
+				List<Order> orders = shoppingHistoryService.findCartHistory(orderForNotLoginUser);
+				if (orders.size() == 0) {
+					session.setAttribute("user", userDetails.getUser());
+					return "redirect:/item-list";
+				}
+				List<OrderItem> orderItemList = orders.get(0).getOrderItemList();
+				Integer totalPriceForUpdate = 0;
+				for (OrderItem item : orderItemList) {
+					totalPriceForUpdate += item.getSubTotal();
+				}
+				orderForNotLoginUser.setTotalPrice(totalPriceForUpdate);
+				shoppingCartService.updateOrdersForPlusTotalPrice(orderForNotLoginUser);
+
 			} else {// 以前にカートに追加していたときそれらのOrder_itemと未ログイン状態で追加したOrder_itemのOrderIdを統一
 				orderForLoginUser.setId(ordersIdForLoginUser);
 				orderForNotLoginUser.setId(ordersIdForNotLoginUser);
+				List<Order> orders = shoppingHistoryService.findCartHistory(orderForNotLoginUser);
+				orderForNotLoginUser.setTotalPrice(orders.get(0).getTotalPrice());
 				shoppingCartService.changeUserDuringShopping(orderForNotLoginUser, orderForLoginUser);
 			}
 		}
