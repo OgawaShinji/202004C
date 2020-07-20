@@ -35,8 +35,10 @@ public class IndexController {
 		// 並び順を変更するセレクトボタンにthymeleafを適用するためのMapを作成
 		Map<String, String> selectMap = new HashMap<>();
 		selectMap.put("----------", "name");
-		selectMap.put("価格安い順(Mサイズ)", "price_m");
-		selectMap.put("価格高い順（Mサイズ）", "price_m desc");
+		selectMap.put("価格安い順（Mサイズ）", "price_m");
+		selectMap.put("価格安い順（Lサイズ）", "price_l");
+		selectMap.put("価格高い順（Mサイズ）", "price_m DESC");
+		selectMap.put("価格高い順（Lサイズ）", "price_l DESC");
 		model.addAttribute("selectMap", selectMap);
 		// ページング機能追加
 		if (page == null) {
