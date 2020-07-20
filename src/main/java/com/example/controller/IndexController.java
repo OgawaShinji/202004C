@@ -50,10 +50,14 @@ public class IndexController {
 			listType = "name";
 			itemList = indexService.findAll(listType);
 			model.addAttribute("itemList", itemList);
-
 			// 2回目以降にitem-listへ遷移してきた時
 		} else {
-			itemList = indexService.findByLikeName(name, listType);
+			// 並び順を選択してないときは価格安い順（Mサイズ）で表示する
+			if (listType.equals("")) {
+				itemList = indexService.findByLikeName(name, "price_m");
+			} else {
+				itemList = indexService.findByLikeName(name, listType);
+			}
 			// 取得された商品が null の場合は全件取得してエラーメッセージ
 			if (itemList.size() == 0) {
 				itemList = indexService.findAll(listType);
