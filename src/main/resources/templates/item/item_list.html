@@ -85,6 +85,7 @@
 								<label for="code" class="control-label col-sm-2">並び順</label>
 								<div class="col-xs-5 col-sm-5">
 									<select name="listType" class="form-control">
+										<option value="">ーーーー</option>
 										<option th:each="select:${selectMap}" th:text="${select.key}"
 											th:value="${select.value}">
 											pulldown</option>
