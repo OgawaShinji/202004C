@@ -1,34 +1,35 @@
 package com.example.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "users")
 public class User {
 
-	/**
-	 * id
-	 */
+	/** id */
+	@Id
+	@Column(name = "id")
 	private Integer id;
-	/**
-	 * 名前
-	 */
+	/** 名前 */
+	@Column(name = "name")
 	private String name;
-	/**
-	 * Eメール
-	 */
+	/** Eメール */
+	@Column(name = "email")
 	private String email;
-	/**
-	 * パスワード
-	 */
+	/** パスワード */
+	@Column(name = "password")
 	private String password;
-	/**
-	 * 郵便番号
-	 */
+	/** 郵便番号 */
+	@Column(name = "zipcode")
 	private String zipcode;
-	/**
-	 * 住所
-	 */
+	/** 住所 */
+	@Column(name = "address")
 	private String address;
-	/**
-	 * 電話番号
-	 */
+	/** 電話番号 */
+	@Column(name = "telephone")
 	private String telephone;
 
 	public Integer getId() {
@@ -92,6 +93,18 @@ public class User {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", zipcode="
 				+ zipcode + ", address=" + address + ", telephone=" + telephone + "]";
 	}
-	
-	
+
+	public User(Integer id, String name, String email, String password, String zipcode, String address,
+			String telephone) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.zipcode = zipcode;
+		this.address = address;
+		this.telephone = telephone;
+	}
+
+	public User() {
+	}
 }
