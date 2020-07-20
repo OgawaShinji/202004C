@@ -19,6 +19,7 @@ public class Order {
 	private Integer paymentMethod;
 	private User user;
 	private List<OrderItem> orderItemList;
+
 	public Integer getId() {
 		return id;
 	}
