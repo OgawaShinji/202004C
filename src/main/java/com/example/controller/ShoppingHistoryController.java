@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import com.example.domain.Order;
 import com.example.domain.OrderItem;
+import com.example.domain.User;
 import com.example.service.ShoppingHistoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/shopping")
 public class ShoppingHistoryController {
 
     @Autowired
     private ShoppingHistoryService shoppingHistoryService;
+
+    @Autowired
+    private HttpSession session;
 
 
     /**
@@ -27,11 +31,9 @@ public class ShoppingHistoryController {
     @RequestMapping("/history")
     public String showHistory(Model model){
 
-        // User user =(User) session.getAttribute("user");
+        User user =(User) session.getAttribute("user");
 
-        // Integer userId = user.getId();
-
-        Integer userId = 1;
+        Integer userId = user.getId();
 
        List<Order> orderList = shoppingHistoryService.findItemHistory(userId);
 
