@@ -11,7 +11,6 @@ import com.example.domain.OrderTopping;
 import com.example.domain.Topping;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -23,9 +22,6 @@ public class OrdersRepository {
 
     @Autowired
     private NamedParameterJdbcTemplate template;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     private static final RowMapper<Order> ORDER_ROW_MAPPER = (rs, i) -> {
 
@@ -237,6 +233,24 @@ public class OrdersRepository {
         List<Order> orderList = template.query(sql, param, ORDER_ROW_MAPPER);
 
         return orderList;
+    }
+    public void UpdateWhoPurchaseTheItemstoStatus1(Order order, Integer userId) {
+
+        String sql = "UPDATE orders SET destination_name = :destinationName, destination_email = :destinationEmail, destination_zipcode = :destinationZipcode, destination_address = :destinationAddress, destination_tel = :destinationTel, order_date = :orderDate, delivery_time = :deliveryTime, payment_method = :paymentMethod, status = 1 WHERE user_id = :userId AND status = 0";
+
+        SqlParameterSource param = new MapSqlParameterSource().addValue("destinationName", order.getDestinationName()).addValue("destinationEmail", order.getDestinationEmail()).addValue("destinationZipcode", order.getDestinationZipcode()).addValue("destinationAddress", order.getDestinationAddress()).addValue("destinationTel", order.getDestinationTel()).addValue("orderDate", order.getOrderDate()).addValue("deliveryTime", order.getDeliveryTime()).addValue("paymentMethod", order.getPaymentMethod()).addValue("userId", userId);
+
+        template.update(sql, param);
+
+    }
+
+    public void UpdateWhoPurchaseTheItemstoStatus2(Order order, Integer userId) {
+
+        String sql = "UPDATE orders SET destination_name = :destinationName, destination_email = :destinationEmail, destination_zipcode = :destinationZipcode, destination_address = :destinationAddress, destination_tel = :destinationTel, order_date = :orderDate, delivery_time = :deliveryTime, payment_method = :paymentMethod, status = 2 WHERE user_id = :userId AND status = 0";
+
+        SqlParameterSource param = new MapSqlParameterSource().addValue("destinationName", order.getDestinationName()).addValue("destinationEmail", order.getDestinationEmail()).addValue("destinationZipcode", order.getDestinationZipcode()).addValue("destinationAddress", order.getDestinationAddress()).addValue("destinationTel", order.getDestinationTel()).addValue("orderDate", order.getOrderDate()).addValue("deliveryTime", order.getDeliveryTime()).addValue("paymentMethod", order.getPaymentMethod()).addValue("userId", userId);
+
+        template.update(sql, param);
 
     }
 

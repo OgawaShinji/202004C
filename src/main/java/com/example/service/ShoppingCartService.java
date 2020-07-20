@@ -138,4 +138,16 @@ public class ShoppingCartService {
     public void updateOrdersUserId(Integer beforeUserId, Order order) {
         ordersRepository.updateUserId(order, beforeUserId);
     }
+    public void updateStatus0To1(Order order, Integer userId){
+
+        ordersRepository.UpdateWhoPurchaseTheItemstoStatus1(order, userId);
+
+    }
+
+    public void updateStatus0To2(Order order, Integer userId){
+
+        ordersRepository.UpdateWhoPurchaseTheItemstoStatus2(order, userId);
+
+    }
+
 }
