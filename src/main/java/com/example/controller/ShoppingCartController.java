@@ -229,7 +229,7 @@ public class ShoppingCartController {
 
         try{
         Date orderDate = new Date();
-        SimpleDateFormat smpDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat smpDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String afterFormatOrderDateStr = smpDateFormat.format(orderDate);
         Date afterFormatOrderDate = smpDateFormat.parse(afterFormatOrderDateStr);
         order.setOrderDate(afterFormatOrderDate);
