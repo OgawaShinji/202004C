@@ -29,13 +29,12 @@ public class ShoppingHistoryService {
      * @return List<OrderItem>
      */
     public List<Order> findItemHistory(Integer userId) {
-        List<Order> orderList = orderRepository.findItemsByUserIdAndStatusOverThan2(userId);
+        List<Order> orderList = orderRepository.findItemsByUserIdAndStatusOverThan1(userId);
         List<OrderTopping> ordToppingList = new ArrayList<>();
         Map<Integer, Order> orderMap = new HashMap<>();
         Map<Integer, OrderItem> orderItemMap = new HashMap<>();
 
         for (Order order : orderList) {
-
             List<OrderItem> ordItemList = order.getOrderItemList();
 
             for (OrderItem orderItem : ordItemList) {
@@ -43,67 +42,59 @@ public class ShoppingHistoryService {
                 List<OrderTopping> orderToppingList = orderItem.getOrderToppingList();
 
                 for (OrderTopping orderTopping : orderToppingList) {
-
                     ordToppingList.add(orderTopping);
-
                 }
-
             }
-
         }
 
-        List<OrderItem> orderItemListForSameOrderId = new ArrayList<OrderItem>();
-
         for (Order order : orderList) {
-
             List<OrderItem> ordItemList = order.getOrderItemList();
 
             for (OrderItem orderItem : ordItemList) {
-
                 List<OrderTopping> orderToppingList = new ArrayList<>();
 
                 for (OrderTopping orderTopping : ordToppingList) {
 
-                    if (orderItem.getId() == orderTopping.getOrderItemId()) {
-
+                    if (orderItem.getId().equals(orderTopping.getOrderItemId())) {
                         orderToppingList.add(orderTopping);
-
                     }
-
                 }
-
                 orderItem.setOrderToppingList(orderToppingList);
-
-                orderItemMap.put(orderItem.getOrderId(), orderItem);
-
+                orderItemMap.put(orderItem.getId(), orderItem);
             }
         }
         List<OrderItem> orderItemList = new ArrayList<OrderItem>(orderItemMap.values());
 
-        for (Order order : orderList) {
-            for (OrderItem orderItem : orderItemList) {
-                if (order.getId() == orderItem.getOrderId()) {
-                    orderItemListForSameOrderId.add(orderItem);
-                }
-            }
+        // for (Order order : orderList) {
+        //     for (OrderItem orderItem : orderItemList) {
+        //         if (order.getId().equals(orderItem.getOrderId())) {
+        //             orderItemListForSameOrderId.add(orderItem);
+        //         }
+        //          }
+        //         order.setOrderItemList(orderItemListForSameOrderId);
+        //         orderMap.put(order.getId(), order);
 
+        for (Order order : orderList) {
+            List<OrderItem> orderItemListForSetOrder = new ArrayList<>();
+            for(OrderItem orderItem : orderItemList) {
+                if(order.getId().equals(orderItem.getOrderId())) {
+                    orderItemListForSetOrder.add(orderItem);
+                }
+                order.setOrderItemList(orderItemListForSetOrder);
+            }
+            orderMap.put(order.getId(), order);
+        }
+        List<Order> orderListForReturn = new ArrayList<Order>(orderMap.values());
+        return orderListForReturn;
         }
 
-        Order order = new Order();
+        // List<Order> orderListForReturn = new ArrayList<Order>(orderMap.values());
 
-        order.setOrderItemList(orderItemList);
-
-        orderMap.put(order.getId(), order);
-
-        List<Order> orderListForReturn = new ArrayList<Order>(orderMap.values());
-
-        return orderListForReturn;
-
-    }
+        // return orderListForReturn;
 
     /**
      * Repositoryからorders,order_items,order_toppings,items,toppingsをJoinして検索してきたデータを重複分を整理する
-     * 
+     *
      * @param orderHasUserIdAndStatus(userId,statusをset)
      * @return joinしたデータが格納されたOrderのList
      */
