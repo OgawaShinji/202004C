@@ -193,16 +193,16 @@ public class OrdersRepository {
      * @param userId
      * @return List<OrderItem>
      */
-    public List<Order> findItemsByUserIdAndStatusOverThan2(Integer userId) {
+    public List<Order> findItemsByUserIdAndStatusOverThan1(Integer userId) {
 
         String sql = "SELECT ord.id AS ordId, ord.user_id AS ordUserId, ord.status AS ordStatus, ord.total_price AS ordTotalPrice,"
                 + " ord.order_date AS ordOrderDate, ord.destination_name AS ordDestName, ord.destination_email AS ordDestEmail,"
                 + " ord.destination_zipcode AS ordDestZip, ord.destination_address AS ordDestAddress, ord.destination_tel AS ordDestTel,"
-                + " ord.delivery_time AS ordDeliveryTime, ord.payment_method AS ordPayMeth, ori.id AS oriId, ori.order_id AS oriOrderId,"
+                + " ord.delivery_time AS ordDeliveryTime, ord.payment_method AS ordPayMeth, ord.status AS ordStatus, ori.id AS oriId, ori.order_id AS oriOrderId,"
                 + " ori.item_id AS oriItemId, ori.quantity AS oriQuantity, ori.size AS oriSize, itm.id AS itmId, itm.name AS itmName, itm.image_path AS itmImagePath,"
                 + " itm.price_m AS itmPriceM, itm.price_l AS itmPriceL, top.name AS topName, top.price_m AS topPriceM, top.price_l AS topPriceL, otp.order_item_id AS otpOrdItmId"
                 + " FROM orders AS ord LEFT OUTER JOIN order_items AS ori ON ori.order_id = ord.id LEFT OUTER JOIN users AS use on ord.user_id = use.id LEFT OUTER JOIN items as itm ON ori.item_id = itm.id"
-                + " LEFT OUTER JOIN order_toppings AS otp ON ori.id = otp.order_item_id LEFT OUTER JOIN toppings AS top ON otp.topping_id = top.id WHERE ord.user_id = :userId AND status >= 2";
+                + " LEFT OUTER JOIN order_toppings AS otp ON ori.id = otp.order_item_id LEFT OUTER JOIN toppings AS top ON otp.topping_id = top.id WHERE ord.user_id = :userId AND status >= 1 ORDER BY ordOrderDate ASC";
 
         SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 
