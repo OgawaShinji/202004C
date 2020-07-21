@@ -171,7 +171,7 @@ public class OrdersRepository {
      * @param order
      */
     public void updatePlusTotalPrice(Order order) {
-        String sql = "UPDATE orders SET total_price = total_price+:totalPrice WHERE user_id=:userId AND status=0";
+        String sql = "UPDATE orders SET total_price = total_price + :totalPrice WHERE user_id=:userId AND status=0";
         SqlParameterSource param = new MapSqlParameterSource().addValue("totalPrice", order.getTotalPrice())
                 .addValue("userId", order.getUserId());
         template.update(sql, param);
@@ -234,11 +234,18 @@ public class OrdersRepository {
 
         return orderList;
     }
+
     public void UpdateWhoPurchaseTheItemstoStatus1(Order order, Integer userId) {
 
         String sql = "UPDATE orders SET destination_name = :destinationName, destination_email = :destinationEmail, destination_zipcode = :destinationZipcode, destination_address = :destinationAddress, destination_tel = :destinationTel, order_date = :orderDate, delivery_time = :deliveryTime, payment_method = :paymentMethod, status = 1 WHERE user_id = :userId AND status = 0";
 
-        SqlParameterSource param = new MapSqlParameterSource().addValue("destinationName", order.getDestinationName()).addValue("destinationEmail", order.getDestinationEmail()).addValue("destinationZipcode", order.getDestinationZipcode()).addValue("destinationAddress", order.getDestinationAddress()).addValue("destinationTel", order.getDestinationTel()).addValue("orderDate", order.getOrderDate()).addValue("deliveryTime", order.getDeliveryTime()).addValue("paymentMethod", order.getPaymentMethod()).addValue("userId", userId);
+        SqlParameterSource param = new MapSqlParameterSource().addValue("destinationName", order.getDestinationName())
+                .addValue("destinationEmail", order.getDestinationEmail())
+                .addValue("destinationZipcode", order.getDestinationZipcode())
+                .addValue("destinationAddress", order.getDestinationAddress())
+                .addValue("destinationTel", order.getDestinationTel()).addValue("orderDate", order.getOrderDate())
+                .addValue("deliveryTime", order.getDeliveryTime()).addValue("paymentMethod", order.getPaymentMethod())
+                .addValue("userId", userId);
 
         template.update(sql, param);
 
@@ -248,7 +255,13 @@ public class OrdersRepository {
 
         String sql = "UPDATE orders SET destination_name = :destinationName, destination_email = :destinationEmail, destination_zipcode = :destinationZipcode, destination_address = :destinationAddress, destination_tel = :destinationTel, order_date = :orderDate, delivery_time = :deliveryTime, payment_method = :paymentMethod, status = 2 WHERE user_id = :userId AND status = 0";
 
-        SqlParameterSource param = new MapSqlParameterSource().addValue("destinationName", order.getDestinationName()).addValue("destinationEmail", order.getDestinationEmail()).addValue("destinationZipcode", order.getDestinationZipcode()).addValue("destinationAddress", order.getDestinationAddress()).addValue("destinationTel", order.getDestinationTel()).addValue("orderDate", order.getOrderDate()).addValue("deliveryTime", order.getDeliveryTime()).addValue("paymentMethod", order.getPaymentMethod()).addValue("userId", userId);
+        SqlParameterSource param = new MapSqlParameterSource().addValue("destinationName", order.getDestinationName())
+                .addValue("destinationEmail", order.getDestinationEmail())
+                .addValue("destinationZipcode", order.getDestinationZipcode())
+                .addValue("destinationAddress", order.getDestinationAddress())
+                .addValue("destinationTel", order.getDestinationTel()).addValue("orderDate", order.getOrderDate())
+                .addValue("deliveryTime", order.getDeliveryTime()).addValue("paymentMethod", order.getPaymentMethod())
+                .addValue("userId", userId);
 
         template.update(sql, param);
 
