@@ -26,19 +26,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests() // 認証が必要となるURLを設定します
                 // .antMatchers("/**").permitAll() // /以下のURLも認証不要
-                .antMatchers("/history/**", "/logout").authenticated()
+                .antMatchers("/shopping/history/**", "/logout").authenticated()
                 // .antMatchers("/", "/toInsert", "/insert", "/login").permitAll()
                 .anyRequest().permitAll();
         // ログアウト処理の設定
         http.logout()
                 // ログアウト処理のURL
-                //.logoutUrl("/logout")
+                // .logoutUrl("/logout")
                 // ログアウト成功時の遷移先URL
                 .logoutSuccessUrl("/logout/success").permitAll();
-                // ログアウト時に削除するクッキー名
-                //.deleteCookies("JSESSIONID")
-                // ログアウト時のセッション破棄を有効化
-                //.invalidateHttpSession(true)
+        // ログアウト時に削除するクッキー名
+        // .deleteCookies("JSESSIONID")
+        // ログアウト時のセッション破棄を有効化
+        // .invalidateHttpSession(true)
         http.csrf().disable();
     }
 
