@@ -2,7 +2,7 @@ package com.example.controller;
 
 import java.util.ArrayList;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Item;
+import com.example.form.IndexForm;
 import com.example.service.IndexService;
 
 @Controller
@@ -22,6 +24,12 @@ public class IndexController {
 
 	@Autowired
 	private IndexService indexService;
+	
+	// 検索された内容をフォームに表示されたままにするため追加
+	@ModelAttribute
+	public IndexForm setIndexForm() {
+		return new IndexForm();
+	}
 
 	/**
 	 * 初期の商品一覧画面を表示するリクエストが送られるメソッド 商品検索ボタンが押されたらリクエストが送られるメソッド
@@ -31,9 +39,9 @@ public class IndexController {
 	 * @return
 	 */
 	@RequestMapping("")
-	public String index(Model model, Integer page, String name, String listType) {
+	public String index(Model model, Integer page, String name, String listType, IndexForm indexForm) {
 		// 並び順を変更するセレクトボタンにthymeleafを適用するためのMapを作成
-		Map<String, String> selectMap = new HashMap<>();
+		Map<String, String> selectMap = new LinkedHashMap<>();
 		selectMap.put("価格安い順（Mサイズ）", "price_m");
 		selectMap.put("価格安い順（Lサイズ）", "price_l");
 		selectMap.put("価格高い順（Mサイズ）", "price_m DESC");
