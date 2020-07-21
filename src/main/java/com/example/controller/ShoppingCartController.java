@@ -231,13 +231,13 @@ public class ShoppingCartController {
         order.setDestinationAddress(paymentForm.getAddress());
         order.setDestinationTel(paymentForm.getTelephone());
 
-        try {
-            Date orderDate = new Date();
-            SimpleDateFormat smpDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String afterFormatOrderDateStr = smpDateFormat.format(orderDate);
-            Date afterFormatOrderDate = smpDateFormat.parse(afterFormatOrderDateStr);
-            order.setOrderDate(afterFormatOrderDate);
-        } catch (ParseException e) {
+        try{
+        Date orderDate = new Date();
+        SimpleDateFormat smpDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String afterFormatOrderDateStr = smpDateFormat.format(orderDate);
+        Date afterFormatOrderDate = smpDateFormat.parse(afterFormatOrderDateStr);
+        order.setOrderDate(afterFormatOrderDate);
+        }catch(ParseException e){
             e.printStackTrace();
         }
 

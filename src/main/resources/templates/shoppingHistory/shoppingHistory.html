@@ -83,7 +83,7 @@
         <!-- table -->
         <div class="row">
             <div class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-                <h3 class="text-center">ショッピングカート</h3>
+                <h3 class="text-center">注文履歴一覧</h3>
                 <table class="table table-striped item-list-table">
                     <tbody>
                         <tr>
@@ -105,6 +105,11 @@
                             <th>
                                 <div class="text-center">
                                     小計
+                                </div>
+                            </th>
+                            <th>
+                                <div class="text-center">
+                                    注文状態
                                 </div>
                             </th>
                         </tr>
@@ -141,6 +146,15 @@
                             <td>
                                 <div class="text-center" th:text="${#numbers.formatInteger(orderItem.getSubTotal(),1,'COMMA')}+'円'">
                                     3,280円
+                                </div>
+                            </td>
+                            <td>
+                                <div th:switch="${order.status}">
+                                    <p th:case="1">入金が確認されていません</p>
+                                    <p th:case="2">発送の準備をしております</p>
+                                    <p th:case="3">発送されました</p>
+                                    <p th:case="4" th:text="|${order.deliveryTime}に配達しました|"></p>
+                                    <p th:case="9">キャンセルされました</p>
                                 </div>
                             </td>
                         </tr>
