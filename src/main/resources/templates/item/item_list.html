@@ -67,7 +67,7 @@
 						<div class="panel-title">商品を検索する</div>
 					</div>
 					<div class="panel-body">
-						<form method="post" th:action="@{/item-list}" action="#" class="form-horizontal">
+						<form method="post" th:action="@{/item-list}" th:object="${indexForm}" class="form-horizontal">
 							<label class="control-label" style="color: red" th:text="${nullMessage}"></label>
 							<label class="control-label" style="color: red" th:text="${selectMessage}"></label>
 							<div class="form-group">
@@ -76,7 +76,7 @@
 									<div class="ui-widget">
 
 										<input type="text" name="name" id="searchItem"  class="form-control input-sm"
-											placeholder="お探しの商品は何ですか？">
+											th:field="*{name}" placeholder="お探しの商品は何ですか？">
 
 									</div>
 								</div>
@@ -87,7 +87,7 @@
 									<select name="listType" class="form-control">
 										<option value="">ーーーー</option>
 										<option th:each="select:${selectMap}" th:text="${select.key}"
-											th:value="${select.value}">
+											th:value="${select.value}" th:field="*{listType}">
 											pulldown</option>
 									</select>
 								</div>
