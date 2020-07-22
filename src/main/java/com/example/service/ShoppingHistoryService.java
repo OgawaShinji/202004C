@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +86,7 @@ public class ShoppingHistoryService {
             orderMap.put(order.getId(), order);
         }
         List<Order> orderListForReturn = new ArrayList<Order>(orderMap.values());
+        Collections.reverse(orderListForReturn);
         return orderListForReturn;
         }
 

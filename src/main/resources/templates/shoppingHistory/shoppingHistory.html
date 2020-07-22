@@ -112,6 +112,11 @@
                                     注文状態
                                 </div>
                             </th>
+                            <th>
+                                <div class="text-center">
+                                    購入日
+                                </div>
+                            </th>
                         </tr>
                         <th:block th:each="order : ${orderList}">
                             <th:block th:each="orderItem : ${order.orderItemList}">
@@ -155,6 +160,11 @@
                                     <p th:case="3">発送されました</p>
                                     <p th:case="4" th:text="|${order.deliveryTime}に配達しました|"></p>
                                     <p th:case="9">キャンセルされました</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center" th:text="${order.orderDate}">
+                                    1998年3月7日
                                 </div>
                             </td>
                         </tr>

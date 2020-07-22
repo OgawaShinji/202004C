@@ -13,11 +13,15 @@ import com.example.repository.OrderToppingsRepository;
 import com.example.repository.OrdersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ShoppingCartService {
 
+    @Autowired
+    private MailSender sender;
     @Autowired
     private OrdersRepository ordersRepository;
     @Autowired
@@ -149,5 +153,16 @@ public class ShoppingCartService {
         ordersRepository.UpdateWhoPurchaseTheItemstoStatus2(order, userId);
 
     }
+
+    // public void sendMail(String mailAddress) {
+    //     SimpleMailMessage msg = new SimpleMailMessage();
+
+    //     msg.setFrom("berisa0307@mail.com");
+    //     msg.setTo("mailAddress");
+    //     msg.setSubject("テストメール"); //タイトルの設定
+    //     msg.setText("Spring Boot より本文送信"); //本文の設定
+
+    //     this.sender.send(msg);
+    // }
 
 }
