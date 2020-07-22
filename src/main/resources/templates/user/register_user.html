@@ -60,7 +60,7 @@
 									style="color: red"></div>
 								<label for="inputName">名前:</label><label class="control-label"
 									style="color: red" for="inputError"></label> <input type="text"
-									id="inputName" class="form-control" placeholder="Name"
+									id="inputName" class="form-control" placeholder="山田太郎"
 									th:field="*{name}">
 							</div>
 							<div class="h-adr">
@@ -70,7 +70,7 @@
 								<label for="inputEmail">メールアドレス:</label><label
 									class="control-label" style="color: red" for="inputError"></label>
 								<input type="text" id="inputEmail" class="form-control"
-									placeholder="Email" th:field="*{email}">
+									placeholder="xxxx@xxxx" th:field="*{email}">
 							</div>
 							<div class="form-group">
 								<div th:if="${#fields.hasErrors('zipcode')}"
@@ -82,7 +82,7 @@
 									maxlength="8" onkeyup="AjaxZip3.zip2addr('zipcode','','address','address');" onclick="AjaxZip3.zip2addr('zipcode','','address','address');"> 
 								<input type="text" id="inputZipcode"
 									class="form-control p-postal-code" size="8" maxlength="8"
-									placeholder="Zipcode" name="zipcode" th:field="*{zipcode}">
+									placeholder="XXX-XXXX (-を入れて入力してください)" name="zipcode" th:field="*{zipcode}">
 
 							</div>
 							<div class="h-adr">
@@ -92,14 +92,14 @@
 									class="control-label" style="color: red" for="inputError"></label>
 								<input type="text" id="inputAddress"
 									class="form-control p-region p-locality p-street-address p-extended-address"
-									placeholder="Address" name = "address" th:field="*{address}">
+									placeholder="東京都新宿区xxxx" name = "address" th:field="*{address}">
 							</div>
 							<div class="form-group">
 								<div th:if="${#fields.hasErrors('telephone')}"
 									th:errors="*{telephone}" style="color: red"></div>
 								<label for="inputTel">電話番号:</label> <label class="control-label"
 									style="color: red" for="inputError"></label> <input type="text"
-									id="inputTel" class="form-control" placeholder="Tel"
+									id="inputTel" class="form-control" placeholder="xxx-xxxx-xxxx"
 									th:field="*{telephone}">
 							</div>
 							<div class="form-group">
@@ -109,7 +109,7 @@
 								<label for="inputPassword">パスワード:</label><br> <label
 									class="control-label" style="color: red" for="inputError"></label>
 								<input type="password" id="inputPassword" class="form-control"
-									placeholder="Password" th:field="*{password}">
+									placeholder="8文字以上16字以下で入力してください" th:field="*{password}">
 							</div>
 							<div class="form-group">
 								<div th:if="${#fields.hasErrors('checkpassword')}"
@@ -117,7 +117,7 @@
 								<label for="inputConfirmationPassword">確認用パスワード:</label> <label
 									class="control-label" style="color: red" for="inputError"></label>
 								<input type="password" id="inputConfirmationPassword"
-									class="form-control" placeholder="Confirmation Password"
+									class="form-control" placeholder="8文字以上16字以下で入力してください"
 									th:field="*{checkpassword}">
 							</div>
 							<div class="form-group">

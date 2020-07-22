@@ -3,6 +3,7 @@ package com.example.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.example.domain.Item;
 import com.example.domain.Topping;
@@ -40,6 +41,10 @@ public class ItemDetailController {
     @RequestMapping("/showDetail")
     public String index(Model model, String itemId) {
         Item item = itemDetailService.load(itemId);
+        //itemがnullの場合item-listにフォワードする処理
+        if (Objects.isNull(item)) {
+			return "forward:/item-list";
+		}
         List<Topping> toppingList = itemDetailService.showAll();
 
         Map<Integer, Topping> toppingMap = new HashMap<Integer, Topping>();

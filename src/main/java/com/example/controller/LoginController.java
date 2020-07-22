@@ -1,6 +1,4 @@
 package com.example.controller;
-
-import java.security.Principal;
 import java.util.Objects;
 
 import javax.servlet.http.HttpSession;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.example.domain.Order;
 import com.example.domain.User;
 import com.example.form.LoginForm;
