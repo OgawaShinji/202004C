@@ -23,57 +23,14 @@ public class OrderItemsRepository {
     private NamedParameterJdbcTemplate template;
 
     private static final RowMapper<OrderItem> ORDER_ITEM_ROW_MAPPER = (rs, i) -> {
-
-        Order order = new Order();
-
-        order.setId(rs.getInt("ordId"));
-        order.setUserId(rs.getInt("ordUserId"));
-        order.setStatus(rs.getInt("ordStatus"));
-        order.setTotalPrice(rs.getInt("ordTotalPrice"));
-        order.setOrderDate(rs.getDate("ordOrderDate"));
-        order.setDestinationName(rs.getString("ordDestName"));
-        order.setDestinationEmail(rs.getString("ordDestEmail"));
-        order.setDestinationZipcode(rs.getString("ordDestZip"));
-        order.setDestinationAddress(rs.getString("ordDestAddress"));
-        order.setDestinationTel(rs.getString("ordDestTel"));
-        order.setDeliveryTime(rs.getTimestamp("ordDeliveryTime"));
-        order.setPaymentMethod(rs.getInt("ordPayMeth"));
-
         OrderItem orderItem = new OrderItem();
 
-        orderItem.setId(rs.getInt("oriId"));
-        orderItem.setItemId(rs.getInt("oriItemId"));
-        orderItem.setOrderId(rs.getInt("oriOrderId"));
-        orderItem.setQuantity(rs.getInt("oriQuantity"));
-        char[] chars = rs.getString("oriSize").toCharArray();
+        orderItem.setId(rs.getInt("id"));
+        orderItem.setItemId(rs.getInt("item_id"));
+        orderItem.setOrderId(rs.getInt("order_id"));
+        orderItem.setQuantity(rs.getInt("quantity"));
+        char[] chars = rs.getString("size").toCharArray();
         orderItem.setSize(chars[0]);
-
-        Item item = new Item();
-
-        item.setId(rs.getInt("itmId"));
-        item.setName(rs.getString("itmName"));
-        item.setImagePass(rs.getString("itmImagePath"));
-        item.setPriceM(rs.getInt("itmPriceM"));
-        item.setPriceL(rs.getInt("itmPriceL"));
-
-        orderItem.setItem(item);
-
-        Topping topping = new Topping();
-
-        topping.setName(rs.getString("topName"));
-        topping.setPriceM(rs.getInt("topPriceM"));
-        topping.setPriceL(rs.getInt("topPriceL"));
-
-        OrderTopping orderTopping = new OrderTopping();
-
-        orderTopping.setOrderItemId(rs.getInt("otpOrdItmId"));
-
-        List<OrderTopping> orderToppingList = new ArrayList<>();
-        orderTopping.setTopping(topping);
-        orderToppingList.add(orderTopping);
-
-        orderItem.setOrderToppingList(orderToppingList);
-
         return orderItem;
 
     };
@@ -82,6 +39,33 @@ public class OrderItemsRepository {
         orderItem.setId(rs.getInt("id"));
         return orderItem.getId();
     };
+
+    /**
+     * order_itemsテーブルからidが一致するデータを検索しorderItem型で返すメソッド
+     * 
+     * @param id
+     * @return 検索したorderitem
+     */
+    public OrderItem findOrderItemById(Integer id) {
+        String sql = "SELECT id, item_id, order_id, quantity, size FROM order_items WHERE id = :id";
+        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+        List<OrderItem> orderItems = template.query(sql, param, ORDER_ITEM_ROW_MAPPER);
+        if (orderItems.size() == 0) {
+            return null;
+        }
+        return orderItems.get(0);
+    }
+
+    /**
+     * 指定したidのquantityを1減らすメソッド
+     * 
+     * @param id
+     */
+    public void updateMinusQuantityById(Integer id) {
+        String sql = "UPDATE order_items SET quantity = quantity - 1 WHERE id = :id";
+        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+        template.update(sql, param);
+    }
 
     /**
      * item_id,order_id,sizeを指定してidを検索する

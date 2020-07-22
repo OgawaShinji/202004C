@@ -104,15 +104,24 @@ public class ShoppingCartService {
 
     /**
      * カートから商品を削除するメソッド Ordersテーブルのtotal_priceから小計を引く
-     * order_items,order_toppingsテーブルから該当するorder_itemのidのデータを削除する
+     * quantityが2以上なら一つ減らし、1ならorder_items,order_toppingsテーブルから該当するorder_itemのidのデータを削除する
      * 
      * @param orderItemId
      * @param order
      */
-    public void deleteCartItem(Integer orderItemId, Order order) {
-        orderItemsRepository.deleteOrderItemsById(orderItemId);
-        orderToppingsRepository.deleteOrderToppings(orderItemId);
-        ordersRepository.updateMinusTotalPrice(order);
+    public void deleteCartItem(Integer orderItemId, Order orderHasUserIdSAndTotalprice) {
+        OrderItem orderItem = orderItemsRepository.findOrderItemById(orderItemId);
+        if (orderItem.getQuantity() >= 2) {
+            Integer singleTotalPrice = orderHasUserIdSAndTotalprice.getTotalPrice() / orderItem.getQuantity();
+            orderHasUserIdSAndTotalprice.setTotalPrice(singleTotalPrice);
+            orderItemsRepository.updateMinusQuantityById(orderItemId);
+            ordersRepository.updateMinusTotalPrice(orderHasUserIdSAndTotalprice);
+        } else {
+            orderItemsRepository.deleteOrderItemsById(orderItemId);
+            orderToppingsRepository.deleteOrderToppings(orderItemId);
+            ordersRepository.updateMinusTotalPrice(orderHasUserIdSAndTotalprice);
+
+        }
     }
 
     /**
@@ -121,12 +130,14 @@ public class ShoppingCartService {
      * @param beforeOrder(未ログイン時のOreder情報)
      * @param afterOrder(ログイン時のOrder情報)
      */
-    public void changeUserDuringShopping(Order beforeOrder, Order afterOrder) {
-        Integer beforeOrdersId = beforeOrder.getId();
-        Integer afterOrdersId = afterOrder.getId();
-        orderItemsRepository.updateOrderItemsOrderIdByOrderId(beforeOrdersId, afterOrdersId);
-        ordersRepository.updateUserId(afterOrder, beforeOrder.getUserId());
-        ordersRepository.deleteOrderById(beforeOrder);
+    public void changeUserDuringShopping(Order orderForNotLoginHasTotalprice, Order orderForLogin) {
+        Integer notLoginId = orderForNotLoginHasTotalprice.getId();
+        Integer loginId = orderForLogin.getId();
+        orderItemsRepository.updateOrderItemsOrderIdByOrderId(notLoginId, loginId);
+        ordersRepository.deleteOrderById(orderForNotLoginHasTotalprice);
+        orderForLogin.setTotalPrice(orderForNotLoginHasTotalprice.getTotalPrice());
+        ordersRepository.updatePlusTotalPrice(orderForLogin);
+
     }
 
     /**
@@ -138,13 +149,14 @@ public class ShoppingCartService {
     public void updateOrdersUserId(Integer beforeUserId, Order order) {
         ordersRepository.updateUserId(order, beforeUserId);
     }
-    public void updateStatus0To1(Order order, Integer userId){
+
+    public void updateStatus0To1(Order order, Integer userId) {
 
         ordersRepository.UpdateWhoPurchaseTheItemstoStatus1(order, userId);
 
     }
 
-    public void updateStatus0To2(Order order, Integer userId){
+    public void updateStatus0To2(Order order, Integer userId) {
 
         ordersRepository.UpdateWhoPurchaseTheItemstoStatus2(order, userId);
 

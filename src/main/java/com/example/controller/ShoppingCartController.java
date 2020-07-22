@@ -76,7 +76,10 @@ public class ShoppingCartController {
             order.setUserId(userInSession.getId());
             order.setStatus(0);
             List<Order> orderList = shoppingHistoryService.findCartHistory(order);
-
+            if (orderList.size() == 0) {
+                model.addAttribute("orderItemList", null);
+                return "shoppingcart/cart_list";
+            }
             model.addAttribute("order", orderList.get(0));
             return "shoppingcart/cart_list";
         } catch (NullPointerException e) {
@@ -189,8 +192,9 @@ public class ShoppingCartController {
         shoppingCartService.deleteCartItem(orderItemId, order);
         return "redirect:/shoppingcart/toCartList";
     }
+
     @RequestMapping("/confirm")
-    public String confirmToBuy(Model model){
+    public String confirmToBuy(Model model) {
 
         User userInSession = (User) session.getAttribute("user");
         Order order = new Order();
@@ -210,26 +214,26 @@ public class ShoppingCartController {
     }
 
     @RequestMapping("/updateOrders")
-    public String completeBuying(@Validated PaymentForm paymentForm, BindingResult result, Model model){
+    public String completeBuying(@Validated PaymentForm paymentForm, BindingResult result, Model model) {
 
         // if (result.hasErrors()) {
-		// 	return confirmToBuy();
-		// }
+        // return confirmToBuy();
+        // }
         Order order = new Order();
         User toGetUserId = (User) session.getAttribute("user");
         Integer userId = toGetUserId.getId();
-        
+
         order.setDestinationName(paymentForm.getName());
-		order.setDestinationEmail(paymentForm.getEmail());
-	    StringBuilder br = new StringBuilder(paymentForm.getZipcode());
-		br.deleteCharAt(3);
-		order.setDestinationZipcode(br.toString());
-		order.setDestinationAddress(paymentForm.getAddress());
+        order.setDestinationEmail(paymentForm.getEmail());
+        StringBuilder br = new StringBuilder(paymentForm.getZipcode());
+        br.deleteCharAt(3);
+        order.setDestinationZipcode(br.toString());
+        order.setDestinationAddress(paymentForm.getAddress());
         order.setDestinationTel(paymentForm.getTelephone());
 
         try{
         Date orderDate = new Date();
-        SimpleDateFormat smpDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat smpDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String afterFormatOrderDateStr = smpDateFormat.format(orderDate);
         Date afterFormatOrderDate = smpDateFormat.parse(afterFormatOrderDateStr);
         order.setOrderDate(afterFormatOrderDate);
@@ -237,16 +241,16 @@ public class ShoppingCartController {
             e.printStackTrace();
         }
 
-        String deliveryWantStr = paymentForm.getYmd() + " " +paymentForm.getTime();
+        String deliveryWantStr = paymentForm.getYmd() + " " + paymentForm.getTime();
         DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime ldt = LocalDateTime.parse(deliveryWantStr, dtFormatter);
         Timestamp deliveryWantTS = Timestamp.valueOf(ldt);
         order.setDeliveryTime(deliveryWantTS);
 
-        if(paymentForm.getCreditCard() == null){
+        if (paymentForm.getCreditCard() == null) {
             order.setPaymentMethod(1);
             shoppingCartService.updateStatus0To1(order, userId);
-        }else if(paymentForm.getCashOfDeli() == null){
+        } else if (paymentForm.getCashOfDeli() == null) {
             order.setPaymentMethod(2);
             shoppingCartService.updateStatus0To2(order, userId);
         }
@@ -256,7 +260,7 @@ public class ShoppingCartController {
     }
 
     @RequestMapping("/backToTop")
-    public String backToTop(){
+    public String backToTop() {
 
         return "redirect:/item-list";
 

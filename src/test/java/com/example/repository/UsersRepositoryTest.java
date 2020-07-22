@@ -1,4 +1,6 @@
-package com.example.controller;
+package com.example.repository;
+
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -11,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ShoppingHistoryControllerTest {
+public class UsersRepositoryTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -31,6 +33,7 @@ public class ShoppingHistoryControllerTest {
 
 	@Test
 	public void test() {
+		fail("Not yet implemented");
 	}
 
 }
