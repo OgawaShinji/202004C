@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,15 +66,6 @@ public class ShoppingHistoryService {
         }
         List<OrderItem> orderItemList = new ArrayList<OrderItem>(orderItemMap.values());
 
-        // for (Order order : orderList) {
-        //     for (OrderItem orderItem : orderItemList) {
-        //         if (order.getId().equals(orderItem.getOrderId())) {
-        //             orderItemListForSameOrderId.add(orderItem);
-        //         }
-        //          }
-        //         order.setOrderItemList(orderItemListForSameOrderId);
-        //         orderMap.put(order.getId(), order);
-
         for (Order order : orderList) {
             List<OrderItem> orderItemListForSetOrder = new ArrayList<>();
             for(OrderItem orderItem : orderItemList) {
@@ -85,12 +77,9 @@ public class ShoppingHistoryService {
             orderMap.put(order.getId(), order);
         }
         List<Order> orderListForReturn = new ArrayList<Order>(orderMap.values());
+        Collections.reverse(orderListForReturn);
         return orderListForReturn;
         }
-
-        // List<Order> orderListForReturn = new ArrayList<Order>(orderMap.values());
-
-        // return orderListForReturn;
 
     /**
      * Repositoryからorders,order_items,order_toppings,items,toppingsをJoinして検索してきたデータを重複分を整理する

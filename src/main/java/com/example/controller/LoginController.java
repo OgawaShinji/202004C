@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,13 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.example.domain.Order;
 import com.example.domain.OrderItem;
 import com.example.domain.User;
 import com.example.form.LoginForm;
 import com.example.security.LoginUserDetails;
-import com.example.service.LoginService;
 import com.example.service.ShoppingCartService;
 import com.example.service.ShoppingHistoryService;
 
@@ -28,9 +25,6 @@ public class LoginController {
 
 	@Autowired
 	private ShoppingCartService shoppingCartService;
-
-	@Autowired
-	private LoginService loginService;
 
 	@Autowired
 	private HttpSession session;

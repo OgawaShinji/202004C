@@ -1,6 +1,5 @@
 package com.example.form;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -10,42 +9,38 @@ public class InsertUserForm {
 	/**
 	 * 名前
 	 */
-	@NotBlank(message = "名前を入力して下さい")
+	@NotBlank(message = "名前を入力してください")
 	private String name;
 	/**
 	 * メールアドレス
 	 */
-	@NotBlank(message = "メールアドレスを入力して下さい")
-	@Email(message = "メールアドレスの形式が不正です")
+	@Pattern(regexp = "^([\\w])+([\\w\\._-])*\\@([\\w])+([\\w\\._-])*\\.([a-zA-Z])+$", message = "メールアドレスの形式が不正です")
 	private String email;
 	/**
 	 * パスワード
 	 */
-	@NotBlank(message = "パスワードを入力して下さい")
-	@Size(min=8,max=16, message = "パスワードは８文字以上１６文字以内で設定してください")
+	@Size(min = 8, max = 16, message = "パスワードは８文字以上１６文字以内で設定してください")
 	private String password;
 	/**
 	 * 確認用パスワード
 	 */
-	@NotBlank(message = "確認用パスワードを入力して下さい")
+	@NotBlank(message = "確認用パスワードを入力してください")
 	private String checkpassword;
 	/**
 	 * 郵便番号
 	 * 
 	 */
-	@NotBlank(message = "郵便番号を入力して下さい")
-	@Pattern(message = "郵便番号はXXX-XXXXの形式で入力してください" ,regexp="^[0-9]{3}-[0-9]{4}$")
+	@Pattern(message = "郵便番号はXXX-XXXXの形式で入力してください", regexp = "^[0-9]{3}-[0-9]{4}$")
 	private String zipcode;
 	/**
 	 * 住所
 	 */
-	@NotBlank(message = "住所を入力して下さい")
+	@NotBlank(message = "住所を入力してください")
 	private String address;
 	/**
 	 * 電話番号
 	 */
-	@NotBlank(message = "電話番号を入力して下さい")
-	@Pattern(message = "電話番号はXXXX-XXXX-XXXXの形式で入力してください" ,regexp="^0\\d{2,3}-\\d{1,4}-\\d{4}$")
+	@Pattern(message = "電話番号はXXXX-XXXX-XXXXの形式で入力してください", regexp = "^0\\d{2,3}-\\d{1,4}-\\d{4}$")
 	private String telephone;
 
 	public String getName() {
@@ -103,6 +98,5 @@ public class InsertUserForm {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-
 
 }

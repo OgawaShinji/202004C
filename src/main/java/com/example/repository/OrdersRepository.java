@@ -202,7 +202,7 @@ public class OrdersRepository {
                 + " ori.item_id AS oriItemId, ori.quantity AS oriQuantity, ori.size AS oriSize, itm.id AS itmId, itm.name AS itmName, itm.image_path AS itmImagePath,"
                 + " itm.price_m AS itmPriceM, itm.price_l AS itmPriceL, top.name AS topName, top.price_m AS topPriceM, top.price_l AS topPriceL, otp.order_item_id AS otpOrdItmId"
                 + " FROM orders AS ord LEFT OUTER JOIN order_items AS ori ON ori.order_id = ord.id LEFT OUTER JOIN users AS use on ord.user_id = use.id LEFT OUTER JOIN items as itm ON ori.item_id = itm.id"
-                + " LEFT OUTER JOIN order_toppings AS otp ON ori.id = otp.order_item_id LEFT OUTER JOIN toppings AS top ON otp.topping_id = top.id WHERE ord.user_id = :userId AND status >= 1 ORDER BY ordOrderDate ASC";
+                + " LEFT OUTER JOIN order_toppings AS otp ON ori.id = otp.order_item_id LEFT OUTER JOIN toppings AS top ON otp.topping_id = top.id WHERE ord.user_id = :userId AND status >= 1 ORDER BY ordId ASC";
 
         SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 

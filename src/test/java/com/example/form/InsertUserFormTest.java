@@ -60,17 +60,6 @@ public class InsertUserFormTest {
 	}
 
 	/**
-	 * nameがnull
-	 */
-	@Test
-	public void nameIsNull() {
-		insertUserForm.setName(null);
-		validator.validate(insertUserForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("name"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("名前を入力して下さい"));
-	}
-
-	/**
 	 * nameが空文字
 	 */
 	@Test
@@ -78,7 +67,7 @@ public class InsertUserFormTest {
 		insertUserForm.setName("");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("name"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("名前を入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("名前を入力してください"));
 	}
 
 	/**
@@ -89,20 +78,9 @@ public class InsertUserFormTest {
 		insertUserForm.setName(" ");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("name"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("名前を入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("名前を入力してください"));
 	}
-	
-	/**
-	 * emailがnull
-	 */
-	@Test
-	public void emailIsNull() {
-		insertUserForm.setEmail(null);
-		validator.validate(insertUserForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("email"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("メールアドレスを入力して下さい"));
-	}
-	
+
 	/**
 	 * emailが空文字
 	 */
@@ -111,9 +89,9 @@ public class InsertUserFormTest {
 		insertUserForm.setEmail("");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("email"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("メールアドレスを入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("メールアドレスの形式が不正です"));
 	}
-	
+
 	/**
 	 * emailが半角スペースのみ
 	 */
@@ -122,9 +100,9 @@ public class InsertUserFormTest {
 		insertUserForm.setEmail(" ");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("email"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("メールアドレスを入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("メールアドレスの形式が不正です"));
 	}
-	
+
 	/**
 	 * emailが@無し
 	 */
@@ -135,18 +113,7 @@ public class InsertUserFormTest {
 		assertThat(bindingResult.getFieldError().getField(), is("email"));
 		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("メールアドレスの形式が不正です"));
 	}
-	
-	/**
-	 * passwordがnull
-	 */
-	@Test
-	public void passwordIsNull() {
-		insertUserForm.setPassword(null);
-		validator.validate(insertUserForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("password"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードを入力して下さい"));
-	}
-	
+
 	/**
 	 * passwordが空文字
 	 */
@@ -155,9 +122,9 @@ public class InsertUserFormTest {
 		insertUserForm.setPassword("");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("password"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードを入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードは８文字以上１６文字以内で設定してください"));
 	}
-	
+
 	/**
 	 * passwordが半角スペースのみ
 	 */
@@ -166,9 +133,9 @@ public class InsertUserFormTest {
 		insertUserForm.setPassword(" ");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("password"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードを入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードは８文字以上１６文字以内で設定してください"));
 	}
-	
+
 	/**
 	 * passwordが8文字未満
 	 */
@@ -177,9 +144,9 @@ public class InsertUserFormTest {
 		insertUserForm.setPassword("aaaa");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("password"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードを入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードは８文字以上１６文字以内で設定してください"));
 	}
-	
+
 	/**
 	 * passwordが16文字より多い
 	 */
@@ -188,20 +155,9 @@ public class InsertUserFormTest {
 		insertUserForm.setPassword("bbbbbbbbbbbbbbbbbbbb");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("password"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードを入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードは８文字以上１６文字以内で設定してください"));
 	}
-	
-	/**
-	 * checkpasswordがnull
-	 */
-	@Test
-	public void checkpasswordIsNull() {
-		insertUserForm.setCheckpassword(null);
-		validator.validate(insertUserForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("checkpassword"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("確認用パスワードを入力して下さい"));
-	}
-	
+
 	/**
 	 * checkpasswordが空文字
 	 */
@@ -210,9 +166,9 @@ public class InsertUserFormTest {
 		insertUserForm.setCheckpassword("");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("checkpassword"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("確認用パスワードを入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("確認用パスワードを入力してください"));
 	}
-	
+
 	/**
 	 * checkpasswordが半角スペースのみ
 	 */
@@ -221,20 +177,9 @@ public class InsertUserFormTest {
 		insertUserForm.setCheckpassword(" ");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("checkpassword"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("確認用パスワードを入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("確認用パスワードを入力してください"));
 	}
-	
-	/**
-	 * zipcodeがnull
-	 */
-	@Test
-	public void zipcodeIsNull() {
-		insertUserForm.setZipcode(null);
-		validator.validate(insertUserForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("zipcode"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("郵便番号を入力して下さい"));
-	}
-	
+
 	/**
 	 * zipcodeが空文字
 	 */
@@ -243,9 +188,9 @@ public class InsertUserFormTest {
 		insertUserForm.setZipcode("");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("zipcode"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("郵便番号を入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("郵便番号はXXX-XXXXの形式で入力してください"));
 	}
-	
+
 	/**
 	 * zipcodeが半角スペースのみ
 	 */
@@ -254,31 +199,20 @@ public class InsertUserFormTest {
 		insertUserForm.setZipcode(" ");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("zipcode"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("郵便番号を入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("郵便番号はXXX-XXXXの形式で入力してください"));
 	}
-	
+
 	/**
 	 * zipcodeがXXX-XXXXの形式じゃない
 	 */
 	@Test
-	public void zipcode_形式が不正(){
+	public void zipcode_形式が不正() {
 		insertUserForm.setZipcode("111111111");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("zipcode"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("郵便番号はXXX-XXXXの形式で入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("郵便番号はXXX-XXXXの形式で入力してください"));
 	}
-	
-	/**
-	 * addressがnull
-	 */
-	@Test
-	public void addressIsNull() {
-		insertUserForm.setAddress(null);
-		validator.validate(insertUserForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("address"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("住所を入力して下さい"));
-	}
-	
+
 	/**
 	 * addressが空文字
 	 */
@@ -287,9 +221,9 @@ public class InsertUserFormTest {
 		insertUserForm.setAddress("");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("address"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("住所を入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("住所を入力してください"));
 	}
-	
+
 	/**
 	 * addressが半角スペースのみ
 	 */
@@ -298,20 +232,9 @@ public class InsertUserFormTest {
 		insertUserForm.setAddress(" ");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("address"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("住所を入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("住所を入力してください"));
 	}
-	
-	/**
-	 * telephoneがnull
-	 */
-	@Test
-	public void telephoneIsNull() {
-		insertUserForm.setTelephone(null);
-		validator.validate(insertUserForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("telephone"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("電話番号を入力して下さい"));
-	}
-	
+
 	/**
 	 * telephoneが空文字
 	 */
@@ -320,9 +243,9 @@ public class InsertUserFormTest {
 		insertUserForm.setTelephone("");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("telephone"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("電話番号を入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("電話番号はXXXX-XXXX-XXXXの形式で入力してください"));
 	}
-	
+
 	/**
 	 * telephoneが半角スペースのみ
 	 */
@@ -331,9 +254,9 @@ public class InsertUserFormTest {
 		insertUserForm.setTelephone(" ");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("telephone"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("電話番号を入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("電話番号はXXXX-XXXX-XXXXの形式で入力してください"));
 	}
-	
+
 	/**
 	 * telephoneがXXXX-XXXX-XXXXの形式じゃない
 	 */
@@ -342,7 +265,7 @@ public class InsertUserFormTest {
 		insertUserForm.setTelephone(" ");
 		validator.validate(insertUserForm, bindingResult);
 		assertThat(bindingResult.getFieldError().getField(), is("telephone"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("電話番号はXXXX-XXXX-XXXXの形式で入力して下さい"));
+		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("電話番号はXXXX-XXXX-XXXXの形式で入力してください"));
 	}
 
 }
