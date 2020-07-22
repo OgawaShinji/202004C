@@ -38,6 +38,7 @@ public class IndexServiceTest {
 
 	public static final Operation DELETE_ALL = Operations.deleteAllFrom("items");
 
+
     // カラムのdeletedの設定の仕方がよくない
     public static final Operation INSERT = Operations.insertInto("items")
                                                 .columns("id","name","description","price_m","price_l","image_path","categoryid")
@@ -157,11 +158,11 @@ public class IndexServiceTest {
 		final Integer size=6;
 		List<Item> itemList=template.query(sql, ITEM_ROW_MAPPER);
 		Page<Item> actual=service.showListPaging(page, size, itemList);
-		assertEquals("error", actual.getContent().get(0), itemList.get(0));
-		assertEquals("error", actual.getContent().get(1), itemList.get(1));
-		assertEquals("error", actual.getContent().get(5), itemList.get(5));
-		assertEquals("error", actual.getSize(), 6);
-		assertEquals("error", actual.getTotalElements(), 18);
+		assertEquals("0番目のリストの値がふさわしくありません", actual.getContent().get(0), itemList.get(0));
+		assertEquals("1番目のリストの値がふさわしくありません", actual.getContent().get(1), itemList.get(1));
+		assertEquals("5番目のリストの値がふさわしくありません", actual.getContent().get(5), itemList.get(5));
+		assertEquals("ページのサイズがふさわしくありません", actual.getSize(), 6);
+		assertEquals("ページの合計の要素数がふさわしくありません", actual.getTotalElements(), 18);
 	}
 	
 	// showListPaging()の引数がpage=1,size=6,itemListがfindByLikeName("","name")の時の動作確認
@@ -174,11 +175,11 @@ public class IndexServiceTest {
 		final Integer size=6;
 		List<Item> itemList=template.query(sql, ITEM_ROW_MAPPER);
 		Page<Item> actual=service.showListPaging(page, size, itemList);
-		assertEquals("error", itemList.get(0), actual.getContent().get(0));
-		assertEquals("error", itemList.get(1), actual.getContent().get(1));
-		assertEquals("error", itemList.get(5), actual.getContent().get(5));
-		assertEquals("error", actual.getSize(), 6);
-		assertEquals("error", actual.getTotalElements(), 18);
+		assertEquals("0番目のリストの値がふさわしくありません", itemList.get(0), actual.getContent().get(0));
+		assertEquals("1番目のリストの値がふさわしくありません", itemList.get(1), actual.getContent().get(1));
+		assertEquals("5番目のリストの値がふさわしくありません", itemList.get(5), actual.getContent().get(5));
+		assertEquals("ページのサイズがふさわしくありません", actual.getSize(), 6);
+		assertEquals("ページの合計の要素数がふさわしくありません", actual.getTotalElements(), 18);
 	}
 	
 	// showListPaging()の引数がpage=1,size=6,itemListがfindByLikeName("コーヒー","name")の時の動作確認
@@ -191,10 +192,10 @@ public class IndexServiceTest {
 		final Integer size=6;
 		List<Item> itemList=template.query(sql, ITEM_ROW_MAPPER);
 		Page<Item> actual=service.showListPaging(page, size, itemList);
-		assertEquals("error", itemList.get(0), actual.getContent().get(0));
-		assertEquals("error", itemList.get(1), actual.getContent().get(1));
-		assertEquals("error", actual.getSize(), 6);
-		assertEquals("error", actual.getTotalElements(), 2);
+		assertEquals("0番目のリストの値がふさわしくありません", itemList.get(0), actual.getContent().get(0));
+		assertEquals("1番目のリストの値がふさわしくありません", itemList.get(1), actual.getContent().get(1));
+		assertEquals("ページのサイズがふさわしくありません", actual.getSize(), 6);
+		assertEquals("ページの合計の要素数がふさわしくありません", actual.getTotalElements(), 2);
 	}
 	
 	// showListPaging()の引数がpage=1,size=6,itemListがfindByLikeName("'% --","name")の時の動作確認
@@ -211,8 +212,8 @@ public class IndexServiceTest {
 		final Integer size=6;
 		Page<Item> actual=service.showListPaging(page, size, itemList);
 		assertEquals("error",itemList,actual.getContent());
-		assertEquals("error", actual.getSize(), 6);
-		assertEquals("error", actual.getTotalElements(), 0);
+		assertEquals("ページのサイズがふさわしくありません", actual.getSize(), 6);
+		assertEquals("ページの合計の要素数がふさわしくありません", actual.getTotalElements(), 0);
 		
 	}
 	
