@@ -22,19 +22,19 @@ import com.example.form.ItemDetailForm;
 import com.example.form.PaymentForm;
 import com.example.service.InsertUserService;
 import com.example.service.ItemDetailService;
+import com.example.service.SendMailService;
 import com.example.service.ShoppingCartService;
 import com.example.service.ShoppingHistoryService;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.ui.Model;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.thymeleaf.context.Context;
 
 @Controller
 @Validated
@@ -42,11 +42,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ShoppingCartController {
 
     @Autowired
+    SendMailService sendMailService;
+    @Autowired
     private ShoppingCartService shoppingCartService;
     @Autowired
     private ItemDetailService itemDetailService;
     @Autowired
     private ShoppingHistoryService shoppingHistoryService;
+    @Autowired
     private InsertUserService insertUserService;
     @Autowired
     private HttpSession session;
@@ -58,7 +61,7 @@ public class ShoppingCartController {
 
     /**
      * カート内一覧画面を表示するメソッド
-     * 
+     *
      * @param model
      * @return cart_list.html
      */
@@ -94,7 +97,7 @@ public class ShoppingCartController {
      * shoppingCartにItemを追加するメソッド
      * カートに初めて追加されたときのみOrdersテーブルにuser_id,status,total_priceをインサートする
      * order_itemsテーブルにOrderItemをインサートする order_toppingsテーブルにOrderToppingをインサートする
-     * 
+     *
      * @param form
      * @return
      */
@@ -178,7 +181,7 @@ public class ShoppingCartController {
     /**
      * shoppingCartからItemを削除するメソッド Ordersテーブルのtotal_priceを減らす
      * order_itemsから該当するidのデータをデリートする order_toppingsから該当するorder_item_idのデータをデリートする
-     * 
+     *
      * @param orderItemId
      * @param subTotal
      * @return
@@ -214,14 +217,15 @@ public class ShoppingCartController {
     }
 
     @RequestMapping("/updateOrders")
-    public String completeBuying(@Validated PaymentForm paymentForm, BindingResult result, Model model) {
+    public String completeBuying(@Validated PaymentForm paymentForm, BindingResult result, Model model, Integer cashMethod) {
 
         // if (result.hasErrors()) {
-        // return confirmToBuy();
+        // return confirmToBuy(model);
         // }
         Order order = new Order();
-        User toGetUserId = (User) session.getAttribute("user");
-        Integer userId = toGetUserId.getId();
+        User afterGetUser = (User) session.getAttribute("user");
+        Integer userId = afterGetUser.getId();
+        String userName = afterGetUser.getName();
 
         order.setDestinationName(paymentForm.getName());
         order.setDestinationEmail(paymentForm.getEmail());
@@ -233,7 +237,7 @@ public class ShoppingCartController {
 
         try{
         Date orderDate = new Date();
-        SimpleDateFormat smpDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat smpDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String afterFormatOrderDateStr = smpDateFormat.format(orderDate);
         Date afterFormatOrderDate = smpDateFormat.parse(afterFormatOrderDateStr);
         order.setOrderDate(afterFormatOrderDate);
@@ -243,17 +247,33 @@ public class ShoppingCartController {
 
         String deliveryWantStr = paymentForm.getYmd() + " " + paymentForm.getTime();
         DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        // DateTimeFormatter dtFormatterForMail = DateTimeFormatter.ofPattern("EEEE MM/dd HH:mm");
+        // LocalDateTime ldtForMail = LocalDateTime.parse(deliveryWantStr, dtFormatterForMail);
         LocalDateTime ldt = LocalDateTime.parse(deliveryWantStr, dtFormatter);
         Timestamp deliveryWantTS = Timestamp.valueOf(ldt);
         order.setDeliveryTime(deliveryWantTS);
 
-        if (paymentForm.getCreditCard() == null) {
+
+
+        if (cashMethod == 1) {
             order.setPaymentMethod(1);
             shoppingCartService.updateStatus0To1(order, userId);
-        } else if (paymentForm.getCashOfDeli() == null) {
+        } else if (cashMethod == 2) {
             order.setPaymentMethod(2);
             shoppingCartService.updateStatus0To2(order, userId);
         }
+
+        // shoppingCartService.sendMail(order);
+
+        List<Order> ordersList = shoppingHistoryService.findItemHistory(userId);
+        Order orderWhatBoughtLatest = ordersList.get(0);
+        Context context = new Context();
+
+        context.setVariable("name", userName);
+        // context.setVariable("deliveryTime", ldtForMail);
+        context.setVariable("orderList", orderWhatBoughtLatest);
+
+        sendMailService.sendMail(context, order);
 
         return "/shoppingcart/complete";
 

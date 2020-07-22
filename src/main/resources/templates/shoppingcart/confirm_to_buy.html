@@ -134,7 +134,8 @@
 		</div>
 	</div>
 
-        <!-- table -->
+		<!-- table -->
+	<div>
         <script src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
         <form method="POST" action="order_finished.html" th:action="@{/shoppingcart/updateOrders}"
         th:object="${paymentForm}">
@@ -293,17 +294,17 @@
 					<table class="table table-striped item-list-table">
 						<tbody>
 							<tr>
-								<td>
+								<!-- <td>
 									<div class="text-center">
 										代金引換
 									</div>
-								</td>
-								<td>
+								</td> -->
+								<td align="center">
 									<div class="row">
 										<div class="col-sm-12">
 											<label class="radio-inline">
-												<input type="radio" th:value="1"
-													th:name="${cashMethod}" checked="checked" th:field="*{CashOfDeli}">
+												<input type="radio" value="1"
+													name="cashMethod" checked>
 												代金引換
 											</label>
 										</div>
@@ -311,17 +312,17 @@
 								</td>
 							</tr>
 							<tr>
-								<td>
+								<!-- <td>
 									<div class="text-center">
 										クレジットカード決済
 									</div>
-								</td>
+								</td> -->
 								<td align="center">
 									<div class="row">
 										<div class="col-sm-12">
 											<label class="radio-inline">
-												<input type="radio" th:value="2"
-													th:name="${cashMethod}" checked="checked" th:field="*{creditCard}">
+												<input type="radio" value="2"
+													name="cashMethod">
 												クレジットカード
 											</label><br><br>
 										</div>
