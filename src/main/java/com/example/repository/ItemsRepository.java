@@ -1,7 +1,6 @@
 package com.example.repository;
 
 import java.util.List;
-import java.util.Objects;
 
 import com.example.domain.Item;
 
@@ -61,17 +60,14 @@ public class ItemsRepository {
 	 * @return Item
 	 */
 	public Item load(Integer id) {
-		try {
+		try{
 			String sql = "SELECT * FROM items WHERE id=:id";
 			SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 			Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
 			return item;
-		} catch (EmptyResultDataAccessException e) {
-			// TODO: handle exception
+		}catch(EmptyResultDataAccessException e){
 			return null;
 		}
-		
-		
 	}
 	/**
 	 * 選択された並び順で名前からアイテムを曖昧検索する.

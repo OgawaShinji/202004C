@@ -41,16 +41,12 @@ public class ItemDetailController {
     @RequestMapping("/showDetail")
     public String index(Model model, String itemId) {
         Item item = itemDetailService.load(itemId);
-        //itemがnullの場合item-listにフォワードする処理
-        if (Objects.isNull(item)) {
-			return "forward:/item-list";
-		}
+        if(Objects.isNull(item)){
+            return "forward:/item-list";
+        }
         List<Topping> toppingList = itemDetailService.showAll();
 
         Map<Integer, Topping> toppingMap = new HashMap<Integer, Topping>();
-        Map<Integer, String> sizeMap = new HashMap<Integer, String>();
-        sizeMap.put(0, "M");
-        sizeMap.put(1, "L");
 
         // toppingListには(toppingTableのid，toppingオブジェクト)を詰める
         for (int i = 0; i < toppingList.size(); i++) {
