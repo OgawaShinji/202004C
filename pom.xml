@@ -58,7 +58,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/com.ninja-squad/DbSetup -->
 		<dependency>
     		<groupId>com.ninja-squad</groupId>
