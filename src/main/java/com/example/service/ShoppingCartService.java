@@ -154,15 +154,17 @@ public class ShoppingCartService {
 
     }
 
-    // public void sendMail(String mailAddress) {
-    //     SimpleMailMessage msg = new SimpleMailMessage();
+    public void sendMail(Order order) {
+        SimpleMailMessage msg = new SimpleMailMessage();
 
-    //     msg.setFrom("berisa0307@mail.com");
-    //     msg.setTo("mailAddress");
-    //     msg.setSubject("テストメール"); //タイトルの設定
-    //     msg.setText("Spring Boot より本文送信"); //本文の設定
+        String emailStr = order.getDestinationEmail();
 
-    //     this.sender.send(msg);
-    // }
+        msg.setFrom("berisa0307@mail.com");
+        msg.setTo(emailStr);
+        msg.setSubject("ラクラクコーヒーをご利用いただきありがとうございます"); //タイトルの設定
+        msg.setText("Spring Boot より本文送信"); //本文の設定
+
+        this.sender.send(msg);
+    }
 
 }
