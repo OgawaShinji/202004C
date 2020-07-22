@@ -43,6 +43,7 @@ public class IndexService {
 		return itemList;
 	}
 
+
 	/**
 	 * オートコンプリート用にJavaScriptの配列の中身を文字列で作ります.
 	 * 
@@ -56,9 +57,9 @@ public class IndexService {
 				itemListForAutocomplete.append(",");
 			}
 			Item item = itemList.get(i);
-			itemListForAutocomplete.append("\"");
+			itemListForAutocomplete.append("'");
 			itemListForAutocomplete.append(item.getName());
-			itemListForAutocomplete.append("\"");
+			itemListForAutocomplete.append("'");
 		}
 		return itemListForAutocomplete;
 	}

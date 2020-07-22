@@ -18,6 +18,16 @@ public class Item {
     public Item() {
     }
 
+    public Item(Integer id, String name, String description, Integer priceM, Integer priceL, String imagePass, Integer categoryId,Boolean deleted) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.priceM = priceM;
+        this.priceL = priceL;
+        this.imagePass = imagePass;
+        this.categoryId = categoryId;
+        this.deleted = deleted;
+    }
     public Item(Integer id, String name, String description, Integer priceM, Integer priceL, String imagePass, Integer categoryId,Boolean deleted, List<Topping> toppingList) {
         this.id = id;
         this.name = name;
