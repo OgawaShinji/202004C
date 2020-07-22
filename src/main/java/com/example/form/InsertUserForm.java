@@ -45,7 +45,7 @@ public class InsertUserForm {
 	 * 電話番号
 	 */
 	@NotBlank(message = "電話番号を入力して下さい")
-	@Pattern(message = "電話番号はXXXX-XXXX-XXXXの形式で入力してください" ,regexp="^0\\d{2,3}-\\d{1,4}-\\d{4}$")
+	@Pattern(message = "電話番号はXXX-XXXX-XXXXの形式で入力してください" ,regexp="^0\\d{2,3}-\\d{1,4}-\\d{4}$")
 	private String telephone;
 
 	public String getName() {
