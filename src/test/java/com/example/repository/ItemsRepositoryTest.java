@@ -669,5 +669,4 @@ public class ItemsRepositoryTest {
 		List<Item> actual = itemsRepository.findByLikeName("おにぎり", "price_m");
 		assertEquals("該当する商品はありません", actual.size(), 0);
 	}
-
 }
