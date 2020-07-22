@@ -76,7 +76,7 @@ public class IndexController {
 		// 取得したitemListを元にページング機能を導入
 		Page<Item> itemPage = indexService.showListPaging(page, 6, itemList);
 		model.addAttribute("itemPage", itemPage);
-		List<Integer> pageNumbers = calcPageNumbers(model, itemPage);
+		List<Integer> pageNumbers = calcPageNumbers(itemPage);
 		model.addAttribute("pageNumbers", pageNumbers);
 		// ページングの数字からも検索できるように検索フォームをスコープに格納しておく
 		model.addAttribute("name", name);
@@ -95,7 +95,7 @@ public class IndexController {
 	 * @param model        モデル
 	 * @param employeePage ページング情報
 	 */
-	private List<Integer> calcPageNumbers(Model model, Page<Item> itemPage) {
+	private List<Integer> calcPageNumbers(Page<Item> itemPage) {
 		int totalPages = itemPage.getTotalPages();
 		List<Integer> pageNumbers = null;
 		if (totalPages > 0) {
