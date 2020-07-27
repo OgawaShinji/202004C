@@ -1,6 +1,7 @@
 package com.example.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 // import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -44,5 +45,9 @@ public class InsertUserService {
 
 	public User findByMailAddress(String email) {
 		return usersRepository.findByMailAddress(email);
+	}
+	
+	public void update(User user) {
+		usersRepository.update(user);
 	}
 }
