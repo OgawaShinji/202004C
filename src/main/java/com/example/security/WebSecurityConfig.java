@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests() // 認証が必要となるURLを設定します
                 // .antMatchers("/**").permitAll() // /以下のURLも認証不要
-                .antMatchers("/shopping/history/**", "/logout").authenticated()
+                .antMatchers("/shopping/history/**", "/logout","/mypage/**").authenticated()
                 // .antMatchers("/", "/toInsert", "/insert", "/login").permitAll()
                 .anyRequest().permitAll();
         // ログアウト処理の設定
