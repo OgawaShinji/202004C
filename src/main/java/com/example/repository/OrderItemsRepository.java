@@ -1,13 +1,8 @@
 package com.example.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.example.domain.Item;
-import com.example.domain.Order;
 import com.example.domain.OrderItem;
-import com.example.domain.OrderTopping;
-import com.example.domain.Topping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
