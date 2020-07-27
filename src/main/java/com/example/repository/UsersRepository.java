@@ -73,4 +73,14 @@ public class UsersRepository {
 		}
 		return userList.get(0);
 	}
+	
+	/**
+	 * マイページ編集画面で名前、メールアドレス、郵便番号、住所、電話番号を更新
+	 * @param user
+	 */
+	public void update(User user) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
+		String updateSql= "UPDATE users SET name=:name, email=:email, zipcode=:zipcode, address=:address, telephone=:telephone WHERE id=:id";
+		template.update(updateSql, param);
+	}
 }

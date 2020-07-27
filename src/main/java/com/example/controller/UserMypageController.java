@@ -96,6 +96,8 @@ public class UserMypageController {
 		user.setAddress(myPageForm.getAddress());
 		user.setTelephone(myPageForm.getTelephone());
 		session.setAttribute("user", user);
+		// usersテーブルを更新
+		insertUserService.update(user);
 		return "user/mypage";
 	}
 }
