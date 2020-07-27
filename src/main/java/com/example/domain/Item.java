@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import java.sql.Date;
 import java.util.List;
 
 public class Item {
@@ -11,7 +12,10 @@ public class Item {
     private Integer priceL;
     private String imagePass;
     private Integer categoryId;
+    private Date arrivalDate;
+    private String spec;
     private Boolean deleted;
+    private Boolean isNewItem;
     private List<Topping> toppingList;
 
 
@@ -143,6 +147,15 @@ public class Item {
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
+    
+
+    public Date getArrivalDate() {
+        return arrivalDate;
+    }
+
+    public void setArrivalDate(Date arrivalDate) {
+        this.arrivalDate = arrivalDate;
+    }
 
     /**
      * @return Boolean
@@ -166,7 +179,7 @@ public class Item {
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
-
+    
 
     /**
      * @return List<Topping>
@@ -200,6 +213,23 @@ public class Item {
             ", toppingList='" + getToppingList() + "'" +
             "}";
     }
+
+    public Boolean getIsNewItem() {
+        return isNewItem;
+    }
+
+    public void setIsNewItem(Boolean isNewItem) {
+        this.isNewItem = isNewItem;
+    }
+
+    public String getSpec() {
+        return spec;
+    }
+
+    public void setSpec(String spec) {
+        this.spec = spec;
+    }
+
 
 }
 

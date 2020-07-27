@@ -87,4 +87,19 @@ public class IndexService {
 		Page<Item> itemPage = new PageImpl<Item>(list, PageRequest.of(page, size), itemList.size());
 		return itemPage;
 	}
+
+
+	
+	/** 
+	 * itemsをcategoryidで抽出
+	 * 
+	 * @param categoryId
+	 * @param listType
+	 * @return List<Item>
+	 */
+	public List<Item> findByCategoryId(Integer categoryId,String listType) {
+		List<Item> itemList = itemRepository.findByCategoryId(categoryId, listType);
+
+		return itemList;
+	}
 }

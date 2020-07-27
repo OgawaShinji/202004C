@@ -37,7 +37,8 @@
 					<p class="navbar-text navbar-right">
 						<a href="cart_list.html" th:href="@{/shoppingcart/toCartList}"
 							class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
-						<a href="order_history.html" th:href="@{/shopping/history}" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
+						<a href="order_history.html" th:href="@{/shopping/history}"
+							class="navbar-link">注文履歴</a>&nbsp;&nbsp;
 						<a href="login.html" th:href="@{/toLogin}" class="navbar-link">ログイン</a>&nbsp;&nbsp;
 						<a href="item_list_pizza.html" th:href="@{/logout}" class="navbar-link">ログアウト</a>
 					</p>
@@ -46,8 +47,7 @@
 			</div>
 			<!-- /.container-fluid -->
 		</nav>
-
-		<!-- アクション属性を変更してください -->
+		<!-- 遷移先の流れを -->
 		<form th:action="@{/shoppingcart/addCartItem}" method="post" th:object="${itemDetailForm}">
 			<div class="row">
 				<div class="col-xs-offset-2 col-xs-8">
@@ -63,28 +63,76 @@
 							<div class="bs-component">
 								<h4 th:text="${item.name}">じゃがバターベーコン</h4>
 								<br> <br>
-								<p th:text="${item.description}">
-									マイルドな味付けのカレーに大きくカットしたポテトをのせた、バターとチーズの風味が食欲をそそるお子様でも楽しめる商品です。</p>
+								<span th:if="${item.description}">
+									<span th:each="str,stat:${item.description.split('\r\n|\r|\n', -1)}">
+										<th:block th:text="${str}"/>
+										<br th:if="${!stat.last}"/>
+									</span>
+								</span>
 							</div>
 						</div>
 						<input type="hidden" name="id" th:value="${item.id}">
 					</div>
 					<br>
-					<div class="row">
-						<div class="col-xs-offset-2 col-xs-8">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-12">
-										<label for="inputResponsibleCompany">サイズ</label>
+					<span th:if="${item.priceL}==0">
+						<div class="row">
+							<div class="col-xs-offset-2 col-xs-8">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-12">
+											<label for="inputResponsibleCompany">価格</label>
+										</div>
+										<div class="col-sm-12">
+											<label class="radio-inline"><input type="radio" name="size" th:value="M"
+													checked> <span class="item-priceM"
+													th:text="${item.priceM}"></span>円(税抜)<br>
+											</label>
+										</div>
 									</div>
-									<div class="col-sm-12">
-										<label class="radio-inline"><input type="radio" name="size" th:value="M"
-												checked> <span class="price">&nbsp;M&nbsp;</span>&nbsp;&nbsp;<span
-												class="item-priceM" th:text="${item.priceM}"></span>円(税抜)<br>
-										</label> <label class="radio-inline"> <input type="radio" name="size"
-												th:value="L"> <span class="price">&nbsp;L&nbsp;</span>&nbsp;&nbsp;<span
-												class="item-priceL" th:text="${item.priceL}"></span>円(税抜)<br>
-										</label>
+								</div>
+							</div>
+						</div>
+					</span>
+					<span th:unless="${item.priceL}==0">
+						<div class="row">
+							<div class="col-xs-offset-2 col-xs-8">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-12">
+											<label for="inputResponsibleCompany">サイズ</label>
+										</div>
+										<div class="col-sm-12">
+											<label class="radio-inline"><input type="radio" name="size" th:value="M"
+													checked> <span class="price">&nbsp;M&nbsp;</span>&nbsp;&nbsp;<span
+													class="item-priceM" th:text="${item.priceM}"></span>円(税抜)<br>
+											</label> <label class="radio-inline"> <input type="radio" name="size"
+													th:value="L"> <span
+													class="price">&nbsp;L&nbsp;</span>&nbsp;&nbsp;<span
+													class="item-priceL" th:text="${item.priceL}"></span>円(税抜)<br>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</span>
+					<br>
+					<div th:if="${item.categoryId}==4">
+						<div class="row">
+							<div class="col-xs-offset-2 col-xs-8">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-12">
+											<label for="inputResponsibleCompany">内容量</label>
+										</div>
+										<div class="col-sm-12">
+											<span th:if="${item.spec}">
+												<span th:each="str,stat:${item.spec.split('\r\n|\r|\n', -1)}">
+													<th:block th:text="${str}"/>
+													<br th:if="${!stat.last}"/>
+												</span>
+											</span>
+										</div>
 									</div>
 								</div>
 							</div>

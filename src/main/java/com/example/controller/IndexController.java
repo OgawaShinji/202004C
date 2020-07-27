@@ -1,11 +1,17 @@
 package com.example.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import com.example.domain.Item;
+import com.example.form.IndexForm;
+import com.example.service.IndexService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,10 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.example.domain.Item;
-import com.example.form.IndexForm;
-import com.example.service.IndexService;
 
 @Controller
 @RequestMapping("/item-list")
@@ -39,32 +41,62 @@ public class IndexController {
 	 * @return
 	 */
 	@RequestMapping("")
-	public String index(Model model, Integer page, String name, String listType, IndexForm indexForm) {
+	public String index(Model model, Integer page, String searchName, String listType, IndexForm indexForm,String categoryid) {
+		
 		// 並び順を変更するセレクトボタンにthymeleafを適用するためのMapを作成
 		Map<String, String> selectMap = new LinkedHashMap<>();
-		selectMap.put("価格安い順（Mサイズ）", "price_m");
-		selectMap.put("価格安い順（Lサイズ）", "price_l");
-		selectMap.put("価格高い順（Mサイズ）", "price_m DESC");
-		selectMap.put("価格高い順（Lサイズ）", "price_l DESC");
+		selectMap.put("新着順", "arrival_date desc,categoryid");
+		selectMap.put("価格安い順", "price_m");
+		selectMap.put("価格高い順", "price_m DESC");
 		model.addAttribute("selectMap", selectMap);
 		// ページング機能追加
 		if (page == null) {
 			page = 1;
 		}
-		List<Item> itemList = null;
+		List<Item> itemList =new ArrayList<>();
 		// 初めてitem-listへ遷移してきた時
-		if (Objects.isNull(name)) {
-			listType = "price_m";
+		if (Objects.isNull(categoryid)) {
+			searchName="";
+			categoryid ="0";
+			listType = "arrival_date desc,categoryid";
 			itemList = indexService.findAll(listType);
 			model.addAttribute("itemList", itemList);
 			// 2回目以降にitem-listへ遷移してきた時
 		} else {
-			// 並び順を選択してないときは価格安い順（Mサイズ）で表示する
-			if (listType.equals("")) {
-				itemList = indexService.findByLikeName(name, "price_m");
-			} else {
-				itemList = indexService.findByLikeName(name, listType);
+
+			// categoryidで取得したitemsを格納するlist
+			List<Item> itemListByCategoryId=null;
+
+			// 取得してきたcategoryidがnullの時
+			if(categoryid.equals("")){
+				categoryid="0";
 			}
+			Integer categoryId=Integer.parseInt(categoryid);
+
+			// 取得してきたcategoryidが0の時
+			if(categoryId == 0){
+				itemListByCategoryId=indexService.findAll(listType);
+			}else if(categoryId>0){
+				itemListByCategoryId=indexService.findByCategoryId(categoryId, listType);
+			}
+
+			// searchNameで取得したitemsを格納するlist
+			List<Item> itemListBysearchName=null;
+			// 並び順を選択してないときは価格安い順（Mサイズ）で表示する
+			
+			itemListBysearchName = indexService.findByLikeName(searchName, listType);
+			
+
+			// itemListBycategoryIdとitemListBysearchNameの重複している部分をlistとして取得
+			for(Item itema:itemListByCategoryId){
+				for(Item itemb:itemListBysearchName){
+					if(Objects.equals(itema.getId(), itemb.getId())){
+						itemList.add(itema);
+						break;
+					}
+				}
+			}
+
 			// 取得された商品が null の場合は全件取得してエラーメッセージ
 			if (itemList.size() == 0) {
 				itemList = indexService.findAll(listType);
@@ -75,12 +107,43 @@ public class IndexController {
 
 		// 取得したitemListを元にページング機能を導入
 		Page<Item> itemPage = indexService.showListPaging(page, 6, itemList);
+		for(Item item:itemPage.getContent()){
+			LocalDate arrivalDate=item.getArrivalDate().toLocalDate();
+			if(arrivalDate.isAfter(LocalDate.of(2020, 6, 1))){
+				item.setIsNewItem(true);
+			}else{
+				item.setIsNewItem(false);
+			}
+		}
 		model.addAttribute("itemPage", itemPage);
 		List<Integer> pageNumbers = calcPageNumbers(itemPage);
 		model.addAttribute("pageNumbers", pageNumbers);
 		// ページングの数字からも検索できるように検索フォームをスコープに格納しておく
-		model.addAttribute("name", name);
+		model.addAttribute("searchName", searchName);
 		model.addAttribute("listType", listType);
+		model.addAttribute("categoryid",categoryid);
+		// 検索結果を分かりやすくするために取得してきたcategoryidからcategorynameを割り出しmodelに格納する
+		String categoryName=null;
+		if(Objects.equals(categoryid, "0")){
+			categoryName="全て";
+		}else if(Objects.equals(categoryid, "1")){
+			categoryName="飲み物";
+		}else if(Objects.equals(categoryid, "2")){
+			categoryName="食べ物";
+		}else if(Objects.equals(categoryid, "3")){
+			categoryName="グッズ";
+		}else if(Objects.equals(categoryid, "4")){
+			categoryName="ギフトアイテム";
+		}
+		model.addAttribute("categoryName", categoryName);
+		// 取得件数を分かりやすくするために取得したitemPageのsizeをmodelに格納
+		model.addAttribute("itemPageTotalElements", itemPage.getTotalElements());
+		// 検索ワードを分かりやすくするために、取得したsearchNameをmodelに格納
+		String search=searchName;
+		if(Objects.equals(search,"")){
+			search ="指定なし";
+		}
+		model.addAttribute("search",search);
 		// オートコンプリート用にJavaScriptの配列の中身を文字列で作ってスコープへ格納
 		List<Item> autocompleteList = indexService.findAll("name");
 		StringBuilder itemListForAutocomplete = indexService.getItemListForAutocomplete(autocompleteList);

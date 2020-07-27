@@ -1,7 +1,10 @@
-$(function(){
-    
-    $(".item-image").mouseover(function(){
-        $(".item-image").css("opacity","0.7");
-        console.log('ddd')
-    })
-})
+$(function () {
+    var nav = $('.nav');
+    $('li', nav)
+        .mouseover(function (e) {
+            $('ul', this).stop().slideDown('fast');
+        })
+        .mouseout(function (e) {
+            $('ul', this).stop().slideUp('fast');
+        });
+});

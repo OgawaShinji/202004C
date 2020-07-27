@@ -28,6 +28,8 @@ public class ItemsRepository {
 		item.setPriceL(rs.getInt("price_l"));
 		item.setImagePass(rs.getString("image_path"));
 		item.setCategoryId(rs.getInt("categoryid"));
+		item.setArrivalDate(rs.getDate("arrival_date"));
+		item.setSpec(rs.getString("spec"));
 		item.setDeleted(rs.getBoolean("deleted"));
 		return item;
 	};
@@ -83,6 +85,23 @@ public class ItemsRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
 
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
+
+		return itemList;
+	}
+
+	
+	/** 
+	 * itemsをcategoryidで抽出
+	 * 
+	 * @param categoryId
+	 * @param listType
+	 * @return List<Item>
+	 */
+	public List<Item> findByCategoryId(Integer categoryId,String listType){
+		String sql="SELECT * FROM items WHERE categoryid=:categoryid AND deleted != true ORDER BY " + listType;
+
+		SqlParameterSource param = new MapSqlParameterSource().addValue("categoryid",categoryId);
+		List<Item> itemList =template.query(sql,param, ITEM_ROW_MAPPER);
 
 		return itemList;
 	}

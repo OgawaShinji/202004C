@@ -2,15 +2,16 @@ package com.example.form;
 
 public class IndexForm {
 
-	private String name;
+	private String searchName;
 	private String listType;
+	private String categoryid;
 
-	public String getName() {
-		return name;
+	public String getSearchName() {
+		return searchName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setSearchName(String searchName) {
+		this.searchName = searchName;
 	}
 
 	public String getListType() {
@@ -21,9 +22,15 @@ public class IndexForm {
 		this.listType = listType;
 	}
 
-	@Override
-	public String toString() {
-		return "IndexForm [name=" + name + ", listType=" + listType + "]";
+	public String getCategoryid() {
+		return categoryid;
 	}
+
+	public void setCategoryid(String categoryid) {
+		this.categoryid = categoryid;
+	}
+
+	
+
 
 }
