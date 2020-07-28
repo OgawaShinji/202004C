@@ -25,6 +25,7 @@ public class UsersRepository {
 		user.setZipcode(rs.getString("zipcode"));
 		user.setAddress(rs.getString("address"));
 		user.setTelephone(rs.getString("telephone"));
+		user.setPoint(rs.getInt("point"));
 		return user;
 	};
 
@@ -65,7 +66,7 @@ public class UsersRepository {
 	 * @return
 	 */
 	public User findByMailAddress(String email) {
-		String sql = "select id, name, email, password, zipcode, address, telephone from users where email = :email";
+		String sql = "select id, name, email, password, zipcode, address, telephone, point from users where email = :email";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
 		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
 		if (userList.size() == 0) {
@@ -73,14 +74,26 @@ public class UsersRepository {
 		}
 		return userList.get(0);
 	}
-	
+
 	/**
-	 * マイページ編集画面で名前、メールアドレス、郵便番号、住所、電話番号を更新
+	 * マイページ編集画面で名前、メールアドレス、郵便番号、住所、電話番号を更新.
+	 * 
 	 * @param user
 	 */
 	public void update(User user) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
-		String updateSql= "UPDATE users SET name=:name, email=:email, zipcode=:zipcode, address=:address, telephone=:telephone WHERE id=:id";
+		String updateSql = "UPDATE users SET name=:name, email=:email, zipcode=:zipcode, address=:address, telephone=:telephone WHERE id=:id";
+		template.update(updateSql, param);
+	}
+
+	/**
+	 * ユーザーの保有ポイントを更新する.
+	 * 
+	 * @param user
+	 */
+	public void updatePoint(User user) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
+		String updateSql = "UPDATE users SET point=:point WHERE id=:id";
 		template.update(updateSql, param);
 	}
 }
