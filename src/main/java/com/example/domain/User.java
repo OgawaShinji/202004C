@@ -31,6 +31,11 @@ public class User {
 	/** 電話番号 */
 	@Column(name = "telephone")
 	private String telephone;
+	/** ポイント */
+	private Integer point;
+
+	public User() {
+	}
 
 	public Integer getId() {
 		return id;
@@ -88,23 +93,17 @@ public class User {
 		this.telephone = telephone;
 	}
 
+	public Integer getPoint() {
+		return point;
+	}
+
+	public void setPoint(Integer point) {
+		this.point = point;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", zipcode="
-				+ zipcode + ", address=" + address + ", telephone=" + telephone + "]";
-	}
-
-	public User(Integer id, String name, String email, String password, String zipcode, String address,
-			String telephone) {
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.zipcode = zipcode;
-		this.address = address;
-		this.telephone = telephone;
-	}
-
-	public User() {
+				+ zipcode + ", address=" + address + ", telephone=" + telephone + ", point=" + point + "]";
 	}
 }
