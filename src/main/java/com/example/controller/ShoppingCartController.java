@@ -273,7 +273,12 @@ public class ShoppingCartController {
         // context.setVariable("deliveryTime", ldtForMail);
         context.setVariable("orderList", orderWhatBoughtLatest);
 
-        sendMailService.sendMail(context, order);
+//        sendMailService.sendMail(context, order);
+        
+        // 注文をしたユーザーの保有ポイントをお会計金額の１％ぶん追加する
+        Integer plusPoint = afterGetUser.getPoint() + (orderWhatBoughtLatest.getTotalPrice() / 100);
+        afterGetUser.setPoint(plusPoint);
+        shoppingCartService.updatePoint(afterGetUser);
 
         return "/shoppingcart/complete";
 
