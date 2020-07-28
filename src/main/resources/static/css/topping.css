@@ -1,0 +1,11 @@
+@charset "UTF-8";
+.tooltips {
+  position: absolute;
+  bottom: 3em;
+  z-index: 1000;
+  padding: 0.5em;
+  right: 3em;
+  color: #FFFFFF;
+  background: #cc3333;
+  border-radius: 0.5em;
+}

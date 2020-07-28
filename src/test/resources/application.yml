@@ -4,3 +4,15 @@ spring:
     url: jdbc:postgresql://localhost:5432/unit_test
     username: postgres
     password: postgres
+    
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    port: 587
+    username: rakuraku.coffee.rakuraku@gmail.com
+    password: zkrvksmccnoaazrn
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.starttls.enable: true
+
+  thymeleaf:
+    check-template-location: false
