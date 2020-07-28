@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -19,6 +21,12 @@
 
 
 	<dependencies>
+		<!-- WatsonIBM -->
+		<dependency>
+			<groupId>com.ibm.watson.developer_cloud</groupId>
+			<artifactId>java-sdk</artifactId>
+			<version>6.9.0</version>
+		</dependency>
 		<!-- security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -60,14 +68,14 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.ninja-squad/DbSetup -->
 		<dependency>
-    		<groupId>com.ninja-squad</groupId>
-    		<artifactId>DbSetup</artifactId>
-    		<version>2.0.0</version>
+			<groupId>com.ninja-squad</groupId>
+			<artifactId>DbSetup</artifactId>
+			<version>2.0.0</version>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
-        </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
