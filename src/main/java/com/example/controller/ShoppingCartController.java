@@ -200,6 +200,7 @@ public class ShoppingCartController {
     public String confirmToBuy(Model model) {
 
         User userInSession = (User) session.getAttribute("user");
+        model.addAttribute("user", userInSession);
         Order order = new Order();
 
         try {
@@ -273,7 +274,7 @@ public class ShoppingCartController {
         // context.setVariable("deliveryTime", ldtForMail);
         context.setVariable("orderList", orderWhatBoughtLatest);
 
-//        sendMailService.sendMail(context, order);
+//        sendMailService.sendMail(context, order); // ページ遷移できなかったのでコメントアウトしました to笠脇氏
         
         // 注文をしたユーザーの保有ポイントをお会計金額の１％ぶん追加する
         Integer plusPoint = afterGetUser.getPoint() + (orderWhatBoughtLatest.getTotalPrice() / 100);
