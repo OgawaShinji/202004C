@@ -11,7 +11,9 @@ public class PaymentForm {
 	private String creditCard;
 	private String cashOfDeli;
 	private Timestamp deliveryTime;
+	@NotBlank(message = "時間を選択してください")
 	private String time;
+	@NotBlank(message = "日付を選択してください")
 	private String ymd;
 	/**
 	 * 名前
