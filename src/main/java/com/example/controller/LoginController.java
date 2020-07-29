@@ -49,7 +49,7 @@ public class LoginController {
 	@RequestMapping("/toLogin")
 	public String toLogin(Model model,String error) {
 		if(Objects.nonNull(error)) {
-			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です");
+			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが違います");
 		}
 		return "user/login";
 	}
@@ -104,8 +104,12 @@ public class LoginController {
 			} else {// 以前にカートに追加していたときそれらのOrder_itemと未ログイン状態で追加したOrder_itemのOrderIdを統一
 				orderForLoginUser.setId(ordersIdForLoginUser);
 				orderForNotLoginUser.setId(ordersIdForNotLoginUser);
-				List<Order> orders = shoppingHistoryService.findCartHistory(orderForNotLoginUser);
-				orderForNotLoginUser.setTotalPrice(orders.get(0).getTotalPrice());
+				try {
+					List<Order> orders = shoppingHistoryService.findCartHistory(orderForNotLoginUser);
+					orderForNotLoginUser.setTotalPrice(orders.get(0).getTotalPrice());
+				} catch (NullPointerException e) {
+					orderForNotLoginUser.setTotalPrice(0);
+				}
 				shoppingCartService.changeUserDuringShopping(orderForNotLoginUser, orderForLoginUser);
 			}
 		}
