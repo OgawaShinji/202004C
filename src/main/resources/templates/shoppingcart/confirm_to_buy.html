@@ -230,8 +230,10 @@
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-12">
+									<div th:if="${#fields.hasErrors('ymd')}"
+                                            th:errors="*{ymd}" style="color: red"></div>
 												<label
-													class="control-label" style="color: red" for="inputPeriod">配達日時を入力してください</label>
+													class="control-label" for="inputPeriod">配達日:</label>
 											</div>
 											<div class="col-sm-5">
 												<input type="date" name="ymd" id="ymd"
@@ -245,6 +247,10 @@
 								<td>
 									<div class="row">
                                         <div class="col-sm-12">
+									<div th:if="${#fields.hasErrors('time')}"
+                                            th:errors="*{time}" style="color: red"></div>
+                                            <label
+													class="control-label" for="inputPeriod">配達時間:</label><br>
                                             <label class="radio-inline">
                                                 <input type="radio"
                                                     name="responsibleCompany" checked="checked" th:field="*{time}" value="10:00:00">
