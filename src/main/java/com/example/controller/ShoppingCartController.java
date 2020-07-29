@@ -17,7 +17,6 @@ import com.example.domain.Order;
 import com.example.domain.OrderItem;
 import com.example.domain.OrderTopping;
 import com.example.domain.User;
-import com.example.form.InsertUserForm;
 import com.example.form.ItemDetailForm;
 import com.example.form.PaymentForm;
 import com.example.service.InsertUserService;
@@ -26,8 +25,6 @@ import com.example.service.SendMailService;
 import com.example.service.ShoppingCartService;
 import com.example.service.ShoppingHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -200,6 +197,7 @@ public class ShoppingCartController {
     public String confirmToBuy(Model model) {
 
         User userInSession = (User) session.getAttribute("user");
+        model.addAttribute("user", userInSession);
         Order order = new Order();
 
         try {
@@ -273,7 +271,7 @@ public class ShoppingCartController {
         // context.setVariable("deliveryTime", ldtForMail);
         context.setVariable("orderList", orderWhatBoughtLatest);
 
-//        sendMailService.sendMail(context, order);
+//        sendMailService.sendMail(context, order); // ページ遷移できなかったのでコメントアウトしました to笠脇氏
         
         // 注文をしたユーザーの保有ポイントをお会計金額の１％ぶん追加する
         Integer plusPoint = afterGetUser.getPoint() + (orderWhatBoughtLatest.getTotalPrice() / 100);

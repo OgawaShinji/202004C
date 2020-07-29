@@ -2,8 +2,6 @@ package com.example.repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 import com.example.domain.Item;
 import com.example.domain.Order;
 import com.example.domain.OrderItem;
@@ -131,10 +129,10 @@ public class OrdersRepository {
     public void updateOrdersForPayment(Order order) {
         String insertSql = "UPDATE orders SET status=:status, total_price=:totalPrice, order_date=:orderDate, destination_name=:destinationName, destination_email=:destinationEmail, destination_zipcode=:destinationZipcode,"
                 + " destination_address=:destinationAddress, destination_tel=:destinationTel, delivery_time=:deliveryTime, payment_method=:paymentMethod"
-                + "WHERE user_id=:userId AND status=0";
+                + " WHERE user_id=:userId AND status=0";
         SqlParameterSource param = new MapSqlParameterSource().addValue("userId", order.getUserId())
                 .addValue("status", order.getStatus()).addValue("totalPrice", order.getTotalPrice())
-                .addValue("orderdate", order.getOrderDate()).addValue("destinationName", order.getDestinationName())
+                .addValue("orderDate", order.getOrderDate()).addValue("destinationName", order.getDestinationName())
                 .addValue("destinationEmail", order.getDestinationEmail())
                 .addValue("destinationZipcode", order.getDestinationZipcode())
                 .addValue("destinationAddress", order.getDestinationAddress())

@@ -148,7 +148,6 @@ public class OrderItemsRepositoryTest {
 		this.orderItemTest.setQuantity(TEST_QUANTITY);
 		this.orderItemTest.setSize(TEST_SIZE);
 		orderItemsRepository.deleteOrderItemsById(TEST_ID);
-		//エラーが起こればdelete処理が行われている
 		try {
 			List<OrderItem> orderItemList = template.query(selectSql,  ORDER_ITEM_ROW_MAPPER);
 			orderItemList.get(0);
