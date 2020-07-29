@@ -14,6 +14,7 @@ public class Item {
     private Integer categoryId;
     private Date arrivalDate;
     private String spec;
+    private Integer warmId;
     private Boolean deleted;
     private Boolean isNewItem;
     private List<Topping> toppingList;
@@ -228,6 +229,14 @@ public class Item {
 
     public void setSpec(String spec) {
         this.spec = spec;
+    }
+
+    public Integer getWarmId() {
+        return warmId;
+    }
+
+    public void setWarmId(Integer warmId) {
+        this.warmId = warmId;
     }
 
 

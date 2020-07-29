@@ -41,7 +41,7 @@ public class IndexController {
 	 * @return
 	 */
 	@RequestMapping("")
-	public String index(Model model, Integer page, String searchName, String listType, IndexForm indexForm,String categoryid) {
+	public String index(Model model, Integer page, String searchName, String listType, IndexForm indexForm,String categoryid,String warmid) {
 		
 		// 並び順を変更するセレクトボタンにthymeleafを適用するためのMapを作成
 		Map<String, String> selectMap = new LinkedHashMap<>();
@@ -58,6 +58,7 @@ public class IndexController {
 		if (Objects.isNull(categoryid)) {
 			searchName="";
 			categoryid ="0";
+			warmid="0";
 			listType = "arrival_date desc,categoryid";
 			itemList = indexService.findAll(listType);
 			model.addAttribute("itemList", itemList);
@@ -65,21 +66,40 @@ public class IndexController {
 		} else {
 
 			// categoryidで取得したitemsを格納するlist
-			List<Item> itemListByCategoryId=null;
+			List<Item> itemListByColumn=null;
 
 			// 取得してきたcategoryidがnullの時
 			if(categoryid.equals("")){
 				categoryid="0";
 			}
+			if(warmid.equals("")){
+				categoryid="0";
+			}
 			Integer categoryId=Integer.parseInt(categoryid);
+			Integer warmId=Integer.parseInt(warmid);
 
 			// 取得してきたcategoryidが0の時
 			if(categoryId == 0){
-				itemListByCategoryId=indexService.findAll(listType);
-			}else if(categoryId>0){
-				itemListByCategoryId=indexService.findByCategoryId(categoryId, listType);
+				itemListByColumn=indexService.findAll(listType);
+			}else if(categoryId==2||categoryId==3||categoryId==4){
+				itemListByColumn=indexService.findByCategoryId(categoryId, listType);
 			}
 
+			// categoryid==1の時はwarmidの値によって取得するitemを選ぶ
+			if(categoryId ==1){
+				// warmidが0の時はdrinkを全件取得する
+				if(warmId==0){
+					itemListByColumn=indexService.findByCategoryId(categoryId, listType);
+				// warmidが1の時はhotのdrinkを取得する
+			}else if(warmId==1){
+				itemListByColumn=indexService.findByWarmId(warmId, listType);
+				// warmidが1の時はhotのdrinkを取得する
+				}else if(warmId==2){
+					itemListByColumn=indexService.findByWarmId(warmId, listType);
+				}
+			}
+
+	
 			// searchNameで取得したitemsを格納するlist
 			List<Item> itemListBysearchName=null;
 			// 並び順を選択してないときは価格安い順（Mサイズ）で表示する
@@ -88,7 +108,7 @@ public class IndexController {
 			
 
 			// itemListBycategoryIdとitemListBysearchNameの重複している部分をlistとして取得
-			for(Item itema:itemListByCategoryId){
+			for(Item itema:itemListByColumn){
 				for(Item itemb:itemListBysearchName){
 					if(Objects.equals(itema.getId(), itemb.getId())){
 						itemList.add(itema);
@@ -99,11 +119,14 @@ public class IndexController {
 
 			// 取得された商品が null の場合は全件取得してエラーメッセージ
 			if (itemList.size() == 0) {
-				itemList = indexService.findAll(listType);
+				itemList = indexService.findByCategoryId(categoryId, listType);
 				String nullMessage = "該当する商品がありません";
+				String nullMessage2 = "該当する商品がなかったため全件表示します";
 				model.addAttribute("nullMessage", nullMessage);
+				model.addAttribute("nullMessage2", nullMessage2);
 			}
 		}
+
 
 		// 取得したitemListを元にページング機能を導入
 		Page<Item> itemPage = indexService.showListPaging(page, 6, itemList);
@@ -122,6 +145,7 @@ public class IndexController {
 		model.addAttribute("searchName", searchName);
 		model.addAttribute("listType", listType);
 		model.addAttribute("categoryid",categoryid);
+		model.addAttribute("warmid",warmid);
 		// 検索結果を分かりやすくするために取得してきたcategoryidからcategorynameを割り出しmodelに格納する
 		String categoryName=null;
 		if(Objects.equals(categoryid, "0")){

@@ -12,6 +12,7 @@
 	rel="stylesheet">
 <link th:href="@{/css/map.css}" href="../static/css/map.css"
 	rel="stylesheet">
+	<link rel="stylesheet" href="/css/footer.css">
 
 <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script
@@ -66,6 +67,13 @@
 			</div>
 			<!-- /.container-fluid -->
 		</nav>
+
+		<!-- 遷移先の指定 -->
+		<a th:href="@{/item-list}" style="font-size:14px">HOME</a>
+		<span style="font-size:14px">></span>
+		<span style="font-size:14px">店舗情報</span>
+
+
 		<h3 class="text-center">店舗情報</h3>
 		<div class="col-xs-5">
 			<div class="bs-component">
@@ -98,6 +106,50 @@
 			});
 		</script>
 	</div>
+	<br><br><br><br><br><br>
+
+	<!-- footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="categorybox">
+					<div class="col-sm-3 fot">
+						<span class="acount-icon">
+							<a th:href="@{/mypage}"  style="font-size:13px"><i
+								class="fa fa-user" aria-hidden="true"></i>マイページ</a>
+						</span>
+					</div>
+					<div class="col-sm-3 fot">
+						<span class="acount-icon">
+							<a th:href="@{/store/detail}"  style="font-size:13px"><i
+								class="fa fa-user" aria-hidden="true"></i>店舗情報</a>
+						</span>
+					</div>
+					<div class="col-sm-3 fot">
+						<span class="acount-icon"> <a
+							th:href="@{/shoppingcart/toCartList}"style="font-size:13px"><i class="fa fa-heart"
+							aria-hidden="true" ></i>ショッピングカート</a> 
+						</span>
+					</div>
+					<div class="col-sm-3 fot">
+						<span class="acount-icon">
+							<a th:href="@{/shopping/history}" style="font-size:13px"><i class="fa fa-cart-plus"
+								aria-hidden="true"></i>注文履歴</a> 
+							</span>
+						</div>
+					</div>
+			<hr>
+
+		</div>
+		
+	</footer>
+	<br><br>
+	<div style="display:flex;justify-content: center">
+		<img alt="main log" th:src="@{/img_coffee/header-logo-white.png}" height="60">
+	</div>
+	<br><br>
+	<div class="row text-center">© 2020. Made with by teamC</div>
+	<br><br>
 	<!-- end container -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

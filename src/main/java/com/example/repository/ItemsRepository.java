@@ -30,6 +30,7 @@ public class ItemsRepository {
 		item.setCategoryId(rs.getInt("categoryid"));
 		item.setArrivalDate(rs.getDate("arrival_date"));
 		item.setSpec(rs.getString("spec"));
+		item.setWarmId(rs.getInt("warmid"));
 		item.setDeleted(rs.getBoolean("deleted"));
 		return item;
 	};
@@ -101,6 +102,15 @@ public class ItemsRepository {
 		String sql="SELECT * FROM items WHERE categoryid=:categoryid AND deleted != true ORDER BY " + listType;
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("categoryid",categoryId);
+		List<Item> itemList =template.query(sql,param, ITEM_ROW_MAPPER);
+
+		return itemList;
+	}
+
+	public List<Item> findByWarmId(Integer warmId,String listType){
+		String sql="SELECT * FROM items WHERE warmid=:warmid AND deleted != true ORDER BY " + listType;
+
+		SqlParameterSource param = new MapSqlParameterSource().addValue("warmid",warmId);
 		List<Item> itemList =template.query(sql,param, ITEM_ROW_MAPPER);
 
 		return itemList;

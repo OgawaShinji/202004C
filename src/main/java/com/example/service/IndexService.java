@@ -102,4 +102,9 @@ public class IndexService {
 
 		return itemList;
 	}
+
+	public List<Item> findByWarmId(Integer warmId,String listType) {
+		List<Item> itemList = itemRepository.findByWarmId(warmId, listType);
+		return itemList;
+	}
 }
