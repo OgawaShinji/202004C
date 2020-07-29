@@ -23,16 +23,7 @@ public class PaymentForm {
 	 */
 	@Pattern(regexp = "^([\\w])+([\\w\\._-])*\\@([\\w])+([\\w\\._-])*\\.([a-zA-Z])+$", message = "メールアドレスの形式が不正です")
 	private String email;
-	/**
-	 * パスワード
-	 */
-	@Size(min = 8, max = 16, message = "パスワードは８文字以上１６文字以内で設定してください")
-	private String password;
-	/**
-	 * 確認用パスワード
-	 */
-	@NotBlank(message = "確認用パスワードを入力してください")
-	private String checkpassword;
+	
 	/**
 	 * 郵便番号
 	 *
@@ -104,22 +95,6 @@ public class PaymentForm {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getCheckpassword() {
-		return this.checkpassword;
-	}
-
-	public void setCheckpassword(String checkpassword) {
-		this.checkpassword = checkpassword;
 	}
 
 	public String getZipcode() {
