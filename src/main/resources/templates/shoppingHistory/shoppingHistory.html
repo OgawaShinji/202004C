@@ -156,7 +156,7 @@
                             </td>
                             <td>
                                 <div th:switch="${order.status}">
-                                    <p th:case="1">発想の準備をしております</p>
+                                    <p th:case="1">発送の準備をしております</p>
                                     <p th:case="2">発送の準備をしております</p>
                                     <p th:case="3">発送されました</p>
                                     <p th:case="4" th:text="|${order.deliveryTime}に配達しました|"></p>
@@ -178,11 +178,7 @@
         <div class="row">
             <div class="col-xs-offset-2 col-xs-8">
                 <div class="form-group text-center">
-                    <th:block th:if="${order}">
-                    <span id="total-price" th:text="'消費税：'+${#numbers.formatInteger(order.getTax(),1,'COMMA')}+'円'">消費税：8,000円</span><br>
-                    <span id="total-price" th:text="'ご注文金額合計：'+${#numbers.formatInteger(order.getCalcTotalPrice(),1,'COMMA')+'円 (税込)'}">ご注文金額合計：38,000円 (税込)</span>
-                    </th:block>
-                    <th:block th:unless="${order}">
+                    <th:block th:if="${orderList.size()==0}">
                         <span id="total-price">履歴は存在しません</span><br>
                     </th:block>
                 </div>
