@@ -90,11 +90,19 @@
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
-						<a href="mypage.html" th:href="@{/mypage}" class="navbar-link">マイページ</a>
+					<a href="mypage.html" th:href="@{/mypage}" class="navbar-link">マイページ</a>
+						&nbsp;&nbsp; <a href="detail.html" th:href="@{/store/detail}" class="navbar-link">店舗情報</a>
 						&nbsp;&nbsp; <a href="cart_list.html" th:href="@{/shoppingcart/toCartList}" class="navbar-link">ショッピングカート</a>
 						&nbsp;&nbsp; <a href="order_history.html" th:href="@{/shopping/history}" class="navbar-link">注文履歴</a>
+					<span th:if="${session.user}"><span th:unless="${session.user.name}">
 						&nbsp;&nbsp; <a href="login.html" th:href="@{/toLogin}" class="navbar-link">ログイン</a>
+					</span></span>
+					<span th:unless="${session.user}">
+						&nbsp;&nbsp; <a href="login.html" th:href="@{/toLogin}" class="navbar-link">ログイン</a>
+					</span>
+					<span th:if="${session.user}"><span th:if="${session.user.name}">
 						&nbsp;&nbsp; <a href="item_list_pizza.html" th:href="@{/logout}" class="navbar-link">ログアウト</a>
+					</span></span>
 					</p>
 				</div>
 				<!-- /.navbar-collapse -->

@@ -53,12 +53,13 @@
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
-						<a href="cart_list.html" th:href="@{/shoppingcart/toCartList}"
-							class="navbar-link">ショッピングカート</a> &nbsp;&nbsp; <a
-							href="order_history.html" th:href="@{/shopping/history}"
-							class="navbar-link">注文履歴</a> &nbsp;&nbsp; <a href="login.html"
-							th:href="@{/toLogin}" class="navbar-link">ログイン</a> &nbsp;&nbsp; <a
-							href="item_list_pizza.html" th:href="@{/logout}"
+						<a href="mypage.html" th:href="@{/mypage}" class="navbar-link">マイページ</a>
+						&nbsp;&nbsp; <a href="detail.html" th:href="@{/store/detail}"
+							class="navbar-link">店舗情報</a> &nbsp;&nbsp;<a href="cart_list.html"
+							th:href="@{/shoppingcart/toCartList}" class="navbar-link">ショッピングカート</a>
+						&nbsp;&nbsp; <a href="order_history.html"
+							th:href="@{/shopping/history}" class="navbar-link">注文履歴</a>
+						&nbsp;&nbsp; <a href="item_list_pizza.html" th:href="@{/logout}"
 							class="navbar-link">ログアウト</a>
 
 					</p>
@@ -80,76 +81,78 @@
 
 					<!-- ここにモックのform要素を貼り付けます -->
 					<script src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
-						<form method="post" class="h-adr" th:action="@{/mypage/update}"
-							th:object="${myPageForm}">
-							<fieldset>
-								<legend>お客様情報</legend>
-								<table class="table table-striped">
-									<tr>
-										<th nowrap>お名前</th>
-										<td>
-											<div class="form-group">
-												<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-													style="color: red"></div> <input type="text" id="inputName"
-												name="name" class="form-control" placeholder="Name" th:field="*{name}">
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th nowrap>メールアドレス</th>
-										<td>
-											<div class="h-adr">
-												<span th:text="${emailError}" style="color: red"></span><br>
-												<div th:if="${#fields.hasErrors('email')}"
-													th:errors="*{email}" style="color: red"></div> 
-												<input type="text" id="inputEmail" name="email" class="form-control"
-												placeholder="Email" th:field="*{email}">
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th nowrap>郵便番号</th>
-										<td>
-											<div class="form-group">
-												<div th:if="${#fields.hasErrors('zipcode')}"
-													th:errors="*{zipcode}" style="color: red"></div> <span
-												class="p-country-name" style="display: none;">Japan</span> <input
-												type="button" value="住所検索" size="8" maxlength="8"
+					<form method="post" class="h-adr" th:action="@{/mypage/update}"
+						th:object="${myPageForm}">
+						<fieldset>
+							<legend>お客様情報</legend>
+							<table class="table table-striped">
+								<tr>
+									<th nowrap>お名前</th>
+									<td>
+										<div class="form-group">
+											<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+												style="color: red"></div>
+											<input type="text" id="inputName" name="name"
+												class="form-control" placeholder="Name" th:field="*{name}">
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th nowrap>メールアドレス</th>
+									<td>
+										<div class="h-adr">
+											<span th:text="${emailError}" style="color: red"></span><br>
+											<div th:if="${#fields.hasErrors('email')}"
+												th:errors="*{email}" style="color: red"></div>
+											<input type="text" id="inputEmail" name="email"
+												class="form-control" placeholder="Email" th:field="*{email}">
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th nowrap>郵便番号</th>
+									<td>
+										<div class="form-group">
+											<div th:if="${#fields.hasErrors('zipcode')}"
+												th:errors="*{zipcode}" style="color: red"></div>
+											<span class="p-country-name" style="display: none;">Japan</span>
+											<input type="button" value="住所検索" size="8" maxlength="8"
 												onkeyup="AjaxZip3.zip2addr('zipcode','','address','address');"
 												onclick="AjaxZip3.zip2addr('zipcode','','address','address');">
-												<input type="text" id="inputZipcode" name="zipcode"
+											<input type="text" id="inputZipcode" name="zipcode"
 												class="form-control p-postal-code" size="8" maxlength="8"
 												placeholder="Zipcode" th:field="*{zipcode}">
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th nowrap>住所</th>
-										<td>
-											<div class="h-adr">
-												<div th:if="${#fields.hasErrors('address')}"
-													th:errors="*{address}" style="color: red"></div> <input
-												type="text" id="inputAddress" name="address"
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th nowrap>住所</th>
+									<td>
+										<div class="h-adr">
+											<div th:if="${#fields.hasErrors('address')}"
+												th:errors="*{address}" style="color: red"></div>
+											<input type="text" id="inputAddress" name="address"
 												class="form-control p-region p-locality p-street-address p-extended-address"
 												placeholder="Address" th:field="*{address}">
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th nowrap>電話番号</th>
-										<td>
-											<div class="form-group">
-												<div th:if="${#fields.hasErrors('telephone')}"
-													th:errors="*{telephone}" style="color: red"></div> <input
-												type="text" id="inputTel" name="telephone" class="form-control"
-												placeholder="Tel" th:field="*{telephone}">
-											</div>
-										</td>
-									</tr>
-								</table>
-								<button type="submit" class="btn btn-primary">更新</button>
-							</fieldset>
-						</form>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th nowrap>電話番号</th>
+									<td>
+										<div class="form-group">
+											<div th:if="${#fields.hasErrors('telephone')}"
+												th:errors="*{telephone}" style="color: red"></div>
+											<input type="text" id="inputTel" name="telephone"
+												class="form-control" placeholder="Tel"
+												th:field="*{telephone}">
+										</div>
+									</td>
+								</tr>
+							</table>
+							<button type="submit" class="btn btn-primary">更新</button>
+						</fieldset>
+					</form>
 
 
 					<!-- ここから下を編集する必要はありません -->

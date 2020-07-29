@@ -78,7 +78,10 @@ public class ItemDetailController {
 
 	@RequestMapping("/visualrecognition")
 	public String serchByImage(Model model, RedirectAttributes redirectAttributes, MultipartFile imgFile) {
-
+		if(Objects.isNull(imgFile)||imgFile.getOriginalFilename().equals("")) {
+			redirectAttributes.addFlashAttribute("findByImageMessage", "検索する画像を選択してください");
+			return "redirect:/item-list";
+		}
 		IamOptions options = new IamOptions.Builder().apiKey("YnFvyX5Qxuzt_myekiJJK2ahpEPb9XCeVaijLJ7uO8St").build();
 		VisualRecognition service = new VisualRecognition("2018-03-19", options);
 		try {
@@ -94,6 +97,10 @@ public class ItemDetailController {
 				List<ClassifierResult> cr = image.getClassifiers();
 				for (ClassifierResult r : cr) {
 					// System.err.println(r.getName());
+					if(r.getClasses().size()==0) {
+						redirectAttributes.addFlashAttribute("findByImageMessage", "検索された画像に該当する商品は見つかりませんでした");
+						return "redirect:/item-list";
+					}
 					List<ClassResult> cc = r.getClasses();
 					for (ClassResult c : cc) {
 						// System.err.println("ClassResult : " + c);
@@ -101,15 +108,17 @@ public class ItemDetailController {
 						System.err.println("Score : " + c.getScore());
 						System.err.println("TypeHierarchy : " + c.getTypeHierarchy());
 						System.err.println("---");
-						if (c.getScore() <= 0.4 || Objects.isNull(c.getScore())) {
+						if (c.getScore() <= 0.74 || Objects.isNull(c.getScore())) {
 							redirectAttributes.addFlashAttribute("findByImageMessage", "検索された画像に該当する商品は見つかりませんでした");
 							return "redirect:/item-list";
 						}
-
-						String drinkName = c.getClassName().replace(".zip", "");
+						String drinkName;
 						if (c.getClassName().equals("cal.zip")) {
 							drinkName = "カルピスウォーター";
+						}else {
+							drinkName = c.getClassName().replace(".zip", "");
 						}
+						
 						String listType = "arrival_date desc,categoryid";
 						List<Item> itemListBysearchName = null;
 						itemListBysearchName = indexService.findByLikeName(drinkName, listType);
@@ -119,7 +128,7 @@ public class ItemDetailController {
 				}
 			}
 
-			return "";
+			return "redirect:/item-list";
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			redirectAttributes.addFlashAttribute("findByImageMessage", "検索された画像に該当する商品は見つかりませんでした");

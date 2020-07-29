@@ -47,7 +47,10 @@ public class LoginController {
 	 * @return ログイン画面
 	 */
 	@RequestMapping("/toLogin")
-	public String toLogin() {
+	public String toLogin(Model model,String error) {
+		if(Objects.nonNull(error)) {
+			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です");
+		}
 		return "user/login";
 	}
 
