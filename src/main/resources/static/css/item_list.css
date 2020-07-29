@@ -1,0 +1,94 @@
+.sideview {
+    width: 750px;
+    margin: 0 auto;
+    display: flex;
+    position:relative;
+    top:150px;
+    right:250px;
+  }
+  .sideview .nav {
+    width: 150px;
+    height: 40px;
+    margin: 0;
+  }
+  .sideview .nav li {
+    width: 150px;
+    height: 40px;
+    text-align: center;
+    list-style: none;
+  }
+  .sideview .nav li a {
+    display: block;
+    width: 150px;
+    height: 40px;
+    background: #9fb7d4;
+    color: #fff;
+    font-size: 14px;
+    line-height: 2.8;
+    text-decoration: none;
+    border-top: 1px solid #eee;
+    box-sizing: border-box;
+  }
+  .sideview .nav > li:hover > a {/*layer-1*/
+    color: orange;
+    background: #afc6e2;
+  }
+  .sideview .nav li ul {
+    width: 150px;
+    display: none;
+    position: relative;
+    top: -40px;
+    left: 110px;
+  }
+  .nav > li li:hover > a {/*layer-2*/
+    color: olive;
+    background: #afc6e2;
+  }
+  /* .sideview .container {
+    width: 600px;
+    height: 250px;
+    background: #eee;
+    padding: 10px;
+    box-sizing: border-box;
+  } */
+
+  .categorybox {
+    display: flex;              /* フレックスボックスにする */
+}
+
+.footer {
+  padding: 50px 0 20px 0;
+  background-color: #35404f;
+  color: #878c94;
+}
+.footer .title{text-align: left;color:#fff;font-size:25px;}
+
+
+.footer .social-icon{padding:0px;margin:0px;}
+.footer .social-icon a{display:inline-block;color:#fff;font-size:25px;padding:5px;}
+.footer .acount-icon a{display:block;color:#fff;font-size:18px;padding:5px;text-decoration:none;}
+.footer .acount-icon .fa{margin-right:25px;}
+
+
+.footer .category a {
+  text-decoration: none;
+  color: #fff;
+  display: inline-block;
+  padding: 5px 20px;
+  margin: 1px;
+  border-radius:4px;
+  margin-top: 6px;
+  background-color: black;
+  border: solid 1px #fff;
+}
+
+.footer .payment{margin:0px;padding:0px;list-style-type:none}
+.footer .payment li{list-style-type:none}
+.footer .payment li a {
+  text-decoration: none;
+  display: inline-block;
+  color: #fff;
+  float: left;
+  font-size: 25px;
+  padding: 10px 10px;
+}
