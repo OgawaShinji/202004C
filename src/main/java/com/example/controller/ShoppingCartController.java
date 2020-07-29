@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +28,7 @@ import com.example.service.ShoppingHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -221,6 +223,36 @@ public class ShoppingCartController {
 		if (result.hasErrors()) {
 			return confirmToBuy(model);
 		}
+		try {
+			System.out.println("ymd:"+paymentForm.getYmd());
+			System.out.println("time:"+paymentForm.getTime());
+			//選択された日付が過去かどうかの判定
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date dateFromForm = dateFormat.parse(paymentForm.getYmd());
+			Date nowDate = dateFormat.parse(dateFormat.format(new Date()));
+			if(dateFromForm.before(nowDate)) {
+				 FieldError fieldError = new FieldError(result.getObjectName(), "ymd", "その時間は選択できません");
+				 result.addError(fieldError);
+				return confirmToBuy(model);
+			}
+			//選択された時間が今から一時間以内ではないかの判定
+	        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			dateFromForm = dateFormat.parse(paymentForm.getYmd()+" "+paymentForm.getTime());
+			nowDate = dateFormat.parse(dateFormat.format(new Date()));
+			Calendar calendar = Calendar.getInstance();
+	        calendar.setTime(nowDate);
+	        // 選択可能時間は今から一時間以降を指定している。
+	        calendar.add(Calendar.HOUR_OF_DAY, 1);
+	        nowDate = calendar.getTime();
+			if(dateFromForm.before(nowDate)) {
+				 FieldError fieldError = new FieldError(result.getObjectName(), "time", "その時間は選択できません");
+				 result.addError(fieldError);
+				return confirmToBuy(model);
+			}
+		} catch (ParseException e) {
+			return confirmToBuy(model);
+		}
+
 		Order order = new Order();
 		User afterGetUser = (User) session.getAttribute("user");
 		Integer userId = afterGetUser.getId();
