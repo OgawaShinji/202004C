@@ -5,6 +5,7 @@ public class IndexForm {
 	private String searchName;
 	private String listType;
 	private String categoryid;
+	private String warmid;
 
 	public String getSearchName() {
 		return searchName;
@@ -28,6 +29,14 @@ public class IndexForm {
 
 	public void setCategoryid(String categoryid) {
 		this.categoryid = categoryid;
+	}
+
+	public String getWarmid() {
+		return warmid;
+	}
+
+	public void setWarmid(String warmid) {
+		this.warmid = warmid;
 	}
 
 	

@@ -57,6 +57,12 @@
 			<!-- /.container-fluid -->
 		</nav>
 
+		<!-- 遷移先の指定 -->
+		<a th:href="@{/item-list}" style="font-size:14px">HOME</a>
+		<span style="font-size:14px">></span>
+		<a th:href="@{/shoppingcart/toCartList}" style="font-size:14px">ショッピングカート</a>
+		<span style="font-size:14px">></span>
+		<span style="font-size:14px">注文確認画面</span>
 
 		<!-- table -->
 		<div class="row">
@@ -180,7 +186,7 @@
                                         <label for="inputEmail">メールアドレス:</label><label
                                             class="control-label" style="color: red" for="inputError"></label>
                                         <input type="text" id="inputEmail" class="form-control"
-                                            placeholder="Email" th:field="*{email}">
+										placeholder="xxxx@xxxx.xxx" th:field="*{email}">
                                     </div>
 								</td>
 							</tr>
@@ -196,7 +202,7 @@
                                             maxlength="8" onkeyup="AjaxZip3.zip2addr('zipcode','','address','address');" onclick="AjaxZip3.zip2addr('zipcode','','address','address');"> 
                                         <input type="text" id="inputZipcode"
                                             class="form-control p-postal-code" size="8" maxlength="8"
-                                            placeholder="Zipcode" name="zipcode" th:field="*{zipcode}">
+                                            placeholder="XXX-XXXX (-を入れて入力してください)" name="zipcode" th:field="*{zipcode}">
                                     </div>
 								</td>
 							</tr>
@@ -209,7 +215,7 @@
                                             class="control-label" style="color: red" for="inputError"></label>
                                         <input type="text" id="inputAddress"
                                             class="form-control p-region p-locality p-street-address p-extended-address"
-                                            placeholder="Address" name = "address" th:field="*{address}">
+                                            placeholder="東京都新宿区xxxx" name = "address" th:field="*{address}">
                                     </div>
 								</td>
 							</tr>
@@ -220,7 +226,7 @@
                                             th:errors="*{telephone}" style="color: red"></div>
                                         <label for="inputTel">電話番号:</label> <label class="control-label"
                                             style="color: red" for="inputError"></label> <input type="text"
-                                            id="inputTel" class="form-control" placeholder="Tel"
+                                            id="inputTel" class="form-control" placeholder="xxx-xxxx-xxxx"
                                             th:field="*{telephone}">
                                     </div>
 								</td>
