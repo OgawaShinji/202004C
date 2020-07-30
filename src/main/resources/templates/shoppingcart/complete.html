@@ -39,10 +39,7 @@
 					<span th:if="${session.user}"><span th:if="${session.user.name}">
 								 <span class="navbar-link" th:text="${session.user.name}+さん、こんにちは！"></span>
 							</span></span>
-					<a href="mypage.html" th:href="@{/mypage}" class="navbar-link">マイページ</a>
-						&nbsp;&nbsp; <a href="detail.html" th:href="@{/store/detail}" class="navbar-link">店舗情報</a>
 						<a href="cart_list.html" th:href="@{/shoppingcart/toCartList}" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
-						<a href="order_history.html" class="navbar-link" th:href="@{/shopping/history}">注文履歴</a>&nbsp;&nbsp;
 						<a href="item_list_pizza.html" class="navbar-link" th:href="@{/toLogin}">ログアウト</a>
 					</p>
 				</div>
