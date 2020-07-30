@@ -42,8 +42,7 @@
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
-						<a href="detail.html" th:href="@{/store/detail}"
-							class="navbar-link">店舗情報</a> &nbsp;&nbsp; <a
+						<a
 							href="cart_list.html" class="navbar-link">ショッピングカート</a> <span
 							th:if="${session.user}"><span
 							th:unless="${session.user.name}"> &nbsp;&nbsp; <a
@@ -169,12 +168,6 @@
 						<span class="acount-icon">
 							<a th:href="@{/store/detail}"  style="font-size:13px"><i
 								class="fa fa-user" aria-hidden="true"></i>店舗情報</a>
-						</span>
-					</div>
-					<div class="col-sm-3 fot">
-						<span class="acount-icon"> <a
-							th:href="@{/shoppingcart/toCartList}"style="font-size:13px"><i class="fa fa-heart"
-							aria-hidden="true" ></i>ショッピングカート</a> 
 						</span>
 					</div>
 					<div class="col-sm-3 fot">

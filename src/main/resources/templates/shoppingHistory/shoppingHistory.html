@@ -70,14 +70,8 @@
                 <span th:if="${session.user}"><span th:if="${session.user.name}">
 								 <span class="navbar-link" th:text="${session.user.name}+さん、こんにちは！"></span>
 							</span></span>
-                    <p class="navbar-text navbar-right">
-                    <a href="mypage.html" th:href="@{/mypage}" class="navbar-link">マイページ</a>
-						&nbsp;&nbsp; <a href="detail.html" th:href="@{/store/detail}"
-							class="navbar-link">店舗情報</a>
                         <a href="cart_list.html" th:href="@{/shoppingcart/toCartList}"
                             class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
-                       <a href="item_list_pizza.html" th:href="@{/logout}" class="navbar-link">ログアウト</a>
-                    </p>
                 </div>
                 <!-- /.navbar-collapse -->
             </div>
@@ -221,12 +215,6 @@
 						<span class="acount-icon">
 							<a th:href="@{/store/detail}"  style="font-size:13px"><i
 								class="fa fa-user" aria-hidden="true"></i>店舗情報</a>
-						</span>
-					</div>
-					<div class="col-sm-3 fot">
-						<span class="acount-icon"> <a
-							th:href="@{/shoppingcart/toCartList}"style="font-size:13px"><i class="fa fa-heart"
-							aria-hidden="true" ></i>ショッピングカート</a> 
 						</span>
 					</div>
 					<div class="col-sm-3 fot">
