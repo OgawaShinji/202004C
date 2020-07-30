@@ -231,7 +231,7 @@ public class ShoppingCartController {
 			Date dateFromForm = dateFormat.parse(paymentForm.getYmd());
 			Date nowDate = dateFormat.parse(dateFormat.format(new Date()));
 			if(dateFromForm.before(nowDate)) {
-				 FieldError fieldError = new FieldError(result.getObjectName(), "ymd", "その時間は選択できません");
+				 FieldError fieldError = new FieldError(result.getObjectName(), "ymd", "その日にちは選択できません");
 				 result.addError(fieldError);
 				return confirmToBuy(model);
 			}
@@ -245,7 +245,7 @@ public class ShoppingCartController {
 	        calendar.add(Calendar.HOUR_OF_DAY, 1);
 	        nowDate = calendar.getTime();
 			if(dateFromForm.before(nowDate)) {
-				 FieldError fieldError = new FieldError(result.getObjectName(), "time", "その時間は選択できません");
+				 FieldError fieldError = new FieldError(result.getObjectName(), "time", "現在時刻から一時間以降を選択してください");
 				 result.addError(fieldError);
 				return confirmToBuy(model);
 			}
