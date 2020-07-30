@@ -39,8 +39,6 @@ public class PaymentFormTest {
 	public void setUp() throws Exception {
 		paymentForm.setName("峯田和伸");
 		paymentForm.setEmail("mineta@sample.com");
-		paymentForm.setPassword("minemineta");
-		paymentForm.setCheckpassword("minemineta");
 		paymentForm.setZipcode("171-0032");
 		paymentForm.setAddress("東京都豊島区雑司が谷");
 		paymentForm.setTelephone("0888-2222-3333");
@@ -114,71 +112,7 @@ public class PaymentFormTest {
 		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("メールアドレスの形式が不正です"));
 	}
 
-	/**
-	 * passwordが空文字
-	 */
-	@Test
-	public void passwordIsBlank() {
-		paymentForm.setPassword("");
-		validator.validate(paymentForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("password"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードは８文字以上１６文字以内で設定してください"));
-	}
-
-	/**
-	 * passwordが半角スペースのみ
-	 */
-	@Test
-	public void passwordIsOnlySpace() {
-		paymentForm.setPassword(" ");
-		validator.validate(paymentForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("password"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードは８文字以上１６文字以内で設定してください"));
-	}
-
-	/**
-	 * passwordが8文字未満
-	 */
-	@Test
-	public void password_8文字未満() {
-		paymentForm.setPassword("aaaa");
-		validator.validate(paymentForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("password"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードは８文字以上１６文字以内で設定してください"));
-	}
-
-	/**
-	 * passwordが16文字より多い
-	 */
-	@Test
-	public void password_16文字より多い() {
-		paymentForm.setPassword("bbbbbbbbbbbbbbbbbbbb");
-		validator.validate(paymentForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("password"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("パスワードは８文字以上１６文字以内で設定してください"));
-	}
-
-	/**
-	 * checkpasswordが空文字
-	 */
-	@Test
-	public void checkpasswordIsBlank() {
-		paymentForm.setCheckpassword("");
-		validator.validate(paymentForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("checkpassword"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("確認用パスワードを入力してください"));
-	}
-
-	/**
-	 * checkpasswordが半角スペースのみ
-	 */
-	@Test
-	public void checkpasswordIsOnlySpace() {
-		paymentForm.setCheckpassword(" ");
-		validator.validate(paymentForm, bindingResult);
-		assertThat(bindingResult.getFieldError().getField(), is("checkpassword"));
-		assertThat(bindingResult.getFieldError().getDefaultMessage(), is("確認用パスワードを入力してください"));
-	}
+	
 
 	/**
 	 * zipcodeが空文字

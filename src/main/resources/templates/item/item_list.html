@@ -84,6 +84,9 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
+					<span th:if="${session.user}"><span th:if="${session.user.name}">
+								 <span class="navbar-link" th:text="${session.user.name}+さん、こんにちは！"></span>
+							</span></span>
 						<a href="mypage.html" th:href="@{/mypage}" class="navbar-link">マイページ</a>
 						&nbsp;&nbsp; <a href="detail.html" th:href="@{/store/detail}" class="navbar-link">店舗情報</a>
 						&nbsp;&nbsp; <a href="cart_list.html" th:href="@{/shoppingcart/toCartList}"
